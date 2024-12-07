@@ -18,8 +18,8 @@ public:
     BinarySearchTree(const BinarySearchTree& sourceTree);
     BinarySearchTree(BinarySearchTree&& sourceTree);
 
-    virtual bool addOrUpdateNode(K key, const V& value); // in actual implementation(s) true is returned if new node is added (number of nodes increases)
-    virtual bool removeNode(K key); // in actual implementation(s) true is returned if the node with the given key exists within tree structure (and thus is removed)
+    bool addOrUpdateNode(const K& key, const V& value); // in actual implementation(s) true is returned if new node is added (number of nodes increases)
+    bool removeNode(const K& key); // in actual implementation(s) true is returned if the node with the given key exists within tree structure (and thus is removed)
 
     bool mergeTree(BinarySearchTree& sourceTree);
     void clear();
@@ -29,7 +29,7 @@ public:
 
     bool operator==(const BinarySearchTree& tree) const;
 
-    V getNodeValue(K key) const;
+    V getNodeValue(const K& key) const;
     V getNullValue() const;
     size_t getSize() const;
 
@@ -46,7 +46,7 @@ protected:
         using spNode = std::shared_ptr<Node>;
         using wpNode = std::weak_ptr<Node>;
 
-        Node(K key, V value);
+        Node(const K& key, const V& value);
         virtual ~Node() = default;
 
         K getKey() const;
@@ -95,12 +95,12 @@ protected:
     void _moveAssignTree(BinarySearchTree& sourceTree);
     void _setNullValue(const V& nullValue);
 
-    virtual spNode _doAddOrUpdateNode(K key, const V& value);
+    virtual spNode _doAddOrUpdateNode(const K& key, const V& value);
     virtual spNode _removeSingleChildedOrLeafNode(spNode nodeToRemove);
 
-    virtual spNode _createNewNode(K key, const V& value);
+    virtual spNode _createNewNode(const K& key, const V& value);
 
-    spNode _findNode(K key) const;
+    spNode _findNode(const K& key) const;
     void _convertTreeToArray(std::vector<spNode>& nodes) const;
 
     void _rotateNodeLeft(spNode node);
@@ -143,7 +143,7 @@ public:
 
     InOrderForwardIterator begin();
     InOrderForwardIterator end();
-    InOrderForwardIterator find(K key);
+    InOrderForwardIterator find(const K& key);
     InOrderForwardIterator root();
 };
 
@@ -191,7 +191,7 @@ BinarySearchTree<K, V>::BinarySearchTree(BinarySearchTree&& sourceTree)
 }
 
 template<typename K, typename V>
-bool BinarySearchTree<K, V>::addOrUpdateNode(K key, const V& value)
+bool BinarySearchTree<K, V>::addOrUpdateNode(const K& key, const V& value)
 {
     bool newNodeAdded{false};
 
@@ -205,7 +205,7 @@ bool BinarySearchTree<K, V>::addOrUpdateNode(K key, const V& value)
 }
 
 template<typename K, typename V>
-bool BinarySearchTree<K, V>::removeNode(K key)
+bool BinarySearchTree<K, V>::removeNode(const K& key)
 {
     bool removed{false};
     spNode nodeToRemove{_findNode(key)};
@@ -302,7 +302,7 @@ bool BinarySearchTree<K, V>::operator==(const BinarySearchTree& tree) const
 }
 
 template<typename K, typename V>
-V BinarySearchTree<K, V>::getNodeValue(K key) const
+V BinarySearchTree<K, V>::getNodeValue(const K& key) const
 {
     spNode const foundNode{_findNode(key)};
     const V c_Result{foundNode ? foundNode->getValue() : m_NullValue};
@@ -466,7 +466,7 @@ void BinarySearchTree<K, V>::_setNullValue(const V& nullValue)
 }
 
 template<typename K, typename V>
-typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_doAddOrUpdateNode(K key, const V& value)
+typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_doAddOrUpdateNode(const K& key, const V& value)
 {
     spNode addedNode{nullptr};
 
@@ -589,13 +589,13 @@ typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_removeSingleChi
 }
 
 template<typename K, typename V>
-typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_createNewNode(K key, const V& value)
+typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_createNewNode(const K& key, const V& value)
 {
     return std::make_shared<Node>(key, value);
 }
 
 template<typename K, typename V>
-typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_findNode(K key) const
+typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_findNode(const K& key) const
 {
     spNode foundNode{nullptr};
     spNode currentNode{m_Root};
@@ -860,7 +860,7 @@ typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::
 }
 
 template<typename K, typename V>
-typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::find(K key)
+typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::find(const K& key)
 {
     spNode const currentNode{_findNode(key)};
     return InOrderForwardIterator{currentNode, m_NullValue};
@@ -873,7 +873,7 @@ typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::
 }
 
 template<typename K, typename V>
-BinarySearchTree<K, V>::Node::Node(K key, V value)
+BinarySearchTree<K, V>::Node::Node(const K& key, const V& value)
     : m_LeftChild{nullptr}
     , m_RightChild{nullptr}
     , m_Key{key}

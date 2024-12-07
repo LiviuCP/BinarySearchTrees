@@ -27,7 +27,7 @@ private:
     public:
         using spAVLNode = std::shared_ptr<AVLNode>;
 
-        AVLNode(K key, V value);
+        AVLNode(const K& key, const V& value);
 
         void updateHeight();
 
@@ -43,9 +43,9 @@ private:
     // design decision: any assignment operator to work only between trees of same type
     using BinarySearchTree<K, V>::operator=;
 
-    typename BinarySearchTree<K, V>::spNode _doAddOrUpdateNode(K key, const V& value) override;
+    typename BinarySearchTree<K, V>::spNode _doAddOrUpdateNode(const K& key, const V& value) override;
     typename BinarySearchTree<K, V>::spNode _removeSingleChildedOrLeafNode(typename BinarySearchTree<K, V>::spNode nodeToRemove) override;
-    typename BinarySearchTree<K, V>::spNode _createNewNode(K key, const V& value) override;
+    typename BinarySearchTree<K, V>::spNode _createNewNode(const K& key, const V& value) override;
 
     // update all ancestors of a specific node up to the root
     void _updateAncestorHeights(spAVLNode node);
@@ -123,7 +123,7 @@ AVLTree<K, V>& AVLTree<K, V>::operator=(AVLTree&& sourceTree)
    - balance the tree formed by this ancestor and the child and grandchild located in the search path
 */
 template<typename K, typename V>
-typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_doAddOrUpdateNode(K key, const V& value)
+typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_doAddOrUpdateNode(const K& key, const V& value)
 {
     spAVLNode const addedNode{dynamic_pointer_cast<AVLNode>(BinarySearchTree<K, V>::_doAddOrUpdateNode(key, value))};
 
@@ -220,7 +220,7 @@ typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_removeSingleChildedOrLea
 }
 
 template<typename K, typename V>
-typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_createNewNode(K key, const V& value)
+typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_createNewNode(const K& key, const V& value)
 {
     return std::make_shared<AVLNode>(key, value);
 }
@@ -300,7 +300,7 @@ typename AVLTree<K, V>::spAVLNode AVLTree<K, V>::_balanceSubtree(spAVLNode grand
 }
 
 template<typename K, typename V>
-AVLTree<K, V>::AVLNode::AVLNode(K key, V value)
+AVLTree<K, V>::AVLNode::AVLNode(const K& key, const V& value)
     : BinarySearchTree<K, V>::Node{key, value}
     , m_Height{1} // the subtree height includes the node itself (we assume it is not connected to anything when first created)
 {

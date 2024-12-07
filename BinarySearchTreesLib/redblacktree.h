@@ -45,7 +45,7 @@ private:
     public:
         using spRBNode = std::shared_ptr<RedBlackNode>;
 
-        RedBlackNode(K key, V value);
+        RedBlackNode(const K& key, const V& value);
 
         void setBlack(bool isBlackRequired);
         bool isBlack() const;
@@ -59,9 +59,9 @@ private:
     // design decision: any assignment operator to work only between trees of same type
     using BinarySearchTree<K, V>::operator=;
 
-    typename BinarySearchTree<K, V>::spNode _doAddOrUpdateNode(K key, const V& value) override;
+    typename BinarySearchTree<K, V>::spNode _doAddOrUpdateNode(const K& key, const V& value) override;
     typename BinarySearchTree<K, V>::spNode _removeSingleChildedOrLeafNode(typename BinarySearchTree<K, V>::spNode nodeToRemove) override;
-    typename BinarySearchTree<K, V>::spNode _createNewNode(K key, const V& value) override;
+    typename BinarySearchTree<K, V>::spNode _createNewNode(const K& key, const V& value) override;
 
     std::string _getNodeAsString(typename BinarySearchTree<K, V>::spNode node, bool isValueRequired) const override;
 };
@@ -177,7 +177,7 @@ void RedBlackTree<K, V>::printTree() const
   - apply required transformation to resulting tree structure (rotations, recoloring) for ensuring the four rules (see redblacktree.h) are obeyed
 */
 template<typename K, typename V>
-typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_doAddOrUpdateNode(K key, const V& value)
+typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_doAddOrUpdateNode(const K& key, const V& value)
 {
     spRBNode addedNode{dynamic_pointer_cast<RedBlackNode>(BinarySearchTree<K, V>::_doAddOrUpdateNode(key, value))};
     spRBNode currentNode{addedNode};
@@ -392,7 +392,7 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_removeSingleChilded
 }
 
 template<typename K, typename V>
-typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_createNewNode(K key, const V& value)
+typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_createNewNode(const K& key, const V& value)
 {
     return std::make_shared<RedBlackNode>(key, value);
 }
@@ -418,7 +418,7 @@ std::string RedBlackTree<K, V>::_getNodeAsString(typename BinarySearchTree<K, V>
 }
 
 template<typename K, typename V>
-RedBlackTree<K, V>::RedBlackNode::RedBlackNode(K key, V value)
+RedBlackTree<K, V>::RedBlackNode::RedBlackNode(const K& key, const V& value)
     : BinarySearchTree<K, V>::Node{key, value}
     , m_IsBlack{false}  // all newly nodes are red by default as this is the convention for adding them to the red-black-tree
 {
