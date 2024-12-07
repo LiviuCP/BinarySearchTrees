@@ -9,7 +9,15 @@
 #include <optional>
 #include <cassert>
 
-template<typename K, typename V>
+template<typename T> concept StringStreamable = requires(std::ostringstream ostr, T data)
+{
+    {ostr << data} -> std::same_as<std::ostream&>;
+};
+
+template<typename T> concept BSTKey = StringStreamable<T> && std::totally_ordered<T> && std::copy_constructible<T>;
+template<typename T> concept BSTValue = StringStreamable<T> && std::default_initializable<T> && std::copy_constructible<T> && std::is_copy_assignable_v<T>;
+
+template<BSTKey K, BSTValue V>
 class BinarySearchTree
 {
 public:
@@ -147,10 +155,10 @@ public:
     InOrderForwardIterator root();
 };
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::sLoggingEnabled = false;
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>::BinarySearchTree(const V& nullValue)
     : m_Root{nullptr}
     , m_NullValue{nullValue}
@@ -158,7 +166,7 @@ BinarySearchTree<K, V>::BinarySearchTree(const V& nullValue)
 {
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>::BinarySearchTree(const std::vector<K>& inputKeys, const V& defaultValue, const V& nullValue)
     : BinarySearchTree{nullValue}
 {
@@ -172,7 +180,7 @@ BinarySearchTree<K, V>::BinarySearchTree(const std::vector<K>& inputKeys, const 
         *this = std::move(temp);
     }
 }
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>::BinarySearchTree(const BinarySearchTree& sourceTree)
     : BinarySearchTree{sourceTree.m_NullValue}
 {
@@ -184,13 +192,13 @@ BinarySearchTree<K, V>::BinarySearchTree(const BinarySearchTree& sourceTree)
     *this = std::move(temp);
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>::BinarySearchTree(BinarySearchTree&& sourceTree)
 {
     _moveAssignTree(sourceTree);
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::addOrUpdateNode(const K& key, const V& value)
 {
     bool newNodeAdded{false};
@@ -204,7 +212,7 @@ bool BinarySearchTree<K, V>::addOrUpdateNode(const K& key, const V& value)
     return newNodeAdded;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::removeNode(const K& key)
 {
     bool removed{false};
@@ -228,7 +236,7 @@ bool BinarySearchTree<K, V>::removeNode(const K& key)
     return removed;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::mergeTree(BinarySearchTree& sourceTree)
 {
     bool merged{false};
@@ -242,14 +250,14 @@ bool BinarySearchTree<K, V>::mergeTree(BinarySearchTree& sourceTree)
     return merged;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::clear()
 {
     m_Root.reset();
     m_Size = 0;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>& BinarySearchTree<K, V>::operator=(const BinarySearchTree& sourceTree)
 {
     if (this != &sourceTree)
@@ -267,7 +275,7 @@ BinarySearchTree<K, V>& BinarySearchTree<K, V>::operator=(const BinarySearchTree
    This is because a base BST pointer might point to a derived BST class and hence the source/destination root node pointers might have different node types behind.
    This would corrupt the data in case of a move operation -> see MixedTreeTypesTests::testMoveAssignmentOfMixedTreeTypes() for more details
 */
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>& BinarySearchTree<K, V>::operator=(BinarySearchTree&& sourceTree)
 {
     if (this != &sourceTree)
@@ -281,7 +289,7 @@ BinarySearchTree<K, V>& BinarySearchTree<K, V>::operator=(BinarySearchTree&& sou
     return *this;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::operator==(const BinarySearchTree& tree) const
 {
     bool areEqualTrees{true};
@@ -301,7 +309,7 @@ bool BinarySearchTree<K, V>::operator==(const BinarySearchTree& tree) const
     return areEqualTrees;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 V BinarySearchTree<K, V>::getNodeValue(const K& key) const
 {
     spNode const foundNode{_findNode(key)};
@@ -310,19 +318,19 @@ V BinarySearchTree<K, V>::getNodeValue(const K& key) const
     return c_Result;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 V BinarySearchTree<K, V>::getNullValue() const
 {
     return m_NullValue;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 size_t BinarySearchTree<K, V>::getSize() const
 {
     return m_Size;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::printTree() const
 {
     std::vector<spNode> nodesArray;
@@ -344,7 +352,7 @@ void BinarySearchTree<K, V>::printTree() const
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 std::string BinarySearchTree<K, V>::getTreeAsString(bool areNodeValuesRequired) const
 {
     std::string result;
@@ -367,7 +375,7 @@ std::string BinarySearchTree<K, V>::getTreeAsString(bool areNodeValuesRequired) 
     return result;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::enableLogging(bool enable)
 {
     if (sLoggingEnabled != enable)
@@ -376,13 +384,13 @@ void BinarySearchTree<K, V>::enableLogging(bool enable)
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::isLoggingEnabled()
 {
     return sLoggingEnabled;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_createTreeStructure(const std::vector<K>& inputKeys, const V& defaultValue, const V& nullValue)
 {
     if (defaultValue != nullValue)
@@ -403,7 +411,7 @@ void BinarySearchTree<K, V>::_createTreeStructure(const std::vector<K>& inputKey
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_copyTreeNodes(const BinarySearchTree& sourceTree)
 {
     if (m_NullValue == sourceTree.m_NullValue)
@@ -427,7 +435,7 @@ void BinarySearchTree<K, V>::_copyTreeNodes(const BinarySearchTree& sourceTree)
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_moveTreeNodes(BinarySearchTree& sourceTree)
 {
     if (m_NullValue == sourceTree.m_NullValue)
@@ -448,7 +456,7 @@ void BinarySearchTree<K, V>::_moveTreeNodes(BinarySearchTree& sourceTree)
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_moveAssignTree(BinarySearchTree& sourceTree)
 {
     m_Root = sourceTree.m_Root;
@@ -459,13 +467,13 @@ void BinarySearchTree<K, V>::_moveAssignTree(BinarySearchTree& sourceTree)
     sourceTree.m_Size = 0;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_setNullValue(const V& nullValue)
 {
     m_NullValue = nullValue;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_doAddOrUpdateNode(const K& key, const V& value)
 {
     spNode addedNode{nullptr};
@@ -523,7 +531,7 @@ typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_doAddOrUpdateNo
     return addedNode;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_removeSingleChildedOrLeafNode(spNode nodeToRemove)
 {
     spNode replacingNode{nullptr};
@@ -588,13 +596,13 @@ typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_removeSingleChi
     return replacingNode;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_createNewNode(const K& key, const V& value)
 {
     return std::make_shared<Node>(key, value);
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_findNode(const K& key) const
 {
     spNode foundNode{nullptr};
@@ -622,7 +630,7 @@ typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_findNode(const 
     return foundNode;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_convertTreeToArray(std::vector<spNode>& nodes) const
 {
     nodes.clear();
@@ -656,7 +664,7 @@ void BinarySearchTree<K, V>::_convertTreeToArray(std::vector<spNode>& nodes) con
 }
 
 // a right child node is required for left rotation
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_rotateNodeLeft(spNode node)
 {
     if (node)
@@ -708,7 +716,7 @@ void BinarySearchTree<K, V>::_rotateNodeLeft(spNode node)
 }
 
 // a left child node is required for right rotation
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_rotateNodeRight(spNode node)
 {
     if (node)
@@ -759,7 +767,7 @@ void BinarySearchTree<K, V>::_rotateNodeRight(spNode node)
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_printNodeRelatives(spNode node) const
 {
     if (node)
@@ -791,7 +799,7 @@ void BinarySearchTree<K, V>::_printNodeRelatives(spNode node) const
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 std::string BinarySearchTree<K, V>::_getNodeAsString(spNode node, bool isValueRequired) const
 {
     std::string result{"NULL"};
@@ -828,13 +836,13 @@ std::string BinarySearchTree<K, V>::_getNodeAsString(spNode node, bool isValueRe
     return result;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_getRoot() const
 {
     return m_Root;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::begin()
 {
     spNode startingNode{m_Root};
@@ -853,26 +861,26 @@ typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::
     return InOrderForwardIterator{startingNode, m_NullValue};
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::end()
 {
     return InOrderForwardIterator{nullptr, m_NullValue};
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::find(const K& key)
 {
     spNode const currentNode{_findNode(key)};
     return InOrderForwardIterator{currentNode, m_NullValue};
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::root()
 {
     return InOrderForwardIterator{m_Root, m_NullValue};
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>::Node::Node(const K& key, const V& value)
     : m_LeftChild{nullptr}
     , m_RightChild{nullptr}
@@ -882,25 +890,25 @@ BinarySearchTree<K, V>::Node::Node(const K& key, const V& value)
     m_Parent.reset();
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 K BinarySearchTree<K, V>::Node::getKey() const
 {
     return m_Key;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::Node::setValue(const V& value)
 {
     m_Value = value;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 V BinarySearchTree<K, V>::Node::getValue() const
 {
     return m_Value;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::Node::isLeftChild() const
 {
     spNode const parent{m_Parent.lock()};
@@ -909,7 +917,7 @@ bool BinarySearchTree<K, V>::Node::isLeftChild() const
     return c_IsNodeLeftChild;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::Node::isRightChild() const
 {
     spNode const parent{m_Parent.lock()};
@@ -920,13 +928,13 @@ bool BinarySearchTree<K, V>::Node::isRightChild() const
 
 /* It is the responsibility of the tree object to ensure that the correct node is added as left child and that the tree rules are followed
    (e.g. don't add root as left child of a sub-node prior to decoupling it from its children */
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::Node::setLeftChild(spNode leftChild)
 {
     m_LeftChild = leftChild;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getLeftChild() const
 {
     return m_LeftChild;
@@ -934,19 +942,19 @@ typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getL
 
 /* It is the responsibility of the tree object to ensure that the correct node is added as right child and that the tree rules are followed
    (e.g. don't add root as right child of a sub-node prior to decoupling it from its children */
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::Node::setRightChild(spNode rightChild)
 {
     m_RightChild = rightChild;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getRightChild() const
 {
     return m_RightChild;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::Node::copyInOrderSuccessorKeyAndValue()
 {
     spNode const successor{getInOrderSuccessor()};
@@ -958,7 +966,7 @@ void BinarySearchTree<K, V>::Node::copyInOrderSuccessorKeyAndValue()
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getInOrderSuccessor() const
 {
     spNode inOrderSuccessor{m_RightChild};
@@ -977,19 +985,19 @@ typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getI
     return inOrderSuccessor;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::Node::setParent(spNode parent)
 {
     m_Parent = parent;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getParent() const
 {
     return m_Parent.lock();
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getSibling() const
 {
     spNode result{nullptr};
@@ -1002,7 +1010,7 @@ typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getS
     return result;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getUncle() const
 {
     spNode result{nullptr};
@@ -1015,7 +1023,7 @@ typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getU
     return result;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getGrandparent() const
 {
     spNode result{nullptr};
@@ -1033,7 +1041,7 @@ typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getG
 - they are both in the same ordering position: root, left child or right child
 - if they are both parented: the parent has the same key (not necessarily the same value)
 */
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::Node::operator==(const BinarySearchTree::Node& node) const
 {
     bool areEqualNodes{false};
@@ -1049,20 +1057,20 @@ bool BinarySearchTree<K, V>::Node::operator==(const BinarySearchTree::Node& node
     return areEqualNodes;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>::InOrderForwardIterator::InOrderForwardIterator()
 {
     m_Node.reset();
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>::InOrderForwardIterator::InOrderForwardIterator(spNode node, const V& nullValue)
     : m_NullValue{nullValue}
 {
     m_Node = node;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::InOrderForwardIterator::next()
 {
     if (spNode const node{m_Node.lock()}; node)
@@ -1101,7 +1109,7 @@ void BinarySearchTree<K, V>::InOrderForwardIterator::next()
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 std::optional<K> BinarySearchTree<K, V>::InOrderForwardIterator::getKey() const
 {
     std::optional<K> result;
@@ -1114,7 +1122,7 @@ std::optional<K> BinarySearchTree<K, V>::InOrderForwardIterator::getKey() const
     return result;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::InOrderForwardIterator::setValue(const V& value)
 {
     if (spNode const node{m_Node.lock()}; node)
@@ -1123,7 +1131,7 @@ void BinarySearchTree<K, V>::InOrderForwardIterator::setValue(const V& value)
     }
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 V BinarySearchTree<K, V>::InOrderForwardIterator::getValue() const
 {
     V result{m_NullValue};
@@ -1136,7 +1144,7 @@ V BinarySearchTree<K, V>::InOrderForwardIterator::getValue() const
     return result;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::InOrderForwardIterator& BinarySearchTree<K, V>::InOrderForwardIterator::operator=(const InOrderForwardIterator& other)
 {
     m_Node = other.m_Node;
@@ -1145,7 +1153,7 @@ typename BinarySearchTree<K, V>::InOrderForwardIterator& BinarySearchTree<K, V>:
     return *this;
 }
 
-template<typename K, typename V>
+template<BSTKey K, BSTValue V>
 bool BinarySearchTree<K, V>::InOrderForwardIterator::operator==(const InOrderForwardIterator& other) const
 {
     return m_Node.lock() == other.m_Node.lock() && m_NullValue == other.m_NullValue;
