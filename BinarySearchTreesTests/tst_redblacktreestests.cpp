@@ -597,6 +597,10 @@ void RedBlackTreesTests::testUpdateNodeValue()
     QVERIFY(newNodeAdded &&
             "o15" == mpSearchTree->getNodeValue(25));
 
+    newNodeAdded = mpSearchTree->addOrUpdateNode(25, scDefaultNullValue);
+    QVERIFY(!newNodeAdded &&
+            "o15" == mpSearchTree->getNodeValue(25));
+
     // update by deleting node
     bool nodeDeleted{false};
 
