@@ -14,8 +14,8 @@ template<typename T> concept OutStreamable = requires(std::ostream ostr, T data)
     {ostr << data} -> std::same_as<std::ostream&>;
 };
 
-template<typename T> concept BSTKey = OutStreamable<T> && std::totally_ordered<T> && std::copy_constructible<T>;
-template<typename T> concept BSTValue = OutStreamable<T> && std::default_initializable<T> && std::copy_constructible<T> && std::is_copy_assignable_v<T>;
+template<typename T> concept BSTKey = std::copy_constructible<T> && std::totally_ordered<T> && OutStreamable<T>;
+template<typename T> concept BSTValue = std::default_initializable<T> && std::copy_constructible<T> && std::is_copy_assignable_v<T> && OutStreamable<T>;
 
 template<BSTKey K, BSTValue V>
 class BinarySearchTree
