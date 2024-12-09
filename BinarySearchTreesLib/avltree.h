@@ -2,8 +2,7 @@
    The AVL is a balanced tree that has following property: the height difference of any two leaf nodes is maximum 1
 */
 
-#ifndef AVLTREE_H
-#define AVLTREE_H
+#pragma once
 
 #include <cassert>
 
@@ -341,5 +340,3 @@ typename AVLTree<K, V>::AVLNode::spAVLNode AVLTree<K, V>::AVLNode::getGreaterHei
 
     return result;
 }
-
-#endif // AVLTREE_H

@@ -1,5 +1,4 @@
-#ifndef BINARYSEARCHTREE_H
-#define BINARYSEARCHTREE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -43,9 +42,6 @@ public:
 
     virtual void printTree() const;
     virtual std::string getTreeAsString(bool areNodeValuesRequired = false) const;
-
-    static void enableLogging(bool enable);
-    static bool isLoggingEnabled();
 
 protected:
     class Node
@@ -123,8 +119,6 @@ private:
     V m_NullValue; // value that each key that is NOT contained within tree corresponds to
     size_t m_Size; // used for easy retrieval of the number of nodes (to avoid tree traversal)
 
-    static bool sLoggingEnabled;
-
 public:
     class InOrderForwardIterator final
     {
@@ -154,9 +148,6 @@ public:
     InOrderForwardIterator find(const K& key);
     InOrderForwardIterator root();
 };
-
-template<BSTKey K, BSTValue V>
-bool BinarySearchTree<K, V>::sLoggingEnabled = false;
 
 template<BSTKey K, BSTValue V>
 BinarySearchTree<K, V>::BinarySearchTree(const V& nullValue)
@@ -345,11 +336,6 @@ void BinarySearchTree<K, V>::printTree() const
 
         std::cout << std::endl;
     }
-
-    if (sLoggingEnabled && nodesArray.size() == 0)
-    {
-        std::clog << "Warning: tree has no nodes" << std::endl;
-    }
 }
 
 template<BSTKey K, BSTValue V>
@@ -376,21 +362,6 @@ std::string BinarySearchTree<K, V>::getTreeAsString(bool areNodeValuesRequired) 
 }
 
 template<BSTKey K, BSTValue V>
-void BinarySearchTree<K, V>::enableLogging(bool enable)
-{
-    if (sLoggingEnabled != enable)
-    {
-        sLoggingEnabled = enable;
-    }
-}
-
-template<BSTKey K, BSTValue V>
-bool BinarySearchTree<K, V>::isLoggingEnabled()
-{
-    return sLoggingEnabled;
-}
-
-template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_createTreeStructure(const std::vector<K>& inputKeys, const V& defaultValue, const V& nullValue)
 {
     if (defaultValue != nullValue)
@@ -398,11 +369,6 @@ void BinarySearchTree<K, V>::_createTreeStructure(const std::vector<K>& inputKey
         for (const auto& key : inputKeys)
         {
             spNode const addedNode{_doAddOrUpdateNode(key, defaultValue)};
-
-            if (sLoggingEnabled && !addedNode)
-            {
-                std::clog << "Warning: duplicate key found: " << key << std::endl;
-            }
         }
     }
     else
@@ -422,11 +388,6 @@ void BinarySearchTree<K, V>::_copyTreeNodes(const BinarySearchTree& sourceTree)
         for (const auto& node : sourceTreeArray)
         {
             spNode const addedNode{_doAddOrUpdateNode(node->getKey(), node->getValue())};
-
-            if (sLoggingEnabled && !addedNode)
-            {
-                std::clog << "Warning: node " << node->getKey() << " already present. Value overridden" << std::endl;
-            }
         }
     }
     else
@@ -1158,5 +1119,3 @@ bool BinarySearchTree<K, V>::InOrderForwardIterator::operator==(const InOrderFor
 {
     return m_Node.lock() == other.m_Node.lock() && m_NullValue == other.m_NullValue;
 }
-
-#endif // BINARYSEARCHTREE_H

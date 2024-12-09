@@ -15,8 +15,7 @@ Notes:
 - a black node can have mixed children (one black, one red) if the red node has two black children (the black child could also have for example 0, 1 or 2 red children)
 */
 
-#ifndef REDBLACKTREE_H
-#define REDBLACKTREE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -84,11 +83,6 @@ RedBlackTree<K, V>::RedBlackTree(const std::vector<K>& inputKeys, const V& defau
         for (const auto& inputKey : inputKeys)
         {
             spRBNode const addedNode{dynamic_pointer_cast<RedBlackNode>(temp._doAddOrUpdateNode(inputKey, defaultValue))};
-
-            if (RedBlackTree<K, V>::isLoggingEnabled() && addedNode)
-            {
-                std::clog << "Warning: duplicate red-black tree key found: " << inputKey << std::endl;
-            }
         }
 
         // move temporary object to current object
@@ -164,11 +158,6 @@ void RedBlackTree<K, V>::printTree() const
         {
             assert(false);
         }
-    }
-
-    if (RedBlackTree<K, V>::isLoggingEnabled() && nodesArray.size() == 0)
-    {
-        std::clog << "Warning: red-black tree has no nodes" << std::endl;
     }
 }
 
@@ -438,5 +427,3 @@ bool RedBlackTree<K, V>::RedBlackNode::isBlack() const
 {
     return m_IsBlack;
 }
-
-#endif // REDBLACKTREE_H

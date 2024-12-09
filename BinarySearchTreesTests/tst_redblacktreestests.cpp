@@ -37,7 +37,6 @@ RedBlackTreesTests::RedBlackTreesTests()
     : mpSearchTree{nullptr}
     , mpAuxSearchTree{nullptr}
 {
-    IntStrRedBlackTree::enableLogging(false);
 }
 
 void RedBlackTreesTests::init()
@@ -49,8 +48,6 @@ void RedBlackTreesTests::cleanup()
 {
     mpSearchTree.reset();
     mpAuxSearchTree.reset();
-
-    IntStrRedBlackTree::enableLogging(false);
 }
 
 void RedBlackTreesTests::testAddNodes()

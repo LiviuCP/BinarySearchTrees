@@ -36,7 +36,6 @@ AVLTreesTests::AVLTreesTests()
     : mpSearchTree{nullptr}
     , mpAuxSearchTree{nullptr}
 {
-    IntStrAVLTree::enableLogging(false);
 }
 
 void AVLTreesTests::init()
@@ -48,8 +47,6 @@ void AVLTreesTests::cleanup()
 {
     mpSearchTree.reset();
     mpAuxSearchTree.reset();
-
-    IntStrAVLTree::enableLogging(false);
 }
 
 void AVLTreesTests::testAddNodes()

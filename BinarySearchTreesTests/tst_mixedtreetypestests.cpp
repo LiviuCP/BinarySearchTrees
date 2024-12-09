@@ -27,7 +27,6 @@ private slots:
     void testDifferentTreeTypesEquivalence();
     void testCopyAssignmentOfMixedTreeTypes();
     void testMoveAssignmentOfMixedTreeTypes();
-    void testPassThroughAllLogMessages();
 
 private:
     void _buildPrimaryTestSearchTree(); // create content for the primary test tree (referenced by mpSearchTree)
@@ -43,7 +42,6 @@ MixedTreeTypesTests::MixedTreeTypesTests()
     : mpSearchTree{nullptr}
     , mpAuxSearchTree{nullptr}
 {
-    IntStrBinarySearchTree::enableLogging(false);
 }
 
 void MixedTreeTypesTests::init()
@@ -55,8 +53,6 @@ void MixedTreeTypesTests::cleanup()
 {
     mpSearchTree.reset();
     mpAuxSearchTree.reset();
-
-    IntStrBinarySearchTree::enableLogging(false);
 }
 
 void MixedTreeTypesTests::testMergeDifferentSearchTrees()
@@ -704,42 +700,6 @@ void MixedTreeTypesTests::testMoveAssignmentOfMixedTreeTypes()
     QVERIFY(scDefaultNullValue == mpSearchTree->getNullValue());
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(true), mpAuxSearchTree->getSize(), "-5:a1_1:ROOT/-23:k11:-5/2:d4:-5/-12:n14:-23R/0:g7_1:2/16:i9_1:2/7:f6:16/17:l12:16", 8));
     QVERIFY(scDefaultNullValue == mpAuxSearchTree->getNullValue());
-}
-
-void MixedTreeTypesTests::testPassThroughAllLogMessages()
-{
-    IntStrBinarySearchTree::enableLogging(true);
-    
-    mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
-    mpAuxSearchTree = std::make_unique<IntStrRedBlackTree>();
-
-    mpSearchTree->printTree();
-    mpAuxSearchTree->printTree();
-
-    QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), scEmptyTreeString, 0));
-    QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(true), mpAuxSearchTree->getSize(), scEmptyTreeString, 0));
-
-    mpSearchTree = std::make_unique<IntStrRedBlackTree>(std::vector<int>{2, 3, 2, -4}, scDefaultValue);
-    mpAuxSearchTree = std::make_unique<IntStrAVLTree>(std::vector<int>{2, 5, 2, 2}, scDefaultValue);
-
-    QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "2:ROOT:BK/-4:2:RD/3:2:RD", 3));
-    QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "2:ROOT/5:2R", 2));
-
-    mpAuxSearchTree->addOrUpdateNode(2, "abcd");
-
-    qInfo("Printing red-black tree before merge");
-    mpSearchTree->printTree();
-    qInfo("Printing AVL tree before merge");
-    mpAuxSearchTree->printTree();
-
-    const bool merged{mpSearchTree->mergeTree(*mpAuxSearchTree)};
-
-    QVERIFY(merged);
-    QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "2:abcd:ROOT:BK/-4:DF:2:BK/3:DF:2:BK/5:DF:3R:RD", 4));
-    QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), scEmptyTreeString, 0));
-
-    qInfo("Printing red-black tree after merging AVL tree into it");
-    mpSearchTree->printTree();
 }
 
 void MixedTreeTypesTests::_buildPrimaryTestSearchTree()

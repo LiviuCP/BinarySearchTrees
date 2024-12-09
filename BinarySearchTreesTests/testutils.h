@@ -1,5 +1,4 @@
-#ifndef TESTUTILS_H
-#define TESTUTILS_H
+#pragma once
 
 #include <string>
 
@@ -12,5 +11,3 @@ namespace TestUtils
     static const std::string scCustomNullValue{"NULL"};
     static const std::string scEmptyTreeString{""};
 }
-
-#endif // TESTUTILS_H

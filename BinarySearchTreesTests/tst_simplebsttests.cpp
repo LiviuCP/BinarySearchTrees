@@ -38,7 +38,6 @@ SimpleBSTTests::SimpleBSTTests()
     : mpSearchTree{nullptr}
     , mpAuxSearchTree{nullptr}
 {
-    IntStrBinarySearchTree::enableLogging(false);
 }
 
 void SimpleBSTTests::init()
@@ -50,8 +49,6 @@ void SimpleBSTTests::cleanup()
 {
     mpSearchTree.reset();
     mpAuxSearchTree.reset();
-
-    IntStrBinarySearchTree::enableLogging(false);
 }
 
 void SimpleBSTTests::testAddNodes()
