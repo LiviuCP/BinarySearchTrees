@@ -16,6 +16,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(../BinarySearchTreesLib)
 
+add_compile_definitions(-DPRINT_TREE)
+
 enable_testing()
 
 add_executable(SimpleBSTTests tst_simplebsttests.cpp testutils.cpp)

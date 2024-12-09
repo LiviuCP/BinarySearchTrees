@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(../BinarySearchTreesLib)
 
+add_compile_definitions(-DPRINT_TREE)
+
 add_executable(${PROJECT_NAME} binarysearchtreesappmain.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE BinarySearchTreesLib)

@@ -8,6 +8,7 @@
 #include <optional>
 #include <cassert>
 
+#ifdef PRINT_TREE
 template<typename T> concept OutStreamable = requires(std::ostream ostr, T data)
 {
     {ostr << data} -> std::same_as<std::ostream&>;
@@ -15,6 +16,10 @@ template<typename T> concept OutStreamable = requires(std::ostream ostr, T data)
 
 template<typename T> concept BSTKey = std::copy_constructible<T> && std::totally_ordered<T> && OutStreamable<T>;
 template<typename T> concept BSTValue = std::default_initializable<T> && std::copy_constructible<T> && std::is_copy_assignable_v<T> && OutStreamable<T>;
+#else
+template<typename T> concept BSTKey = std::copy_constructible<T> && std::totally_ordered<T>;
+template<typename T> concept BSTValue = std::default_initializable<T> && std::copy_constructible<T> && std::is_copy_assignable_v<T>;
+#endif
 
 template<BSTKey K, BSTValue V>
 class BinarySearchTree
@@ -39,9 +44,10 @@ public:
     V getNodeValue(const K& key) const;
     V getNullValue() const;
     size_t getSize() const;
-
+#ifdef PRINT_TREE
     virtual void printTree() const;
     virtual std::string getTreeAsString(bool areNodeValuesRequired = false) const;
+#endif
 
 protected:
     class Node
@@ -111,7 +117,9 @@ protected:
     void _rotateNodeRight(spNode node);
 
     void _printNodeRelatives(spNode node) const;
+#ifdef PRINT_TREE
     virtual std::string _getNodeAsString(spNode node, bool isValueRequired) const;
+#endif
     spNode _getRoot() const; // used by derived classes only
 
 private:
@@ -321,6 +329,7 @@ size_t BinarySearchTree<K, V>::getSize() const
     return m_Size;
 }
 
+#ifdef PRINT_TREE
 template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::printTree() const
 {
@@ -360,6 +369,7 @@ std::string BinarySearchTree<K, V>::getTreeAsString(bool areNodeValuesRequired) 
 
     return result;
 }
+#endif
 
 template<BSTKey K, BSTValue V>
 void BinarySearchTree<K, V>::_createTreeStructure(const std::vector<K>& inputKeys, const V& defaultValue, const V& nullValue)
@@ -760,6 +770,7 @@ void BinarySearchTree<K, V>::_printNodeRelatives(spNode node) const
     }
 }
 
+#ifdef PRINT_TREE
 template<BSTKey K, BSTValue V>
 std::string BinarySearchTree<K, V>::_getNodeAsString(spNode node, bool isValueRequired) const
 {
@@ -796,6 +807,7 @@ std::string BinarySearchTree<K, V>::_getNodeAsString(spNode node, bool isValueRe
 
     return result;
 }
+#endif
 
 template<BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_getRoot() const

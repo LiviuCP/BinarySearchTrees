@@ -35,9 +35,9 @@ public:
 
     RedBlackTree& operator=(const RedBlackTree& sourceTree);
     RedBlackTree& operator=(RedBlackTree&& sourceTree);
-
+#ifdef PRINT_TREE
     void printTree() const override;
-
+#endif
 private:
     class RedBlackNode : public BinarySearchTree<K, V>::Node
     {
@@ -61,8 +61,9 @@ private:
     typename BinarySearchTree<K, V>::spNode _doAddOrUpdateNode(const K& key, const V& value) override;
     typename BinarySearchTree<K, V>::spNode _removeSingleChildedOrLeafNode(typename BinarySearchTree<K, V>::spNode nodeToRemove) override;
     typename BinarySearchTree<K, V>::spNode _createNewNode(const K& key, const V& value) override;
-
+#ifdef PRINT_TREE
     std::string _getNodeAsString(typename BinarySearchTree<K, V>::spNode node, bool isValueRequired) const override;
+#endif
 };
 
 template<typename K, typename V>
@@ -134,6 +135,7 @@ RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(RedBlackTree&& sourceTree)
     return *this;
 }
 
+#ifdef PRINT_TREE
 template<typename K, typename V>
 void RedBlackTree<K, V>::printTree() const
 {
@@ -160,6 +162,7 @@ void RedBlackTree<K, V>::printTree() const
         }
     }
 }
+#endif
 
 /* Two steps are required for adding a new RB node (update works the same as for simple BST):
   - add the node as per BST standard (inherited) procedure
@@ -386,6 +389,7 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_createNewNode(const
     return std::make_shared<RedBlackNode>(key, value);
 }
 
+#ifdef PRINT_TREE
 template<typename K, typename V>
 std::string RedBlackTree<K, V>::_getNodeAsString(typename BinarySearchTree<K, V>::spNode node, bool isValueRequired) const
 {
@@ -405,6 +409,7 @@ std::string RedBlackTree<K, V>::_getNodeAsString(typename BinarySearchTree<K, V>
 
     return result;
 }
+#endif
 
 template<typename K, typename V>
 RedBlackTree<K, V>::RedBlackNode::RedBlackNode(const K& key, const V& value)
