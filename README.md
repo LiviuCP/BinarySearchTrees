@@ -54,5 +54,7 @@ It is possible to display the tree content by enabling the printing feature. Two
 2) Another useful method is getTreeAsString() which converts the tree into a string that contains node keys (and optionally values) and the parent-child relationships between nodes. This can be useful for testing purposes.
 
 In order to unlock these functions, please perform following steps:
-- #define PRINT_TREE or include this define in the CMakeLists.txt file: add_compile_definitions(-DPRINT_TREE)
+- enable printing:
+  - #define PRINT_TREE within file containing the BST header include
+  - alternatively include this define within CMakeLists.txt as per project requirements (e.g. with TARGET_COMPILE_DEFINITIONS)
 - ensure the stream operator mentioned in section 4 exists (if not, define it)
