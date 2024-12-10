@@ -16,12 +16,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(../BinarySearchTreesLib)
 
-add_compile_definitions(-DPRINT_TREE)
-
 enable_testing()
 
 add_executable(SimpleBSTTests tst_simplebsttests.cpp testutils.cpp)
 add_test(NAME SimpleBSTTests COMMAND SimpleBSTTests)
+
 
 add_executable(RedBlackTreesTests tst_redblacktreestests.cpp testutils.cpp)
 add_test(NAME RedBlackTreesTests COMMAND RedBlackTreesTests)
@@ -31,6 +30,11 @@ add_test(NAME AVLTreesTests COMMAND AVLTreesTests)
 
 add_executable(MixedTreeTypesTests tst_mixedtreetypestests.cpp testutils.cpp)
 add_test(NAME MixedTreeTypesTests COMMAND MixedTreeTypesTests)
+
+target_compile_definitions(SimpleBSTTests PRIVATE PRINT_TREE)
+target_compile_definitions(RedBlackTreesTests PRIVATE PRINT_TREE)
+target_compile_definitions(AVLTreesTests PRIVATE PRINT_TREE)
+target_compile_definitions(MixedTreeTypesTests PRIVATE PRINT_TREE)
 
 target_link_libraries(SimpleBSTTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
 target_link_libraries(SimpleBSTTests PRIVATE BinarySearchTreesLib)
