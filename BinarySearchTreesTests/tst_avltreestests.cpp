@@ -1,3 +1,4 @@
+// clang-format off
 #include <QTest>
 #include <algorithm>
 
@@ -1075,3 +1076,4 @@ void AVLTreesTests::testInOrderForwardIterators()
 QTEST_APPLESS_MAIN(AVLTreesTests)
 
 #include "tst_avltreestests.moc"
+// clang-format on

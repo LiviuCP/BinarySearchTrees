@@ -4,10 +4,11 @@
 
 namespace TestUtils
 {
-    bool areExpectedTreeValuesMet(const std::string& treeString, size_t treeSize, const std::string& expectedTreeString, size_t expectedTreeSize);
+bool areExpectedTreeValuesMet(const std::string& treeString, size_t treeSize, const std::string& expectedTreeString,
+                              size_t expectedTreeSize);
 
-    static const std::string scDefaultValue{"DF"};
-    static const std::string scDefaultNullValue{""};
-    static const std::string scCustomNullValue{"NULL"};
-    static const std::string scEmptyTreeString{""};
-}
+static const std::string scDefaultValue{"DF"};
+static const std::string scDefaultNullValue{""};
+static const std::string scCustomNullValue{"NULL"};
+static const std::string scEmptyTreeString{""};
+} // namespace TestUtils

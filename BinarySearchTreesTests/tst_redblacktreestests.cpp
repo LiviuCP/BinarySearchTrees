@@ -1,3 +1,4 @@
+// clang-format off
 #include <QTest>
 #include <algorithm>
 
@@ -1106,3 +1107,4 @@ void RedBlackTreesTests::testPrintTree()
 QTEST_APPLESS_MAIN(RedBlackTreesTests)
 
 #include "tst_redblacktreestests.moc"
+// clang-format on

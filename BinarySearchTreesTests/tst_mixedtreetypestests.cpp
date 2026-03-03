@@ -1,3 +1,4 @@
+// clang-format off
 #include <QTest>
 
 #include "testutils.h"
@@ -755,3 +756,4 @@ void MixedTreeTypesTests::_buildSecondaryTestSearchTreeInDifferentOrder()
 QTEST_APPLESS_MAIN(MixedTreeTypesTests)
 
 #include "tst_mixedtreetypestests.moc"
+// clang-format on
