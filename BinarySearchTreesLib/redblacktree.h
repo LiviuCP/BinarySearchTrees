@@ -11,21 +11,22 @@ Other conventions:
 
 Notes:
 - no node can have a single black child (rule 4 violation)
-- if a black node has a single red child it cannot have any grandchildren (red grandchild(ren): rule 3 violation, black grandchildren: rule 4 violation)
-- a black node can have mixed children (one black, one red) if the red node has two black children (the black child could also have for example 0, 1 or 2 red children)
+- if a black node has a single red child it cannot have any grandchildren (red grandchild(ren): rule 3 violation, black
+grandchildren: rule 4 violation)
+- a black node can have mixed children (one black, one red) if the red node has two black children (the black child
+could also have for example 0, 1 or 2 red children)
 */
 
 #pragma once
 
+#include <cassert>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
-#include <cassert>
 
 #include "binarysearchtree.h"
 
-template<typename K, typename V>
-class RedBlackTree final : public BinarySearchTree<K, V>
+template <typename K, typename V> class RedBlackTree final : public BinarySearchTree<K, V>
 {
 public:
     RedBlackTree(const V& nullValue = {});
@@ -59,20 +60,21 @@ private:
     using BinarySearchTree<K, V>::operator=;
 
     typename BinarySearchTree<K, V>::spNode _doAddOrUpdateNode(const K& key, const V& value) override;
-    typename BinarySearchTree<K, V>::spNode _removeSingleChildedOrLeafNode(typename BinarySearchTree<K, V>::spNode nodeToRemove) override;
+    typename BinarySearchTree<K, V>::spNode _removeSingleChildedOrLeafNode(
+        typename BinarySearchTree<K, V>::spNode nodeToRemove) override;
     typename BinarySearchTree<K, V>::spNode _createNewNode(const K& key, const V& value) override;
 #ifdef PRINT_TREE
     std::string _getNodeAsString(typename BinarySearchTree<K, V>::spNode node, bool isValueRequired) const override;
 #endif
 };
 
-template<typename K, typename V>
+template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(const V& nullValue)
     : BinarySearchTree<K, V>{nullValue}
 {
 }
 
-template<typename K, typename V>
+template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(const std::vector<K>& inputKeys, const V& defaultValue, const V& nullValue)
     : RedBlackTree{nullValue}
 {
@@ -83,7 +85,8 @@ RedBlackTree<K, V>::RedBlackTree(const std::vector<K>& inputKeys, const V& defau
 
         for (const auto& inputKey : inputKeys)
         {
-            spRBNode const addedNode{dynamic_pointer_cast<RedBlackNode>(temp._doAddOrUpdateNode(inputKey, defaultValue))};
+            spRBNode const addedNode{
+                dynamic_pointer_cast<RedBlackNode>(temp._doAddOrUpdateNode(inputKey, defaultValue))};
         }
 
         // move temporary object to current object
@@ -91,11 +94,12 @@ RedBlackTree<K, V>::RedBlackTree(const std::vector<K>& inputKeys, const V& defau
     }
 }
 
-template<typename K, typename V>
+template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(const RedBlackTree& sourceTree)
     : RedBlackTree{sourceTree.getNullValue()}
 {
-    // temporary object is required in order to avoid directly calling _copyTreeNodes() which contains calls to virtual methods
+    // temporary object is required in order to avoid directly calling _copyTreeNodes() which contains calls to virtual
+    // methods
     RedBlackTree temp{sourceTree.getNullValue()};
     temp = sourceTree;
 
@@ -103,14 +107,12 @@ RedBlackTree<K, V>::RedBlackTree(const RedBlackTree& sourceTree)
     *this = std::move(temp);
 }
 
-template<typename K, typename V>
-RedBlackTree<K, V>::RedBlackTree(RedBlackTree&& sourceTree)
+template <typename K, typename V> RedBlackTree<K, V>::RedBlackTree(RedBlackTree&& sourceTree)
 {
     RedBlackTree::_moveAssignTree(sourceTree);
 }
 
-template<typename K, typename V>
-RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(const RedBlackTree& sourceTree)
+template <typename K, typename V> RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(const RedBlackTree& sourceTree)
 {
     if (this != &sourceTree)
     {
@@ -123,8 +125,7 @@ RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(const RedBlackTree& sourceTree
     return *this;
 }
 
-template<typename K, typename V>
-RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(RedBlackTree&& sourceTree)
+template <typename K, typename V> RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(RedBlackTree&& sourceTree)
 {
     if (this != &sourceTree)
     {
@@ -136,8 +137,7 @@ RedBlackTree<K, V>& RedBlackTree<K, V>::operator=(RedBlackTree&& sourceTree)
 }
 
 #ifdef PRINT_TREE
-template<typename K, typename V>
-void RedBlackTree<K, V>::printTree() const
+template <typename K, typename V> void RedBlackTree<K, V>::printTree() const
 {
     std::vector<typename RedBlackTree<K, V>::spNode> nodesArray;
     RedBlackTree::_convertTreeToArray(nodesArray);
@@ -166,15 +166,17 @@ void RedBlackTree<K, V>::printTree() const
 
 /* Two steps are required for adding a new RB node (update works the same as for simple BST):
   - add the node as per BST standard (inherited) procedure
-  - apply required transformation to resulting tree structure (rotations, recoloring) for ensuring the four rules (see redblacktree.h) are obeyed
+  - apply required transformation to resulting tree structure (rotations, recoloring) for ensuring the four rules (see
+  redblacktree.h) are obeyed
 */
-template<typename K, typename V>
+template <typename K, typename V>
 typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_doAddOrUpdateNode(const K& key, const V& value)
 {
     spRBNode addedNode{dynamic_pointer_cast<RedBlackNode>(BinarySearchTree<K, V>::_doAddOrUpdateNode(key, value))};
     spRBNode currentNode{addedNode};
 
-    for (spRBNode parent{currentNode ? dynamic_pointer_cast<RedBlackNode>(currentNode->getParent()) : nullptr}; parent && !parent->isBlack();)
+    for (spRBNode parent{currentNode ? dynamic_pointer_cast<RedBlackNode>(currentNode->getParent()) : nullptr};
+         parent && !parent->isBlack();)
     {
         spRBNode const grandparent{dynamic_pointer_cast<RedBlackNode>(currentNode->getGrandparent())};
 
@@ -202,30 +204,36 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_doAddOrUpdateNode(c
             continue;
         }
 
-        // parent and current node cannot be root so they are either left or right child (no need for [node]->isRightChild())
-        if (const bool c_IsNodeLeftChild{currentNode->isLeftChild()}, c_IsParentLeftChild{parent->isLeftChild()}; c_IsParentLeftChild && c_IsNodeLeftChild)
+        // parent and current node cannot be root so they are either left or right child (no need for
+        // [node]->isRightChild())
+        if (const bool c_IsNodeLeftChild{currentNode->isLeftChild()}, c_IsParentLeftChild{parent->isLeftChild()};
+            c_IsParentLeftChild && c_IsNodeLeftChild)
         {
-            RedBlackTree::_rotateNodeRight(grandparent); // left - left: rotate grandparent right, then swap colors of grandparent (black->red) and parent (red->black)
+            RedBlackTree::_rotateNodeRight(grandparent); // left - left: rotate grandparent right, then swap colors of
+                                                         // grandparent (black->red) and parent (red->black)
             grandparent->setBlack(false);
             parent->setBlack(true);
         }
         else if (c_IsParentLeftChild && !c_IsNodeLeftChild)
         {
-            RedBlackTree::_rotateNodeLeft(parent); // left - right: rotate parent left and then apply previous case (but this time current node and grandparent have colors swapped)
+            RedBlackTree::_rotateNodeLeft(parent); // left - right: rotate parent left and then apply previous case (but
+                                                   // this time current node and grandparent have colors swapped)
             RedBlackTree::_rotateNodeRight(grandparent);
             grandparent->setBlack(false);
             currentNode->setBlack(true);
         }
         else if (!c_IsParentLeftChild && c_IsNodeLeftChild)
         {
-            RedBlackTree::_rotateNodeRight(parent); // right - left: rotate parent left, then apply next case (but this time current node and grandparent have colors swapped)
+            RedBlackTree::_rotateNodeRight(parent); // right - left: rotate parent left, then apply next case (but this
+                                                    // time current node and grandparent have colors swapped)
             RedBlackTree::_rotateNodeLeft(grandparent);
             grandparent->setBlack(false);
             currentNode->setBlack(true);
         }
         else
         {
-            RedBlackTree::_rotateNodeLeft(grandparent); // right - right: rotate grandparent left, then swap colors of grandparent (black->red) and parent (red->black)
+            RedBlackTree::_rotateNodeLeft(grandparent); // right - right: rotate grandparent left, then swap colors of
+                                                        // grandparent (black->red) and parent (red->black)
             grandparent->setBlack(false);
             parent->setBlack(true);
         }
@@ -250,30 +258,42 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_doAddOrUpdateNode(c
 }
 
 /* Removing a red-black tree node occurs in two steps:
-   - step 1: store reference to parent and sibling; then remove the node from tree by using the "standard" (inherited) BST procedure
-   - step 2: correct the resulting tree structure by performing rotations and/or recoloring in order to make sure all four rules (see redblacktree.h) are still followed.
+   - step 1: store reference to parent and sibling; then remove the node from tree by using the "standard" (inherited)
+   BST procedure
+   - step 2: correct the resulting tree structure by performing rotations and/or recoloring in order to make sure all
+   four rules (see redblacktree.h) are still followed.
 
    Notes:
-   - the second step is performed only if a black node has been removed. Removing a red node (which can only be leaf) does not affect the rules.
-   - the second step contains two cases: child of removed node is red (simple case - red child becomes black) and a black leaf node has been removed (complex case - more sub-cases/scenarios)
+   - the second step is performed only if a black node has been removed. Removing a red node (which can only be leaf)
+   does not affect the rules.
+   - the second step contains two cases: child of removed node is red (simple case - red child becomes black) and a
+   black leaf node has been removed (complex case - more sub-cases/scenarios)
 */
-template<typename K, typename V>
-typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_removeSingleChildedOrLeafNode(typename BinarySearchTree<K, V>::spNode nodeToRemove)
+template <typename K, typename V>
+typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_removeSingleChildedOrLeafNode(
+    typename BinarySearchTree<K, V>::spNode nodeToRemove)
 {
     if (spRBNode const rbNodeToRemove{dynamic_pointer_cast<RedBlackNode>(nodeToRemove)}; rbNodeToRemove)
     {
-        assert((!rbNodeToRemove->getLeftChild() || !rbNodeToRemove->getRightChild()) && "Node to be removed has more than one child");
+        assert((!rbNodeToRemove->getLeftChild() || !rbNodeToRemove->getRightChild()) &&
+               "Node to be removed has more than one child");
 
-        spRBNode parent{dynamic_pointer_cast<RedBlackNode>(rbNodeToRemove->getParent())}; // store parent in advance (TBinarySearchTree::_removeSingleChildedOrLeafNode() decouples from parent)
+        spRBNode parent{dynamic_pointer_cast<RedBlackNode>(
+            rbNodeToRemove->getParent())}; // store parent in advance
+                                           // (TBinarySearchTree::_removeSingleChildedOrLeafNode()
+                                           // decouples from parent)
         spRBNode sibling{dynamic_pointer_cast<RedBlackNode>(rbNodeToRemove->getSibling())}; // same for sibling
-        spRBNode const replacingNode{dynamic_pointer_cast<RedBlackNode>(BinarySearchTree<K, V>::_removeSingleChildedOrLeafNode(nodeToRemove))};
-        spRBNode doubleBlackNode{nullptr}; // used if replacing node is a null leaf, convert it to a double-black node (see case 2)
+        spRBNode const replacingNode{
+            dynamic_pointer_cast<RedBlackNode>(BinarySearchTree<K, V>::_removeSingleChildedOrLeafNode(nodeToRemove))};
+        spRBNode doubleBlackNode{
+            nullptr}; // used if replacing node is a null leaf, convert it to a double-black node (see case 2)
 
         bool isTreeValid{!rbNodeToRemove->isBlack()}; // no action required if removed node is a red leaf
 
         if (!isTreeValid && replacingNode) // case 1: removed black node with red child
         {
-            assert(!replacingNode->isBlack() && "The removed node was black and had a single black child prior to removal (rule 4 violation)");
+            assert(!replacingNode->isBlack() &&
+                   "The removed node was black and had a single black child prior to removal (rule 4 violation)");
             replacingNode->setBlack(true);
             isTreeValid = true;
         }
@@ -288,7 +308,8 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_removeSingleChilded
 
             if (!sibling || !sibling->getParent())
             {
-                assert(false && "Invalid sibling of non-root black node found"); // required for avoiding rule 4 violation
+                assert(false &&
+                       "Invalid sibling of non-root black node found"); // required for avoiding rule 4 violation
                 isTreeValid = false;
                 break;
             }
@@ -297,9 +318,11 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_removeSingleChilded
             spRBNode const siblingLeftChild{dynamic_pointer_cast<RedBlackNode>(sibling->getLeftChild())};
             spRBNode const siblingRightChild{dynamic_pointer_cast<RedBlackNode>(sibling->getRightChild())};
 
-            if (!sibling->isBlack()) // sub-case 2c: red sibling - update sibling and RECUR to one of the sub-cases below (in the recursion: the updated sibling is used as starting point)
+            if (!sibling->isBlack()) // sub-case 2c: red sibling - update sibling and RECUR to one of the sub-cases
+                                     // below (in the recursion: the updated sibling is used as starting point)
             {
-                if (!siblingLeftChild || !siblingRightChild) // sibling should have 2 non-null black children (otherwise rule 4 violation)
+                if (!siblingLeftChild ||
+                    !siblingRightChild) // sibling should have 2 non-null black children (otherwise rule 4 violation)
                 {
                     assert(false && "At least a null child identified for red sibling");
                     isTreeValid = false;
@@ -324,12 +347,15 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_removeSingleChilded
                 continue;
             }
 
-            isTreeValid = true; // tree is assumed valid, gets invalidated only if the double black node changes (see below)
+            isTreeValid =
+                true; // tree is assumed valid, gets invalidated only if the double black node changes (see below)
 
             const bool c_IsSiblingLeftChildRed{siblingLeftChild && !siblingLeftChild->isBlack()};
             const bool c_IsSiblingRightChildRed{siblingRightChild && !siblingRightChild->isBlack()};
 
-            if (!c_IsSiblingLeftChildRed && !c_IsSiblingRightChildRed) // sub-case 2a: two sibling black children (everything else is sub-case 2b: black sibling with at least one red child)
+            if (!c_IsSiblingLeftChildRed &&
+                !c_IsSiblingRightChildRed) // sub-case 2a: two sibling black children (everything else is sub-case 2b:
+                                           // black sibling with at least one red child)
             {
                 sibling->setBlack(false);
 
@@ -344,22 +370,27 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_removeSingleChilded
                 sibling = dynamic_pointer_cast<RedBlackNode>(doubleBlackNode->getSibling());
                 isTreeValid = false; // double black node changed, tree is considered invalid again
             }
-            else if (sibling->isLeftChild() && c_IsSiblingLeftChildRed) // 2b: left-left (left sibling with left red child (right sibling child null, cannot be black) or both children red)
+            else if (sibling->isLeftChild() &&
+                     c_IsSiblingLeftChildRed) // 2b: left-left (left sibling with left red child (right sibling child
+                                              // null, cannot be black) or both children red)
             {
                 RedBlackTree::_rotateNodeRight(parent);
-                sibling->setBlack(parent->isBlack()); // if removed node parent is red: swap the parent and sibling colors in order to get local black height preserved
+                sibling->setBlack(parent->isBlack()); // if removed node parent is red: swap the parent and sibling
+                                                      // colors in order to get local black height preserved
                 parent->setBlack(true);
                 siblingLeftChild->setBlack(true);
             }
-            else if (sibling->isLeftChild() && !c_IsSiblingLeftChildRed) // 2b: left-right (left sibling with right red child only, no sibling left child)
+            else if (sibling->isLeftChild() && !c_IsSiblingLeftChildRed) // 2b: left-right (left sibling with right red
+                                                                         // child only, no sibling left child)
             {
-                // swap sibling and sibling child colors after first rotation; after second rotation ensure parent and sibling have the same color (preserve local black height)
+                // swap sibling and sibling child colors after first rotation; after second rotation ensure parent and
+                // sibling have the same color (preserve local black height)
                 RedBlackTree::_rotateNodeLeft(sibling);
                 RedBlackTree::_rotateNodeRight(parent);
                 sibling->setBlack(parent->isBlack());
                 siblingRightChild->setBlack(true);
             }
-            else if (c_IsSiblingRightChildRed)  // 2b: right-right (left-left mirrored)
+            else if (c_IsSiblingRightChildRed) // 2b: right-right (left-left mirrored)
             {
                 RedBlackTree::_rotateNodeLeft(parent);
                 sibling->setBlack(parent->isBlack());
@@ -383,15 +414,16 @@ typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_removeSingleChilded
     return nullptr; // no replacing node required for red-black nodes (return value only for signature purposes)
 }
 
-template<typename K, typename V>
+template <typename K, typename V>
 typename BinarySearchTree<K, V>::spNode RedBlackTree<K, V>::_createNewNode(const K& key, const V& value)
 {
     return std::make_shared<RedBlackNode>(key, value);
 }
 
 #ifdef PRINT_TREE
-template<typename K, typename V>
-std::string RedBlackTree<K, V>::_getNodeAsString(typename BinarySearchTree<K, V>::spNode node, bool isValueRequired) const
+template <typename K, typename V>
+std::string RedBlackTree<K, V>::_getNodeAsString(typename BinarySearchTree<K, V>::spNode node,
+                                                 bool isValueRequired) const
 {
     std::string result{"NULL"};
 
@@ -411,15 +443,15 @@ std::string RedBlackTree<K, V>::_getNodeAsString(typename BinarySearchTree<K, V>
 }
 #endif
 
-template<typename K, typename V>
+template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackNode::RedBlackNode(const K& key, const V& value)
     : BinarySearchTree<K, V>::Node{key, value}
-    , m_IsBlack{false}  // all newly nodes are red by default as this is the convention for adding them to the red-black-tree
+    , m_IsBlack{false}
+// all newly nodes are red by default as this is the convention for adding them to the red-black-tree
 {
 }
 
-template<typename K, typename V>
-void RedBlackTree<K, V>::RedBlackNode::setBlack(bool isBlackRequired)
+template <typename K, typename V> void RedBlackTree<K, V>::RedBlackNode::setBlack(bool isBlackRequired)
 {
     if (m_IsBlack != isBlackRequired)
     {
@@ -427,8 +459,7 @@ void RedBlackTree<K, V>::RedBlackNode::setBlack(bool isBlackRequired)
     }
 }
 
-template<typename K, typename V>
-bool RedBlackTree<K, V>::RedBlackNode::isBlack() const
+template <typename K, typename V> bool RedBlackTree<K, V>::RedBlackNode::isBlack() const
 {
     return m_IsBlack;
 }

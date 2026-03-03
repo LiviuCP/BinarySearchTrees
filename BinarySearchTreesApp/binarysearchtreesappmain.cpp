@@ -1,9 +1,9 @@
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
-#include "redblacktree.h"
 #include "avltree.h"
+#include "redblacktree.h"
 
 using namespace std;
 using IntStrBinarySearchTree = BinarySearchTree<int, std::string>;

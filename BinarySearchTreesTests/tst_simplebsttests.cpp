@@ -1,4 +1,5 @@
-#include <QtTest>
+// clang-format off
+#include <QTest>
 #include <algorithm>
 
 #include "testutils.h"
@@ -924,3 +925,4 @@ void SimpleBSTTests::testPrintTree()
 QTEST_APPLESS_MAIN(SimpleBSTTests)
 
 #include "tst_simplebsttests.moc"
+// clang-format on
