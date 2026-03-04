@@ -24,6 +24,8 @@
    '_' or not.
  */
 
+namespace TestUtils
+{
 class StringifiedInteger
 {
 public:
@@ -35,3 +37,4 @@ public:
 private:
     std::string m_Value;
 };
+} // namespace TestUtils

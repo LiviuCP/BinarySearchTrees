@@ -6,16 +6,16 @@ static constexpr std::string_view c_ZeroValue{"Z"};
 static constexpr std::string_view c_MinusInfinite{"N_"};
 static constexpr std::string_view c_PlusInfinite{"N"};
 
-StringifiedInteger::StringifiedInteger()
+TestUtils::StringifiedInteger::StringifiedInteger()
     : m_Value{c_ZeroValue}
 {
 }
 
-StringifiedInteger::StringifiedInteger(const std::string& value)
+TestUtils::StringifiedInteger::StringifiedInteger(const std::string& value)
 {
 }
 
-std::string StringifiedInteger::getValue() const
+std::string TestUtils::StringifiedInteger::getValue() const
 {
     return m_Value;
 }

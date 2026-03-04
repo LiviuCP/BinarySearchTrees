@@ -3,6 +3,8 @@
 
 #include "stringifiedinteger.h"
 
+using namespace TestUtils;
+
 class StringifiedIntegerTests : public QObject
 {
     Q_OBJECT
