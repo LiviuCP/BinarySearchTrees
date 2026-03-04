@@ -14,3 +14,8 @@ StringifiedInteger::StringifiedInteger()
 StringifiedInteger::StringifiedInteger(const std::string& value)
 {
 }
+
+std::string StringifiedInteger::getValue() const
+{
+    return m_Value;
+}

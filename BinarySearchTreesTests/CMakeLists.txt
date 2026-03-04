@@ -21,7 +21,6 @@ enable_testing()
 add_executable(SimpleBSTTests tst_simplebsttests.cpp testutils.cpp)
 add_test(NAME SimpleBSTTests COMMAND SimpleBSTTests)
 
-
 add_executable(RedBlackTreesTests tst_redblacktreestests.cpp testutils.cpp)
 add_test(NAME RedBlackTreesTests COMMAND RedBlackTreesTests)
 
@@ -47,3 +46,9 @@ target_link_libraries(AVLTreesTests PRIVATE BinarySearchTreesLib)
 
 target_link_libraries(MixedTreeTypesTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
 target_link_libraries(MixedTreeTypesTests PRIVATE BinarySearchTreesLib)
+
+# additional tests for test object
+add_executable(StringifiedIntegerTests tst_stringifiedintegertests.cpp stringifiedinteger.cpp)
+add_test(NAME StringifiedIntegerTests COMMAND StringifiedIntegerTests)
+
+target_link_libraries(StringifiedIntegerTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
