@@ -11,12 +11,22 @@ class StringifiedIntegerTests : public QObject
 
 private slots:
     void testEmptyStringifiedInteger();
+    void testInitializationByString();
 };
 
 void StringifiedIntegerTests::testEmptyStringifiedInteger()
 {
     StringifiedInteger stringifiedInt;
     QVERIFY(stringifiedInt.getValue() == "Z");
+}
+
+void StringifiedIntegerTests::testInitializationByString()
+{
+    StringifiedInteger stringifiedInt{""};
+    QVERIFY(stringifiedInt.getValue() == "N");
+
+    stringifiedInt = StringifiedInteger{"ZZZZZZZZ"};
+    QVERIFY(stringifiedInt.getValue() == "ZZZZZZZZ");
 }
 
 QTEST_APPLESS_MAIN(StringifiedIntegerTests)
