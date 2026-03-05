@@ -7,6 +7,9 @@ static constexpr std::string_view c_ZeroValue{"Z"};
 static constexpr std::string_view c_MinusInfinite{"N_"};
 static constexpr std::string_view c_PlusInfinite{"N"};
 
+static constexpr std::string_view c_SingleCharRegexStr{"[a-iA-IzZ]{1}"};
+static constexpr std::string_view c_MultipleCharsRegexStr{"([zZ]*)?([a-iA-I]{1}[a-iA-IzZ]{0,9})?_?"};
+
 namespace TestUtils
 {
 namespace
@@ -14,11 +17,18 @@ namespace
 std::string parseInputString(const std::string& inputString)
 {
     std::string result{c_PlusInfinite};
+    const size_t c_Length{inputString.size()};
 
-    if (!inputString.empty())
+    if (c_Length > 0)
     {
-        const std::regex validNumberRe{"[zZ]*[a-iA-IzZ]{0,10}_?"};
-        result = std::regex_match(inputString, validNumberRe) ? inputString : inputString.ends_with('_') ? "N_" : "N";
+        const std::regex c_SingleCharRe{c_SingleCharRegexStr.data()};
+        const std::regex c_MultipleCharRe{c_MultipleCharsRegexStr.data()};
+
+        result = (c_Length == 1 && std::regex_match(inputString, c_SingleCharRe)) ||
+                         (c_Length > 1 && std::regex_match(inputString, c_MultipleCharRe))
+                     ? inputString
+                 : inputString.ends_with('_') ? "N_"
+                                              : "N";
     }
 
     return result;
