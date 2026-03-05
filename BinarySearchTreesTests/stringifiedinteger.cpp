@@ -1,5 +1,8 @@
 #include "stringifiedinteger.h"
 
+#include <algorithm>
+#include <cassert>
+#include <map>
 #include <regex>
 #include <string_view>
 
@@ -85,4 +88,43 @@ TestUtils::StringifiedInteger::StringifiedInteger(const std::string& value)
 std::string TestUtils::StringifiedInteger::getValue() const
 {
     return m_Value;
+}
+
+std::optional<int> TestUtils::StringifiedInteger::_getIntValue() const
+{
+    std::map<char, char> c_CharConversionMap{{'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'},
+                                             {'E', '5'}, {'F', '6'}, {'G', '7'}, {'H', '8'}, {'I', '9'}};
+    std::optional<int> result;
+
+    if (m_Value != c_MinusInfinite && m_Value != c_PlusInfinite)
+    {
+        const size_t c_Length{m_Value.size()};
+
+        if (m_Value.ends_with('_'))
+        {
+            assert(c_Length > 1);
+
+            if (c_Length > 1)
+            {
+                std::string stringToConvert{m_Value.substr(0, c_Length - 1)};
+                std::transform(stringToConvert.cbegin(), stringToConvert.cend(), stringToConvert.begin(),
+                               [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
+                result = -std::stoi(stringToConvert);
+            }
+        }
+        else
+        {
+            assert(c_Length > 0);
+
+            if (c_Length > 0)
+            {
+                std::string stringToConvert{m_Value.substr(0, c_Length)};
+                std::transform(stringToConvert.cbegin(), stringToConvert.cend(), stringToConvert.begin(),
+                               [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
+                result = std::stoi(stringToConvert);
+            }
+        }
+    }
+
+    return result;
 }

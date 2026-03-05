@@ -12,6 +12,21 @@ class StringifiedIntegerTests : public QObject
 private slots:
     void testEmptyStringifiedInteger();
     void testInitializationByString();
+    void testConversionToInteger();
+
+private:
+    class TestStringifiedInteger : public StringifiedInteger
+    {
+    public:
+        TestStringifiedInteger() = default;
+
+        TestStringifiedInteger(const std::string& value)
+            : StringifiedInteger{value}
+        {
+        }
+
+        using StringifiedInteger::_getIntValue;
+    };
 };
 
 void StringifiedIntegerTests::testEmptyStringifiedInteger()
@@ -81,6 +96,16 @@ void StringifiedIntegerTests::testInitializationByString()
     QVERIFY(StringifiedInteger{"ABCDEFGHI_Z_"}.getValue() == "N_");
     QVERIFY(StringifiedInteger{"ZBCDEFGHI_A"}.getValue() == "N");
     QVERIFY(StringifiedInteger{"ZBCDEFGHI_A_"}.getValue() == "N_");
+}
+
+void StringifiedIntegerTests::testConversionToInteger()
+{
+    QVERIFY(TestStringifiedInteger{"ABCDZZ_"}._getIntValue() == -123400);
+    QVERIFY(TestStringifiedInteger{"Z"}._getIntValue() == 0);
+    QVERIFY(TestStringifiedInteger{"DCABZZ"}._getIntValue() == 431200);
+    QVERIFY(!TestStringifiedInteger{"N_"}._getIntValue().has_value());
+    QVERIFY(!TestStringifiedInteger{"N"}._getIntValue().has_value());
+    QVERIFY(TestStringifiedInteger{}._getIntValue() == 0);
 }
 
 QTEST_APPLESS_MAIN(StringifiedIntegerTests)

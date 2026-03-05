@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 
 /* This is a class that can be used for testing binary search trees.
@@ -33,6 +34,9 @@ public:
     StringifiedInteger(const std::string& value);
 
     std::string getValue() const;
+
+protected:
+    std::optional<int> _getIntValue() const;
 
 private:
     std::string m_Value;
