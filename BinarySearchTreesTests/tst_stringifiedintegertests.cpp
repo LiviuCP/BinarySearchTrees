@@ -13,8 +13,10 @@ private slots:
     void testEmptyStringifiedInteger();
     void testInitializationByString();
     void testConversionToInteger();
+    void testComparison();
 
 private:
+    // for testing the conversion to integer
     class TestStringifiedInteger : public StringifiedInteger
     {
     public:
@@ -106,6 +108,25 @@ void StringifiedIntegerTests::testConversionToInteger()
     QVERIFY(!TestStringifiedInteger{"N_"}._getIntValue().has_value());
     QVERIFY(!TestStringifiedInteger{"N"}._getIntValue().has_value());
     QVERIFY(TestStringifiedInteger{}._getIntValue() == 0);
+}
+
+void StringifiedIntegerTests::testComparison()
+{
+    QVERIFY(StringifiedInteger{"N_"} <=> StringifiedInteger{"N_"} == std::strong_ordering::equal);
+    QVERIFY(StringifiedInteger{"N_"} <=> StringifiedInteger{"ABZ"} == std::strong_ordering::less);
+    QVERIFY(StringifiedInteger{"ABZ"} <=> StringifiedInteger{"ABA"} == std::strong_ordering::less);
+    QVERIFY(StringifiedInteger{"ABA"} <=> StringifiedInteger{"N"} == std::strong_ordering::less);
+    QVERIFY(StringifiedInteger{"N"} <=> StringifiedInteger{"N"} == std::strong_ordering::equal);
+    QVERIFY(StringifiedInteger{"ABZ"} <=> StringifiedInteger{"N_"} == std::strong_ordering::greater);
+    QVERIFY(StringifiedInteger{"ABA"} <=> StringifiedInteger{"ABZ"} == std::strong_ordering::greater);
+    QVERIFY(StringifiedInteger{"N"} <=> StringifiedInteger{"ABA"} == std::strong_ordering::greater);
+
+    QVERIFY(StringifiedInteger{"N_"} == StringifiedInteger{"N_"});
+    QVERIFY(StringifiedInteger{"N_"} != StringifiedInteger{"ABZ"});
+    QVERIFY(StringifiedInteger{"ABZ"} == StringifiedInteger{"ABZ"});
+    QVERIFY(StringifiedInteger{"ABZ"} != StringifiedInteger{"ABA"});
+    QVERIFY(StringifiedInteger{"ABA"} != StringifiedInteger{"N"});
+    QVERIFY(StringifiedInteger{"N"} == StringifiedInteger{"N"});
 }
 
 QTEST_APPLESS_MAIN(StringifiedIntegerTests)

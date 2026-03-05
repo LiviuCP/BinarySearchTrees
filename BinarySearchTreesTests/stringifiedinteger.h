@@ -33,6 +33,9 @@ public:
     StringifiedInteger();
     StringifiedInteger(const std::string& value);
 
+    std::strong_ordering operator<=>(const StringifiedInteger& other);
+    bool operator==(const StringifiedInteger& other) const = default;
+
     std::string getValue() const;
 
 protected:

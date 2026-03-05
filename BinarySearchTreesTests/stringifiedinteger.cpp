@@ -85,6 +85,49 @@ TestUtils::StringifiedInteger::StringifiedInteger(const std::string& value)
 {
 }
 
+std::strong_ordering TestUtils::StringifiedInteger::operator<=>(const StringifiedInteger& other)
+{
+    std::strong_ordering result{std::strong_ordering::equal};
+
+    for (;;)
+    {
+        const std::optional<int> c_IntValue{_getIntValue()};
+
+        if (!c_IntValue.has_value())
+        {
+            if (m_Value == c_MinusInfinite)
+            {
+                if (other.m_Value != c_MinusInfinite)
+                {
+                    result = std::strong_ordering::less;
+                }
+
+                break;
+            }
+
+            if (other.m_Value != c_PlusInfinite)
+            {
+                result = std::strong_ordering::greater;
+            }
+
+            break;
+        }
+
+        const std::optional<int> c_OtherIntValue{other._getIntValue()};
+
+        if (!c_OtherIntValue.has_value())
+        {
+            result = other.m_Value == c_MinusInfinite ? std::strong_ordering::greater : std::strong_ordering::less;
+            break;
+        }
+
+        result = *c_IntValue <=> *c_OtherIntValue;
+        break;
+    }
+
+    return result;
+}
+
 std::string TestUtils::StringifiedInteger::getValue() const
 {
     return m_Value;
