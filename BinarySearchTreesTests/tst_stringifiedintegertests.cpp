@@ -23,20 +23,20 @@ void StringifiedIntegerTests::testEmptyStringifiedInteger()
 void StringifiedIntegerTests::testInitializationByString()
 {
     QVERIFY(StringifiedInteger{"Z"}.getValue() == "Z");
-    QVERIFY(StringifiedInteger{"Z_"}.getValue() == "Z_");
-    QVERIFY(StringifiedInteger{"ZZZZZZZZ"}.getValue() == "ZZZZZZZZ");
-    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZ"}.getValue() == "ZZZZZZZZZZZZZZZZ");
-    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZ_"}.getValue() == "ZZZZZZZZZZZZZZZZ_");
-    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZA"}.getValue() == "ZZZZZZZZZZZZZZZZA");
-    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZA_"}.getValue() == "ZZZZZZZZZZZZZZZZA_");
-    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZAZZZZZZZZZ"}.getValue() == "ZZZZZZZZZZZZZZZZAZZZZZZZZZ");
-    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZAZZZZZZZZZ_"}.getValue() == "ZZZZZZZZZZZZZZZZAZZZZZZZZZ_");
+    QVERIFY(StringifiedInteger{"Z_"}.getValue() == "Z");
+    QVERIFY(StringifiedInteger{"ZZZZZZZZ"}.getValue() == "Z");
+    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZ"}.getValue() == "Z");
+    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZ_"}.getValue() == "Z");
+    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZA"}.getValue() == "A");
+    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZA_"}.getValue() == "A_");
+    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZAZZZZZZZZZ"}.getValue() == "AZZZZZZZZZ");
+    QVERIFY(StringifiedInteger{"ZZZZZZZZZZZZZZZZAZZZZZZZZZ_"}.getValue() == "AZZZZZZZZZ_");
     QVERIFY(StringifiedInteger{"AZZZZZZZZZ"}.getValue() == "AZZZZZZZZZ");
     QVERIFY(StringifiedInteger{"AZZZZZZZZZ_"}.getValue() == "AZZZZZZZZZ_");
     QVERIFY(StringifiedInteger{"ABCDEFGHIZ"}.getValue() == "ABCDEFGHIZ");
     QVERIFY(StringifiedInteger{"ABCDEFGHIZ_"}.getValue() == "ABCDEFGHIZ_");
-    QVERIFY(StringifiedInteger{"ZABCDEFGHI"}.getValue() == "ZABCDEFGHI");
-    QVERIFY(StringifiedInteger{"ZABCDEFGHI_"}.getValue() == "ZABCDEFGHI_");
+    QVERIFY(StringifiedInteger{"ZABCDEFGHI"}.getValue() == "ABCDEFGHI");
+    QVERIFY(StringifiedInteger{"ZABCDEFGHI_"}.getValue() == "ABCDEFGHI_");
     QVERIFY(StringifiedInteger{"ABCDEFGHI_"}.getValue() == "ABCDEFGHI_");
 
     QVERIFY(StringifiedInteger{""}.getValue() == "N");

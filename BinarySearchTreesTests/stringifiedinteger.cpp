@@ -16,20 +16,56 @@ namespace
 {
 std::string parseInputString(const std::string& inputString)
 {
-    std::string result{c_PlusInfinite};
-    const size_t c_Length{inputString.size()};
+    std::string result{inputString.ends_with('_') ? "N_" : "N"};
 
-    if (c_Length > 0)
+    do
     {
-        const std::regex c_SingleCharRe{c_SingleCharRegexStr.data()};
+        const size_t c_Length{inputString.size()};
+
+        if (c_Length == 0)
+        {
+            break;
+        }
+
+        if (c_Length == 1)
+        {
+            const std::regex c_SingleCharRe{c_SingleCharRegexStr.data()};
+
+            if (std::regex_match(inputString, c_SingleCharRe))
+            {
+                result = inputString;
+            }
+
+            break;
+        }
+
         const std::regex c_MultipleCharRe{c_MultipleCharsRegexStr.data()};
 
-        result = (c_Length == 1 && std::regex_match(inputString, c_SingleCharRe)) ||
-                         (c_Length > 1 && std::regex_match(inputString, c_MultipleCharRe))
-                     ? inputString
-                 : inputString.ends_with('_') ? "N_"
-                                              : "N";
-    }
+        if (!std::regex_match(inputString, c_MultipleCharRe))
+        {
+            break;
+        }
+
+        if (inputString.starts_with("Z"))
+        {
+            const auto it{
+                std::find_if(inputString.cbegin(), inputString.cend(), [](const auto& c) { return c != 'Z'; })};
+
+            if (it == inputString.cend() || *it == '_')
+            {
+                result = "Z";
+            }
+            else
+            {
+                const size_t c_Position{static_cast<size_t>(std::distance(inputString.cbegin(), it))};
+                result = inputString.substr(c_Position);
+            }
+        }
+        else
+        {
+            result = inputString;
+        }
+    } while (false);
 
     return result;
 }
