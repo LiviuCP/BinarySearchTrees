@@ -38,9 +38,16 @@ void StringifiedIntegerTests::testStringifiedIntInitialization()
     QVERIFY(TestStringifiedInteger{}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"Z"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"Z_"}.getValue() == "Z");
+    QVERIFY(TestStringifiedInteger{"z"}.getValue() == "Z");
+    QVERIFY(TestStringifiedInteger{"z_"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZ"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZZZZZZZZZ"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZZZZZZZZZ_"}.getValue() == "Z");
+    QVERIFY(TestStringifiedInteger{"zzzz"}.getValue() == "Z");
+    QVERIFY(TestStringifiedInteger{"zzzz_"}.getValue() == "Z");
+    QVERIFY(TestStringifiedInteger{"ZzZz"}.getValue() == "Z");
+    QVERIFY(TestStringifiedInteger{"zZzZ_"}.getValue() == "Z");
+
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZZZZZZZZZA"}.getValue() == "A");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZZZZZZZZZA_"}.getValue() == "A_");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZZZZZZZZZAZZZZZZZZZ"}.getValue() == "AZZZZZZZZZ");
