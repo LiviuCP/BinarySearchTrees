@@ -10,8 +10,7 @@ class StringifiedIntegerTests : public QObject
     Q_OBJECT
 
 private slots:
-    void testEmptyStringifiedInteger();
-    void testInitializationByString();
+    void testStringifiedIntInitialization();
     void testAssignmentOperator();
     void testConversionToInteger();
     void testComparison();
@@ -33,14 +32,9 @@ private:
     };
 };
 
-void StringifiedIntegerTests::testEmptyStringifiedInteger()
+void StringifiedIntegerTests::testStringifiedIntInitialization()
 {
-    TestStringifiedInteger stringifiedInt;
-    QVERIFY(stringifiedInt.getValue() == "Z");
-}
-
-void StringifiedIntegerTests::testInitializationByString()
-{
+    QVERIFY(TestStringifiedInteger{}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"Z"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"Z_"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZ"}.getValue() == "Z");
