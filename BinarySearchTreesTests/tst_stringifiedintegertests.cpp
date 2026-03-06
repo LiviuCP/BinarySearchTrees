@@ -151,11 +151,31 @@ void StringifiedIntegerTests::testAssignmentOperator()
 void StringifiedIntegerTests::testConversionToInteger()
 {
     QVERIFY(TestStringifiedInteger{"ABCDZZ_"}._getIntValue() == -123400);
-    QVERIFY(TestStringifiedInteger{"Z"}._getIntValue() == 0);
     QVERIFY(TestStringifiedInteger{"DCABZZ"}._getIntValue() == 431200);
+
+    QVERIFY(TestStringifiedInteger{"I_"}._getIntValue() == -9);
+    QVERIFY(TestStringifiedInteger{"H_"}._getIntValue() == -8);
+    QVERIFY(TestStringifiedInteger{"G_"}._getIntValue() == -7);
+    QVERIFY(TestStringifiedInteger{"F_"}._getIntValue() == -6);
+    QVERIFY(TestStringifiedInteger{"E_"}._getIntValue() == -5);
+    QVERIFY(TestStringifiedInteger{"D_"}._getIntValue() == -4);
+    QVERIFY(TestStringifiedInteger{"C_"}._getIntValue() == -3);
+    QVERIFY(TestStringifiedInteger{"B_"}._getIntValue() == -2);
+    QVERIFY(TestStringifiedInteger{"A_"}._getIntValue() == -1);
+    QVERIFY(TestStringifiedInteger{"Z"}._getIntValue() == 0);
+    QVERIFY(TestStringifiedInteger{}._getIntValue() == 0);
+    QVERIFY(TestStringifiedInteger{"A"}._getIntValue() == 1);
+    QVERIFY(TestStringifiedInteger{"B"}._getIntValue() == 2);
+    QVERIFY(TestStringifiedInteger{"C"}._getIntValue() == 3);
+    QVERIFY(TestStringifiedInteger{"D"}._getIntValue() == 4);
+    QVERIFY(TestStringifiedInteger{"E"}._getIntValue() == 5);
+    QVERIFY(TestStringifiedInteger{"F"}._getIntValue() == 6);
+    QVERIFY(TestStringifiedInteger{"G"}._getIntValue() == 7);
+    QVERIFY(TestStringifiedInteger{"H"}._getIntValue() == 8);
+    QVERIFY(TestStringifiedInteger{"I"}._getIntValue() == 9);
+
     QVERIFY(!TestStringifiedInteger{"N_"}._getIntValue().has_value());
     QVERIFY(!TestStringifiedInteger{"N"}._getIntValue().has_value());
-    QVERIFY(TestStringifiedInteger{}._getIntValue() == 0);
 }
 
 void StringifiedIntegerTests::testEquivalenceOperator()
