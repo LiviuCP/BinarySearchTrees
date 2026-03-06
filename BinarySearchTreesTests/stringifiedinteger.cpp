@@ -80,9 +80,15 @@ TestUtils::StringifiedInteger::StringifiedInteger()
 {
 }
 
-TestUtils::StringifiedInteger::StringifiedInteger(const std::string& value)
-    : m_Value{parseInputString(value)}
+TestUtils::StringifiedInteger::StringifiedInteger(const std::string& str)
+    : m_Value{parseInputString(str)}
 {
+}
+
+TestUtils::StringifiedInteger& TestUtils::StringifiedInteger::operator=(const char* str)
+{
+    this->m_Value = parseInputString(str ? std::string{str} : std::string{});
+    return *this;
 }
 
 std::strong_ordering TestUtils::operator<=>(const TestUtils::StringifiedInteger& first,

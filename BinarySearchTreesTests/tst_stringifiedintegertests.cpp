@@ -12,6 +12,7 @@ class StringifiedIntegerTests : public QObject
 private slots:
     void testEmptyStringifiedInteger();
     void testInitializationByString();
+    void testAssignmentOperator();
     void testConversionToInteger();
     void testComparison();
 
@@ -98,6 +99,30 @@ void StringifiedIntegerTests::testInitializationByString()
     QVERIFY(StringifiedInteger{"ABCDEFGHI_Z_"}.getValue() == "N_");
     QVERIFY(StringifiedInteger{"ZBCDEFGHI_A"}.getValue() == "N");
     QVERIFY(StringifiedInteger{"ZBCDEFGHI_A_"}.getValue() == "N_");
+}
+
+void StringifiedIntegerTests::testAssignmentOperator()
+{
+    StringifiedInteger stringifiedInt;
+
+    stringifiedInt = "ZABC_";
+    QVERIFY(stringifiedInt.getValue() == "ABC_");
+
+    stringifiedInt = "ABCZ";
+    QVERIFY(stringifiedInt.getValue() == "ABCZ");
+
+    stringifiedInt = "ABC _";
+    QVERIFY(stringifiedInt.getValue() == "N_");
+
+    stringifiedInt = "JABC";
+    QVERIFY(stringifiedInt.getValue() == "N");
+
+    stringifiedInt = "";
+    QVERIFY(stringifiedInt.getValue() == "N");
+
+    // special case, a nullptr const char* passed to stringified integer (this might cause a crash if not handled properly)
+    stringifiedInt = nullptr;
+    QVERIFY(stringifiedInt.getValue() == "N");
 }
 
 void StringifiedIntegerTests::testConversionToInteger()

@@ -31,7 +31,9 @@ class StringifiedInteger
 {
 public:
     StringifiedInteger();
-    StringifiedInteger(const std::string& value);
+    StringifiedInteger(const std::string& str);
+
+    StringifiedInteger& operator=(const char* str);
 
     friend std::strong_ordering operator<=>(const StringifiedInteger& first, const StringifiedInteger& second);
     bool operator==(const StringifiedInteger& other) const = default;
