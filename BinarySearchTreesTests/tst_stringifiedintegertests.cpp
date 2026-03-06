@@ -13,7 +13,8 @@ private slots:
     void testStringifiedIntInitialization();
     void testAssignmentOperator();
     void testConversionToInteger();
-    void testComparison();
+    void testEquivalenceOperator();
+    void testEqualityOperator();
 
 private:
     // for testing the conversion to integer
@@ -130,7 +131,7 @@ void StringifiedIntegerTests::testConversionToInteger()
     QVERIFY(TestStringifiedInteger{}._getIntValue() == 0);
 }
 
-void StringifiedIntegerTests::testComparison()
+void StringifiedIntegerTests::testEquivalenceOperator()
 {
     QVERIFY(TestStringifiedInteger{"N_"} <=> TestStringifiedInteger{"N_"} == std::strong_ordering::equal);
     QVERIFY(TestStringifiedInteger{"N_"} <=> TestStringifiedInteger{"ABZ"} == std::strong_ordering::less);
@@ -140,7 +141,10 @@ void StringifiedIntegerTests::testComparison()
     QVERIFY(TestStringifiedInteger{"ABZ"} <=> TestStringifiedInteger{"N_"} == std::strong_ordering::greater);
     QVERIFY(TestStringifiedInteger{"ABA"} <=> TestStringifiedInteger{"ABZ"} == std::strong_ordering::greater);
     QVERIFY(TestStringifiedInteger{"N"} <=> TestStringifiedInteger{"ABA"} == std::strong_ordering::greater);
+}
 
+void StringifiedIntegerTests::testEqualityOperator()
+{
     QVERIFY(TestStringifiedInteger{"N_"} == TestStringifiedInteger{"N_"});
     QVERIFY(TestStringifiedInteger{"N_"} != TestStringifiedInteger{"ABZ"});
     QVERIFY(TestStringifiedInteger{"ABZ"} == TestStringifiedInteger{"ABZ"});
