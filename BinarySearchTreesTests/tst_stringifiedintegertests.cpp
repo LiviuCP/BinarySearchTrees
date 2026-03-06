@@ -38,8 +38,6 @@ void StringifiedIntegerTests::testStringifiedIntInitialization()
     QVERIFY(TestStringifiedInteger{}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"Z"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"Z_"}.getValue() == "Z");
-    QVERIFY(TestStringifiedInteger{"z"}.getValue() == "Z");
-    QVERIFY(TestStringifiedInteger{"z_"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZ"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZZZZZZZZZ"}.getValue() == "Z");
     QVERIFY(TestStringifiedInteger{"ZZZZZZZZZZZZZZZZ_"}.getValue() == "Z");
@@ -174,12 +172,33 @@ void StringifiedIntegerTests::testEquivalenceOperator()
 
 void StringifiedIntegerTests::testEqualityOperator()
 {
-    QVERIFY(TestStringifiedInteger{"N_"} == TestStringifiedInteger{"N_"});
-    QVERIFY(TestStringifiedInteger{"N_"} != TestStringifiedInteger{"ABZ"});
-    QVERIFY(TestStringifiedInteger{"ABZ"} == TestStringifiedInteger{"ABZ"});
-    QVERIFY(TestStringifiedInteger{"ABZ"} != TestStringifiedInteger{"ABA"});
-    QVERIFY(TestStringifiedInteger{"ABA"} != TestStringifiedInteger{"N"});
-    QVERIFY(TestStringifiedInteger{"N"} == TestStringifiedInteger{"N"});
+    QVERIFY(TestStringifiedInteger{"ABZ"} == TestStringifiedInteger{"abz"});
+    QVERIFY(TestStringifiedInteger{"ZAB"} == TestStringifiedInteger{"ab"});
+    QVERIFY(TestStringifiedInteger{"ZZACB_"} == TestStringifiedInteger{"acb_"});
+    QVERIFY(TestStringifiedInteger{"ZACB"} == TestStringifiedInteger{"zacb"});
+
+    QVERIFY(TestStringifiedInteger{"a_"} == TestStringifiedInteger{"A_"});
+    QVERIFY(TestStringifiedInteger{"b_"} == TestStringifiedInteger{"B_"});
+    QVERIFY(TestStringifiedInteger{"c_"} == TestStringifiedInteger{"C_"});
+    QVERIFY(TestStringifiedInteger{"d_"} == TestStringifiedInteger{"D_"});
+    QVERIFY(TestStringifiedInteger{"e_"} == TestStringifiedInteger{"E_"});
+    QVERIFY(TestStringifiedInteger{"f_"} == TestStringifiedInteger{"F_"});
+    QVERIFY(TestStringifiedInteger{"g_"} == TestStringifiedInteger{"G_"});
+    QVERIFY(TestStringifiedInteger{"h_"} == TestStringifiedInteger{"H_"});
+    QVERIFY(TestStringifiedInteger{"i_"} == TestStringifiedInteger{"I_"});
+    QVERIFY(TestStringifiedInteger{"z_"} == TestStringifiedInteger{"Z_"});
+    QVERIFY(TestStringifiedInteger{"n_"} == TestStringifiedInteger{"N_"});
+    QVERIFY(TestStringifiedInteger{"A"} == TestStringifiedInteger{"a"});
+    QVERIFY(TestStringifiedInteger{"B"} == TestStringifiedInteger{"b"});
+    QVERIFY(TestStringifiedInteger{"C"} == TestStringifiedInteger{"c"});
+    QVERIFY(TestStringifiedInteger{"D"} == TestStringifiedInteger{"d"});
+    QVERIFY(TestStringifiedInteger{"E"} == TestStringifiedInteger{"e"});
+    QVERIFY(TestStringifiedInteger{"F"} == TestStringifiedInteger{"f"});
+    QVERIFY(TestStringifiedInteger{"G"} == TestStringifiedInteger{"g"});
+    QVERIFY(TestStringifiedInteger{"H"} == TestStringifiedInteger{"h"});
+    QVERIFY(TestStringifiedInteger{"I"} == TestStringifiedInteger{"i"});
+    QVERIFY(TestStringifiedInteger{"Z"} == TestStringifiedInteger{"z"});
+    QVERIFY(TestStringifiedInteger{"N"} == TestStringifiedInteger{"n"});
 }
 
 QTEST_APPLESS_MAIN(StringifiedIntegerTests)
