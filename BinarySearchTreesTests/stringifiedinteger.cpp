@@ -21,7 +21,7 @@ std::string parseInputString(const std::string& inputString)
 {
     std::string result{inputString.ends_with('_') ? "N_" : "N"};
 
-    do
+    for (;;)
     {
         const size_t c_Length{inputString.size()};
 
@@ -36,7 +36,7 @@ std::string parseInputString(const std::string& inputString)
 
             if (std::regex_match(inputString, c_SingleCharRe))
             {
-                result = inputString;
+                result = toupper(inputString[0]);
             }
 
             break;
@@ -68,7 +68,10 @@ std::string parseInputString(const std::string& inputString)
         {
             result = inputString;
         }
-    } while (false);
+
+        std::transform(result.cbegin(), result.cend(), result.begin(), [](char ch) { return toupper(ch); });
+        break;
+    }
 
     return result;
 }
