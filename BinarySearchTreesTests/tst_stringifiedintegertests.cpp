@@ -59,6 +59,28 @@ void StringifiedIntegerTests::testStringifiedIntInitialization()
     QVERIFY(TestStringifiedInteger{"ZABCDEFGHI"}.getValue() == "ABCDEFGHI");
     QVERIFY(TestStringifiedInteger{"ZABCDEFGHI_"}.getValue() == "ABCDEFGHI_");
     QVERIFY(TestStringifiedInteger{"ABCDEFGHI_"}.getValue() == "ABCDEFGHI_");
+    QVERIFY(TestStringifiedInteger{"abcdefghiz"}.getValue() == "ABCDEFGHIZ");
+    QVERIFY(TestStringifiedInteger{"abcdefghiz_"}.getValue() == "ABCDEFGHIZ_");
+    QVERIFY(TestStringifiedInteger{"AbCdEfGhIz"}.getValue() == "ABCDEFGHIZ");
+    QVERIFY(TestStringifiedInteger{"aBcDeFgHiZ_"}.getValue() == "ABCDEFGHIZ_");
+    QVERIFY(TestStringifiedInteger{"A"}.getValue() == "A");
+    QVERIFY(TestStringifiedInteger{"A_"}.getValue() == "A_");
+    QVERIFY(TestStringifiedInteger{"B"}.getValue() == "B");
+    QVERIFY(TestStringifiedInteger{"B_"}.getValue() == "B_");
+    QVERIFY(TestStringifiedInteger{"C"}.getValue() == "C");
+    QVERIFY(TestStringifiedInteger{"C_"}.getValue() == "C_");
+    QVERIFY(TestStringifiedInteger{"D"}.getValue() == "D");
+    QVERIFY(TestStringifiedInteger{"D_"}.getValue() == "D_");
+    QVERIFY(TestStringifiedInteger{"E"}.getValue() == "E");
+    QVERIFY(TestStringifiedInteger{"E_"}.getValue() == "E_");
+    QVERIFY(TestStringifiedInteger{"F"}.getValue() == "F");
+    QVERIFY(TestStringifiedInteger{"F_"}.getValue() == "F_");
+    QVERIFY(TestStringifiedInteger{"G"}.getValue() == "G");
+    QVERIFY(TestStringifiedInteger{"G_"}.getValue() == "G_");
+    QVERIFY(TestStringifiedInteger{"H"}.getValue() == "H");
+    QVERIFY(TestStringifiedInteger{"H_"}.getValue() == "H_");
+    QVERIFY(TestStringifiedInteger{"I"}.getValue() == "I");
+    QVERIFY(TestStringifiedInteger{"I_"}.getValue() == "I_");
 
     QVERIFY(TestStringifiedInteger{""}.getValue() == "N");
     QVERIFY(TestStringifiedInteger{"_"}.getValue() == "N_");
