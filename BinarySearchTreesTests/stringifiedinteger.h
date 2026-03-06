@@ -33,7 +33,7 @@ public:
     StringifiedInteger();
     StringifiedInteger(const std::string& value);
 
-    std::strong_ordering operator<=>(const StringifiedInteger& other);
+    friend std::strong_ordering operator<=>(const StringifiedInteger& first, const StringifiedInteger& second);
     bool operator==(const StringifiedInteger& other) const = default;
 
     std::string getValue() const;
@@ -44,4 +44,7 @@ protected:
 private:
     std::string m_Value;
 };
+
+std::strong_ordering operator<=>(const StringifiedInteger&, const StringifiedInteger&);
+
 } // namespace TestUtils

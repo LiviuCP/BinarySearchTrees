@@ -85,19 +85,20 @@ TestUtils::StringifiedInteger::StringifiedInteger(const std::string& value)
 {
 }
 
-std::strong_ordering TestUtils::StringifiedInteger::operator<=>(const StringifiedInteger& other)
+std::strong_ordering TestUtils::operator<=>(const TestUtils::StringifiedInteger& first,
+                                            const TestUtils::StringifiedInteger& second)
 {
     std::strong_ordering result{std::strong_ordering::equal};
 
     for (;;)
     {
-        const std::optional<int> c_IntValue{_getIntValue()};
+        const std::optional<int> c_IntValue{first._getIntValue()};
 
         if (!c_IntValue.has_value())
         {
-            if (m_Value == c_MinusInfinite)
+            if (first.m_Value == c_MinusInfinite)
             {
-                if (other.m_Value != c_MinusInfinite)
+                if (second.m_Value != c_MinusInfinite)
                 {
                     result = std::strong_ordering::less;
                 }
@@ -105,7 +106,7 @@ std::strong_ordering TestUtils::StringifiedInteger::operator<=>(const Stringifie
                 break;
             }
 
-            if (other.m_Value != c_PlusInfinite)
+            if (second.m_Value != c_PlusInfinite)
             {
                 result = std::strong_ordering::greater;
             }
@@ -113,11 +114,11 @@ std::strong_ordering TestUtils::StringifiedInteger::operator<=>(const Stringifie
             break;
         }
 
-        const std::optional<int> c_OtherIntValue{other._getIntValue()};
+        const std::optional<int> c_OtherIntValue{second._getIntValue()};
 
         if (!c_OtherIntValue.has_value())
         {
-            result = other.m_Value == c_MinusInfinite ? std::strong_ordering::greater : std::strong_ordering::less;
+            result = second.m_Value == c_MinusInfinite ? std::strong_ordering::greater : std::strong_ordering::less;
             break;
         }
 
