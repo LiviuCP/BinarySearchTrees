@@ -180,14 +180,34 @@ void StringifiedIntegerTests::testConversionToInteger()
 
 void StringifiedIntegerTests::testEquivalenceOperator()
 {
-    QVERIFY(TestStringifiedInteger{"N_"} <=> TestStringifiedInteger{"N_"} == std::strong_ordering::equal);
+    QVERIFY(TestStringifiedInteger{"N_"} <=> TestStringifiedInteger{"n_"} == std::strong_ordering::equal);
     QVERIFY(TestStringifiedInteger{"N_"} <=> TestStringifiedInteger{"ABZ"} == std::strong_ordering::less);
     QVERIFY(TestStringifiedInteger{"ABZ"} <=> TestStringifiedInteger{"ABA"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"ABA"} <=> TestStringifiedInteger{"aba"} == std::strong_ordering::equal);
     QVERIFY(TestStringifiedInteger{"ABA"} <=> TestStringifiedInteger{"N"} == std::strong_ordering::less);
-    QVERIFY(TestStringifiedInteger{"N"} <=> TestStringifiedInteger{"N"} == std::strong_ordering::equal);
-    QVERIFY(TestStringifiedInteger{"ABZ"} <=> TestStringifiedInteger{"N_"} == std::strong_ordering::greater);
-    QVERIFY(TestStringifiedInteger{"ABA"} <=> TestStringifiedInteger{"ABZ"} == std::strong_ordering::greater);
-    QVERIFY(TestStringifiedInteger{"N"} <=> TestStringifiedInteger{"ABA"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"N"} <=> TestStringifiedInteger{"n"} == std::strong_ordering::equal);
+    QVERIFY(TestStringifiedInteger{"aBZ"} <=> TestStringifiedInteger{"n_"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"ABA"} <=> TestStringifiedInteger{"ABz"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"N"} <=> TestStringifiedInteger{"aBa"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"I_"} <=> TestStringifiedInteger{"H_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"H_"} <=> TestStringifiedInteger{"G_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"G_"} <=> TestStringifiedInteger{"F_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"F_"} <=> TestStringifiedInteger{"E_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"E_"} <=> TestStringifiedInteger{"D_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"D_"} <=> TestStringifiedInteger{"C_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"C_"} <=> TestStringifiedInteger{"B_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"B_"} <=> TestStringifiedInteger{"A_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"A_"} <=> TestStringifiedInteger{"Z_"} == std::strong_ordering::less);
+    QVERIFY(TestStringifiedInteger{"Z_"} <=> TestStringifiedInteger{"Z"} == std::strong_ordering::equal);
+    QVERIFY(TestStringifiedInteger{"A"} <=> TestStringifiedInteger{"Z"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"B"} <=> TestStringifiedInteger{"A"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"C"} <=> TestStringifiedInteger{"B"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"D"} <=> TestStringifiedInteger{"C"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"E"} <=> TestStringifiedInteger{"D"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"F"} <=> TestStringifiedInteger{"E"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"G"} <=> TestStringifiedInteger{"F"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"H"} <=> TestStringifiedInteger{"G"} == std::strong_ordering::greater);
+    QVERIFY(TestStringifiedInteger{"I"} <=> TestStringifiedInteger{"H"} == std::strong_ordering::greater);
 }
 
 void StringifiedIntegerTests::testEqualityOperator()
