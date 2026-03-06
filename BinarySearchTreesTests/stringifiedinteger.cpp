@@ -140,6 +140,12 @@ std::string TestUtils::StringifiedInteger::getValue() const
     return m_Value;
 }
 
+std::ostream& TestUtils::operator<<(std::ostream& out, const TestUtils::StringifiedInteger& stringifiedInt)
+{
+    out << stringifiedInt.m_Value;
+    return out;
+}
+
 std::optional<int> TestUtils::StringifiedInteger::_getIntValue() const
 {
     std::map<char, char> c_CharConversionMap{{'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'},

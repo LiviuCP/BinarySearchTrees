@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <optional>
 #include <string>
 
@@ -40,6 +41,8 @@ public:
 
     std::string getValue() const;
 
+    friend std::ostream& operator<<(std::ostream& out, const StringifiedInteger& stringifiedInt);
+
 protected:
     std::optional<int> _getIntValue() const;
 
@@ -48,5 +51,6 @@ private:
 };
 
 std::strong_ordering operator<=>(const StringifiedInteger&, const StringifiedInteger&);
+std::ostream& operator<<(std::ostream&, const StringifiedInteger&);
 
 } // namespace TestUtils
