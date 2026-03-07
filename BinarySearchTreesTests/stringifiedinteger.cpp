@@ -42,14 +42,14 @@ std::string parseInputString(const std::string& inputString)
 
     for (;;)
     {
-        const size_t c_Length{inputString.size()};
+        const size_t c_InputStringLength{inputString.size()};
 
-        if (c_Length == 0)
+        if (c_InputStringLength == 0)
         {
             break;
         }
 
-        if (c_Length == 1)
+        if (c_InputStringLength == 1)
         {
             const std::regex c_SingleCharRe{c_SingleCharRegexStr.data()};
 
