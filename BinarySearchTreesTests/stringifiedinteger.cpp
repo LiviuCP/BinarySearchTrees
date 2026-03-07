@@ -13,9 +13,9 @@ static constexpr std::string_view c_PlusInfinite{"N"};
 static constexpr std::string_view c_SingleCharRegexStr{"[a-iA-IzZ]{1}"};
 static constexpr std::string_view c_MultipleCharsRegexStr{"([zZ]*)?([a-iA-I]{1}[a-iA-IzZ]{0,9})?_?"};
 
-static constexpr std::string_view c_IntMinExceedingThreshold{
+static constexpr std::string_view c_IntMinExceedingValue{
     "2147483649"}; // absolute value of the first negative value which is considered out-of-bounds for a 32-bit integer
-static constexpr std::string_view c_IntMaxExceedingThreshold{
+static constexpr std::string_view c_IntMaxExceedingValue{
     "2147483648"}; // first positive value which is considered out-of-bounds for a 32-bit integer
 
 static constexpr size_t c_MaxPositiveIntDigitsCount{10};
@@ -27,7 +27,8 @@ namespace
 {
 std::string parseInputString(const std::string& inputString)
 {
-    std::string result{inputString.ends_with('_') ? "N_" : "N"};
+    const bool c_IsNegative{inputString.ends_with('_')};
+    std::string result{c_IsNegative ? c_MinusInfinite : c_PlusInfinite};
 
     for (;;)
     {
@@ -77,25 +78,23 @@ std::string parseInputString(const std::string& inputString)
             result = inputString;
         }
 
-        const bool c_IsNegative{result.ends_with('_')};
         const size_t c_ResultLength{result.size()};
-
         const bool c_HasMaxDigitsCount{c_IsNegative ? (c_ResultLength == c_MaxNegativeIntDigitsCount)
                                                     : (c_ResultLength == c_MaxPositiveIntDigitsCount)};
 
-        // handle the case when the resulting number would cause exceeding the INT_MIN and INT_MAX bounds
-        // (for a 32-bit integer)
+        // handle the case when the resulting number would cause exceeding the min/max 32-bit int value
         if (c_HasMaxDigitsCount)
         {
             std::map<char, char> c_CharConversionMap{{'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'},
                                                      {'E', '5'}, {'F', '6'}, {'G', '7'}, {'H', '8'}, {'I', '9'}};
-            std::string absValue{c_IsNegative ? result.substr(0, result.size() - 1) : result};
+            std::string absValue{c_IsNegative ? result.substr(0, c_ResultLength - 1) : result};
             std::transform(absValue.cbegin(), absValue.cend(), absValue.begin(),
                            [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
-            const std::string c_MaxValueToCompareTo{c_IsNegative ? c_IntMinExceedingThreshold
-                                                                 : c_IntMaxExceedingThreshold};
-            const bool c_IsWithinBounds{std::lexicographical_compare(
-                absValue.cbegin(), absValue.cend(), c_MaxValueToCompareTo.cbegin(), c_MaxValueToCompareTo.cend())};
+            const std::string c_ExceedingValueToCompareTo{c_IsNegative ? c_IntMinExceedingValue
+                                                                       : c_IntMaxExceedingValue};
+            const bool c_IsWithinBounds{std::lexicographical_compare(absValue.cbegin(), absValue.cend(),
+                                                                     c_ExceedingValueToCompareTo.cbegin(),
+                                                                     c_ExceedingValueToCompareTo.cend())};
 
             if (!c_IsWithinBounds)
             {
