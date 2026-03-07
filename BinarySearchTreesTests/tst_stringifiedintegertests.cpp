@@ -80,6 +80,18 @@ void StringifiedIntegerTests::testStringifiedIntInitialization()
     QVERIFY(TestStringifiedInteger{"I"}.getValue() == "I");
     QVERIFY(TestStringifiedInteger{"I_"}.getValue() == "I_");
 
+    // min 32bit integer value: -2147483648 => PASS
+    QVERIFY(TestStringifiedInteger{"BADGDHCFDH_"}.getValue() == "BADGDHCFDH_");
+
+    // -2147483649: underflow => FAIL (-infinite)
+    QVERIFY(TestStringifiedInteger{"BADGDHCFDI_"}.getValue() == "N_");
+
+    // max 32bit integer value: 2147483647 => PASS
+    QVERIFY(TestStringifiedInteger{"BADGDHCFDG"}.getValue() == "BADGDHCFDG");
+
+     // 2147483648: overflow => FAIL (+infinite)
+    QVERIFY(TestStringifiedInteger{"BADGDHCFDH"}.getValue() == "N");
+
     QVERIFY(TestStringifiedInteger{""}.getValue() == "N");
     QVERIFY(TestStringifiedInteger{"_"}.getValue() == "N_");
     QVERIFY(TestStringifiedInteger{"N"}.getValue() == "N");
@@ -173,6 +185,18 @@ void StringifiedIntegerTests::testConversionToInteger()
     QVERIFY(TestStringifiedInteger{"G"}._getIntValue() == 7);
     QVERIFY(TestStringifiedInteger{"H"}._getIntValue() == 8);
     QVERIFY(TestStringifiedInteger{"I"}._getIntValue() == 9);
+
+    // min 32bit integer value: -2147483648 => PASS
+    QVERIFY(TestStringifiedInteger{"BADGDHCFDH_"}._getIntValue() == -2147483648);
+
+    // -2147483649: underflow => FAIL (-infinite)
+    QVERIFY(!TestStringifiedInteger{"BADGDHCFDI_"}._getIntValue().has_value());
+
+    // max 32bit integer value: 2147483647 => PASS
+    QVERIFY(TestStringifiedInteger{"BADGDHCFDG"}._getIntValue() == 2147483647);
+
+    // 2147483648: overflow => FAIL (+infinite)
+    QVERIFY(!TestStringifiedInteger{"BADGDHCFDH"}._getIntValue().has_value());
 
     QVERIFY(!TestStringifiedInteger{"N_"}._getIntValue().has_value());
     QVERIFY(!TestStringifiedInteger{"N"}._getIntValue().has_value());

@@ -13,6 +13,14 @@ static constexpr std::string_view c_PlusInfinite{"N"};
 static constexpr std::string_view c_SingleCharRegexStr{"[a-iA-IzZ]{1}"};
 static constexpr std::string_view c_MultipleCharsRegexStr{"([zZ]*)?([a-iA-I]{1}[a-iA-IzZ]{0,9})?_?"};
 
+static constexpr std::string_view c_IntMinExceedingThreshold{
+    "2147483649"}; // absolute value of the first negative value which is considered out-of-bounds for a 32-bit integer
+static constexpr std::string_view c_IntMaxExceedingThreshold{
+    "2147483648"}; // first positive value which is considered out-of-bounds for a 32-bit integer
+
+static constexpr size_t c_MaxPositiveIntDigitsCount{10};
+static constexpr size_t c_MaxNegativeIntDigitsCount{11};
+
 namespace TestUtils
 {
 namespace
@@ -67,6 +75,33 @@ std::string parseInputString(const std::string& inputString)
         else
         {
             result = inputString;
+        }
+
+        const bool c_IsNegative{result.ends_with('_')};
+        const size_t c_ResultLength{result.size()};
+
+        const bool c_HasMaxDigitsCount{c_IsNegative ? (c_ResultLength == c_MaxNegativeIntDigitsCount)
+                                                    : (c_ResultLength == c_MaxPositiveIntDigitsCount)};
+
+        // handle the case when the resulting number would cause exceeding the INT_MIN and INT_MAX bounds
+        // (for a 32-bit integer)
+        if (c_HasMaxDigitsCount)
+        {
+            std::map<char, char> c_CharConversionMap{{'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'},
+                                                     {'E', '5'}, {'F', '6'}, {'G', '7'}, {'H', '8'}, {'I', '9'}};
+            std::string absValue{c_IsNegative ? result.substr(0, result.size() - 1) : result};
+            std::transform(absValue.cbegin(), absValue.cend(), absValue.begin(),
+                           [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
+            const std::string c_MaxValueToCompareTo{c_IsNegative ? c_IntMinExceedingThreshold
+                                                                 : c_IntMaxExceedingThreshold};
+            const bool c_IsWithinBounds{std::lexicographical_compare(
+                absValue.cbegin(), absValue.cend(), c_MaxValueToCompareTo.cbegin(), c_MaxValueToCompareTo.cend())};
+
+            if (!c_IsWithinBounds)
+            {
+                result = c_IsNegative ? c_MinusInfinite : c_PlusInfinite;
+                break;
+            }
         }
 
         std::transform(result.cbegin(), result.cend(), result.begin(), [](char ch) { return toupper(ch); });
@@ -151,8 +186,8 @@ std::ostream& TestUtils::operator<<(std::ostream& out, const TestUtils::Stringif
 
 std::optional<int> TestUtils::StringifiedInteger::_getIntValue() const
 {
-    std::map<char, char> c_CharConversionMap{{'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'},
-                                             {'E', '5'}, {'F', '6'}, {'G', '7'}, {'H', '8'}, {'I', '9'}};
+    std::map<char, char> c_CharConversionMap{{'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'}, {'E', '5'},
+                                             {'F', '6'}, {'G', '7'}, {'H', '8'}, {'I', '9'}, {'_', '-'}};
     std::optional<int> result;
 
     if (m_Value != c_MinusInfinite && m_Value != c_PlusInfinite)
@@ -165,10 +200,14 @@ std::optional<int> TestUtils::StringifiedInteger::_getIntValue() const
 
             if (c_Length > 1)
             {
-                std::string stringToConvert{m_Value.substr(0, c_Length - 1)};
+                std::string stringToConvert;
+                stringToConvert.reserve(c_Length);
+                stringToConvert.push_back('_');
+                stringToConvert += m_Value.substr(0, c_Length - 1);
+
                 std::transform(stringToConvert.cbegin(), stringToConvert.cend(), stringToConvert.begin(),
                                [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
-                result = -std::stoi(stringToConvert);
+                result = std::stoi(stringToConvert);
             }
         }
         else
