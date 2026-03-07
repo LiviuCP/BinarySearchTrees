@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include <cassert>
-#include <map>
 #include <regex>
 #include <string_view>
+#include <unordered_map>
 
 static constexpr std::string_view c_ZeroValue{"Z"};
 static constexpr std::string_view c_MinusInfinite{"N_"};
@@ -25,6 +25,16 @@ namespace TestUtils
 {
 namespace
 {
+char mapToIntChar(char value)
+{
+    static const std::unordered_map<char, char> c_CharConversionMap{
+        {'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'}, {'E', '5'}, {'F', '6'},
+        {'G', '7'}, {'H', '8'}, {'I', '9'}, {'z', '0'}, {'a', '1'}, {'b', '2'}, {'c', '3'},
+        {'d', '4'}, {'e', '5'}, {'f', '6'}, {'g', '7'}, {'h', '8'}, {'i', '9'}, {'_', '-'}};
+
+    return c_CharConversionMap.at(value);
+}
+
 std::string parseInputString(const std::string& inputString)
 {
     const bool c_IsNegative{inputString.ends_with('_')};
@@ -85,11 +95,9 @@ std::string parseInputString(const std::string& inputString)
         // handle the case when the resulting number would cause exceeding the min/max 32-bit int value
         if (c_HasMaxDigitsCount)
         {
-            std::map<char, char> c_CharConversionMap{{'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'},
-                                                     {'E', '5'}, {'F', '6'}, {'G', '7'}, {'H', '8'}, {'I', '9'}};
             std::string absValue{c_IsNegative ? result.substr(0, c_ResultLength - 1) : result};
             std::transform(absValue.cbegin(), absValue.cend(), absValue.begin(),
-                           [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
+                           [](char ch) { return mapToIntChar(ch); });
             const std::string c_ExceedingValueToCompareTo{c_IsNegative ? c_IntMinExceedingValue
                                                                        : c_IntMaxExceedingValue};
             const bool c_IsWithinBounds{std::lexicographical_compare(absValue.cbegin(), absValue.cend(),
@@ -185,8 +193,6 @@ std::ostream& TestUtils::operator<<(std::ostream& out, const TestUtils::Stringif
 
 std::optional<int> TestUtils::StringifiedInteger::_getIntValue() const
 {
-    std::map<char, char> c_CharConversionMap{{'Z', '0'}, {'A', '1'}, {'B', '2'}, {'C', '3'}, {'D', '4'}, {'E', '5'},
-                                             {'F', '6'}, {'G', '7'}, {'H', '8'}, {'I', '9'}, {'_', '-'}};
     std::optional<int> result;
 
     if (m_Value != c_MinusInfinite && m_Value != c_PlusInfinite)
@@ -199,7 +205,7 @@ std::optional<int> TestUtils::StringifiedInteger::_getIntValue() const
         }
 
         std::transform(stringToConvert.cbegin(), stringToConvert.cend(), stringToConvert.begin(),
-                       [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
+                       [](char ch) { return mapToIntChar(ch); });
         result = std::stoi(stringToConvert);
     }
 
