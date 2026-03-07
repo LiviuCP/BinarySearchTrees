@@ -68,14 +68,14 @@ std::string parseInputString(const std::string& inputString)
             break;
         }
 
-        if (inputString.starts_with("Z") || inputString.starts_with('z'))
+        if (inputString.starts_with('Z') || inputString.starts_with('z'))
         {
             const auto it{std::find_if(inputString.cbegin(), inputString.cend(),
                                        [](const auto& c) { return c != 'Z' && c != 'z'; })};
 
             if (it == inputString.cend() || *it == '_')
             {
-                result = "Z";
+                result = c_ZeroValue;
             }
             else
             {
