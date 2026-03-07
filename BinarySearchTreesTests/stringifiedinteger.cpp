@@ -143,7 +143,7 @@ std::strong_ordering TestUtils::operator<=>(const TestUtils::StringifiedInteger&
 
     for (;;)
     {
-        const std::optional<int> c_IntValue{first._getIntValue()};
+        const std::optional<int> c_IntValue{first._convertToInteger()};
 
         if (!c_IntValue.has_value())
         {
@@ -165,7 +165,7 @@ std::strong_ordering TestUtils::operator<=>(const TestUtils::StringifiedInteger&
             break;
         }
 
-        const std::optional<int> c_OtherIntValue{second._getIntValue()};
+        const std::optional<int> c_OtherIntValue{second._convertToInteger()};
 
         if (!c_OtherIntValue.has_value())
         {
@@ -191,7 +191,7 @@ std::ostream& TestUtils::operator<<(std::ostream& out, const TestUtils::Stringif
     return out;
 }
 
-std::optional<int> TestUtils::StringifiedInteger::_getIntValue() const
+std::optional<int> TestUtils::StringifiedInteger::_convertToInteger() const
 {
     std::optional<int> result;
 

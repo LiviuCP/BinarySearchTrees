@@ -44,7 +44,7 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const StringifiedInteger& stringifiedInt);
 
 protected:
-    std::optional<int> _getIntValue() const;
+    std::optional<int> _convertToInteger() const;
 
 private:
     std::string m_Value;

@@ -28,7 +28,7 @@ private:
         {
         }
 
-        using StringifiedInteger::_getIntValue;
+        using StringifiedInteger::_convertToInteger;
         using StringifiedInteger::operator=;
     };
 };
@@ -162,44 +162,44 @@ void StringifiedIntegerTests::testAssignmentOperator()
 
 void StringifiedIntegerTests::testConversionToInteger()
 {
-    QVERIFY(TestStringifiedInteger{"ABCDZZ_"}._getIntValue() == -123400);
-    QVERIFY(TestStringifiedInteger{"DCABZZ"}._getIntValue() == 431200);
+    QVERIFY(TestStringifiedInteger{"ABCDZZ_"}._convertToInteger() == -123400);
+    QVERIFY(TestStringifiedInteger{"DCABZZ"}._convertToInteger() == 431200);
 
-    QVERIFY(TestStringifiedInteger{"I_"}._getIntValue() == -9);
-    QVERIFY(TestStringifiedInteger{"H_"}._getIntValue() == -8);
-    QVERIFY(TestStringifiedInteger{"G_"}._getIntValue() == -7);
-    QVERIFY(TestStringifiedInteger{"F_"}._getIntValue() == -6);
-    QVERIFY(TestStringifiedInteger{"E_"}._getIntValue() == -5);
-    QVERIFY(TestStringifiedInteger{"D_"}._getIntValue() == -4);
-    QVERIFY(TestStringifiedInteger{"C_"}._getIntValue() == -3);
-    QVERIFY(TestStringifiedInteger{"B_"}._getIntValue() == -2);
-    QVERIFY(TestStringifiedInteger{"A_"}._getIntValue() == -1);
-    QVERIFY(TestStringifiedInteger{"Z"}._getIntValue() == 0);
-    QVERIFY(TestStringifiedInteger{}._getIntValue() == 0);
-    QVERIFY(TestStringifiedInteger{"A"}._getIntValue() == 1);
-    QVERIFY(TestStringifiedInteger{"B"}._getIntValue() == 2);
-    QVERIFY(TestStringifiedInteger{"C"}._getIntValue() == 3);
-    QVERIFY(TestStringifiedInteger{"D"}._getIntValue() == 4);
-    QVERIFY(TestStringifiedInteger{"E"}._getIntValue() == 5);
-    QVERIFY(TestStringifiedInteger{"F"}._getIntValue() == 6);
-    QVERIFY(TestStringifiedInteger{"G"}._getIntValue() == 7);
-    QVERIFY(TestStringifiedInteger{"H"}._getIntValue() == 8);
-    QVERIFY(TestStringifiedInteger{"I"}._getIntValue() == 9);
+    QVERIFY(TestStringifiedInteger{"I_"}._convertToInteger() == -9);
+    QVERIFY(TestStringifiedInteger{"H_"}._convertToInteger() == -8);
+    QVERIFY(TestStringifiedInteger{"G_"}._convertToInteger() == -7);
+    QVERIFY(TestStringifiedInteger{"F_"}._convertToInteger() == -6);
+    QVERIFY(TestStringifiedInteger{"E_"}._convertToInteger() == -5);
+    QVERIFY(TestStringifiedInteger{"D_"}._convertToInteger() == -4);
+    QVERIFY(TestStringifiedInteger{"C_"}._convertToInteger() == -3);
+    QVERIFY(TestStringifiedInteger{"B_"}._convertToInteger() == -2);
+    QVERIFY(TestStringifiedInteger{"A_"}._convertToInteger() == -1);
+    QVERIFY(TestStringifiedInteger{"Z"}._convertToInteger() == 0);
+    QVERIFY(TestStringifiedInteger{}._convertToInteger() == 0);
+    QVERIFY(TestStringifiedInteger{"A"}._convertToInteger() == 1);
+    QVERIFY(TestStringifiedInteger{"B"}._convertToInteger() == 2);
+    QVERIFY(TestStringifiedInteger{"C"}._convertToInteger() == 3);
+    QVERIFY(TestStringifiedInteger{"D"}._convertToInteger() == 4);
+    QVERIFY(TestStringifiedInteger{"E"}._convertToInteger() == 5);
+    QVERIFY(TestStringifiedInteger{"F"}._convertToInteger() == 6);
+    QVERIFY(TestStringifiedInteger{"G"}._convertToInteger() == 7);
+    QVERIFY(TestStringifiedInteger{"H"}._convertToInteger() == 8);
+    QVERIFY(TestStringifiedInteger{"I"}._convertToInteger() == 9);
 
     // min 32bit integer value: -2147483648 => PASS
-    QVERIFY(TestStringifiedInteger{"BADGDHCFDH_"}._getIntValue() == -2147483648);
+    QVERIFY(TestStringifiedInteger{"BADGDHCFDH_"}._convertToInteger() == -2147483648);
 
     // -2147483649: underflow => FAIL (-infinite)
-    QVERIFY(!TestStringifiedInteger{"BADGDHCFDI_"}._getIntValue().has_value());
+    QVERIFY(!TestStringifiedInteger{"BADGDHCFDI_"}._convertToInteger().has_value());
 
     // max 32bit integer value: 2147483647 => PASS
-    QVERIFY(TestStringifiedInteger{"BADGDHCFDG"}._getIntValue() == 2147483647);
+    QVERIFY(TestStringifiedInteger{"BADGDHCFDG"}._convertToInteger() == 2147483647);
 
     // 2147483648: overflow => FAIL (+infinite)
-    QVERIFY(!TestStringifiedInteger{"BADGDHCFDH"}._getIntValue().has_value());
+    QVERIFY(!TestStringifiedInteger{"BADGDHCFDH"}._convertToInteger().has_value());
 
-    QVERIFY(!TestStringifiedInteger{"N_"}._getIntValue().has_value());
-    QVERIFY(!TestStringifiedInteger{"N"}._getIntValue().has_value());
+    QVERIFY(!TestStringifiedInteger{"N_"}._convertToInteger().has_value());
+    QVERIFY(!TestStringifiedInteger{"N"}._convertToInteger().has_value());
 }
 
 void StringifiedIntegerTests::testEquivalenceOperator()
