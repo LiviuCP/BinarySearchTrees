@@ -191,36 +191,16 @@ std::optional<int> TestUtils::StringifiedInteger::_getIntValue() const
 
     if (m_Value != c_MinusInfinite && m_Value != c_PlusInfinite)
     {
-        const size_t c_Length{m_Value.size()};
+        std::string stringToConvert{m_Value};
 
         if (m_Value.ends_with('_'))
         {
-            assert(c_Length > 1);
-
-            if (c_Length > 1)
-            {
-                std::string stringToConvert;
-                stringToConvert.reserve(c_Length);
-                stringToConvert.push_back('_');
-                stringToConvert += m_Value.substr(0, c_Length - 1);
-
-                std::transform(stringToConvert.cbegin(), stringToConvert.cend(), stringToConvert.begin(),
-                               [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
-                result = std::stoi(stringToConvert);
-            }
+            std::rotate(stringToConvert.rbegin(), stringToConvert.rbegin() + 1, stringToConvert.rend());
         }
-        else
-        {
-            assert(c_Length > 0);
 
-            if (c_Length > 0)
-            {
-                std::string stringToConvert{m_Value.substr(0, c_Length)};
-                std::transform(stringToConvert.cbegin(), stringToConvert.cend(), stringToConvert.begin(),
-                               [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
-                result = std::stoi(stringToConvert);
-            }
-        }
+        std::transform(stringToConvert.cbegin(), stringToConvert.cend(), stringToConvert.begin(),
+                       [&c_CharConversionMap](char ch) { return c_CharConversionMap[ch]; });
+        result = std::stoi(stringToConvert);
     }
 
     return result;
