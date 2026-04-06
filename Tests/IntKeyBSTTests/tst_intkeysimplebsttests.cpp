@@ -10,12 +10,12 @@ using IntStrBinarySearchTree = BinarySearchTree<int, std::string>;
 using IntStrBSTIterator = IntStrBinarySearchTree::InOrderForwardIterator;
 using upIntStrBinarySearchTree = std::unique_ptr<IntStrBinarySearchTree>;
 
-class SimpleBSTTests : public QObject
+class IntKeySimpleBSTTests : public QObject
 {
     Q_OBJECT
 
 public:
-    SimpleBSTTests();
+    IntKeySimpleBSTTests();
 
 private slots:
     void init();
@@ -35,24 +35,24 @@ private:
     upIntStrBinarySearchTree mpAuxSearchTree;
 };
 
-SimpleBSTTests::SimpleBSTTests()
+IntKeySimpleBSTTests::IntKeySimpleBSTTests()
     : mpSearchTree{nullptr}
     , mpAuxSearchTree{nullptr}
 {
 }
 
-void SimpleBSTTests::init()
+void IntKeySimpleBSTTests::init()
 {
     QVERIFY(!mpSearchTree && !mpAuxSearchTree);
 }
 
-void SimpleBSTTests::cleanup()
+void IntKeySimpleBSTTests::cleanup()
 {
     mpSearchTree.reset();
     mpAuxSearchTree.reset();
 }
 
-void SimpleBSTTests::testAddNodes()
+void IntKeySimpleBSTTests::testAddNodes()
 {
     bool newNodeAdded{false};
     
@@ -196,7 +196,7 @@ void SimpleBSTTests::testAddNodes()
 
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
 }
-void SimpleBSTTests::testRemoveNodes()
+void IntKeySimpleBSTTests::testRemoveNodes()
 {
     bool nodeDeleted{false};
     
@@ -322,7 +322,7 @@ void SimpleBSTTests::testRemoveNodes()
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "-1:ROOT/-2:-1/4:-1/2:4L", 4));
 }
 
-void SimpleBSTTests::testUpdateNodeValue()
+void IntKeySimpleBSTTests::testUpdateNodeValue()
 {
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
@@ -519,7 +519,7 @@ void SimpleBSTTests::testUpdateNodeValue()
             scCustomNullValue == mpAuxSearchTree->getNullValue());
 }
 
-void SimpleBSTTests::testMoveSemantics()
+void IntKeySimpleBSTTests::testMoveSemantics()
 {
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
@@ -590,7 +590,7 @@ void SimpleBSTTests::testMoveSemantics()
             scDefaultNullValue == mpAuxSearchTree->getNullValue());
 }
 
-void SimpleBSTTests::testMergeTrees()
+void IntKeySimpleBSTTests::testMergeTrees()
 {
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
@@ -795,7 +795,7 @@ void SimpleBSTTests::testMergeTrees()
             scCustomNullValue + "1" == mpAuxSearchTree->getNullValue());
 }
 
-void SimpleBSTTests::testInOrderForwardIterators()
+void IntKeySimpleBSTTests::testInOrderForwardIterators()
 {
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
@@ -903,7 +903,7 @@ void SimpleBSTTests::testInOrderForwardIterators()
     QVERIFY(std::equal(traversedKeys.cbegin(), traversedKeys.cend(), c_TraversedKeysRef.cbegin()));
 }
 
-void SimpleBSTTests::testPrintTree()
+void IntKeySimpleBSTTests::testPrintTree()
 {
     qInfo("Creating new tree");
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{-5, 8, -1, 2, -2, 7, 0, -9, 16, 14, -23, 17, -16, -12}, scDefaultValue);
@@ -922,7 +922,7 @@ void SimpleBSTTests::testPrintTree()
     qInfo("The tree has no nodes");
 }
 
-QTEST_APPLESS_MAIN(SimpleBSTTests)
+QTEST_APPLESS_MAIN(IntKeySimpleBSTTests)
 
-#include "tst_simplebsttests.moc"
+#include "tst_intkeysimplebsttests.moc"
 // clang-format on

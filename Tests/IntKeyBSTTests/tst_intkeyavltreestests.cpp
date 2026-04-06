@@ -10,12 +10,12 @@ using IntStrAVLTree = AVLTree<int, std::string>;
 using IntStrAVLIterator = IntStrAVLTree::InOrderForwardIterator;
 using upIntStrAVLTree = std::unique_ptr<IntStrAVLTree>;
 
-class AVLTreesTests : public QObject
+class IntKeyAVLTreesTests : public QObject
 {
     Q_OBJECT
 
 public:
-    AVLTreesTests();
+    IntKeyAVLTreesTests();
 
 private slots:
     void init();
@@ -33,24 +33,24 @@ private:
     upIntStrAVLTree mpAuxSearchTree;
 };
 
-AVLTreesTests::AVLTreesTests()
+IntKeyAVLTreesTests::IntKeyAVLTreesTests()
     : mpSearchTree{nullptr}
     , mpAuxSearchTree{nullptr}
 {
 }
 
-void AVLTreesTests::init()
+void IntKeyAVLTreesTests::init()
 {
     QVERIFY(!mpSearchTree && !mpAuxSearchTree);
 }
 
-void AVLTreesTests::cleanup()
+void IntKeyAVLTreesTests::cleanup()
 {
     mpSearchTree.reset();
     mpAuxSearchTree.reset();
 }
 
-void AVLTreesTests::testAddNodes()
+void IntKeyAVLTreesTests::testAddNodes()
 {
     bool newNodeAdded{false};
 
@@ -195,7 +195,7 @@ void AVLTreesTests::testAddNodes()
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
 }
 
-void AVLTreesTests::testRemoveNodes()
+void IntKeyAVLTreesTests::testRemoveNodes()
 {
     bool nodeDeleted{false};
 
@@ -519,7 +519,7 @@ void AVLTreesTests::testRemoveNodes()
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "2:ROOT/-1:2/4:2/-2:-1L", 4));
 }
 
-void AVLTreesTests::testUpdateNodeValue()
+void IntKeyAVLTreesTests::testUpdateNodeValue()
 {
     mpSearchTree = std::make_unique<IntStrAVLTree>();
 
@@ -716,7 +716,7 @@ void AVLTreesTests::testUpdateNodeValue()
             scCustomNullValue == mpAuxSearchTree->getNullValue());
 }
 
-void AVLTreesTests::testMoveSemantics()
+void IntKeyAVLTreesTests::testMoveSemantics()
 {
     mpSearchTree = std::make_unique<IntStrAVLTree>();
 
@@ -787,7 +787,7 @@ void AVLTreesTests::testMoveSemantics()
             scDefaultNullValue == mpAuxSearchTree->getNullValue());
 }
 
-void AVLTreesTests::testMergeTrees()
+void IntKeyAVLTreesTests::testMergeTrees()
 {
     mpSearchTree = std::make_unique<IntStrAVLTree>();
 
@@ -992,7 +992,7 @@ void AVLTreesTests::testMergeTrees()
             scCustomNullValue + "1" == mpAuxSearchTree->getNullValue());
 }
 
-void AVLTreesTests::testInOrderForwardIterators()
+void IntKeyAVLTreesTests::testInOrderForwardIterators()
 {
     mpSearchTree = std::make_unique<IntStrAVLTree>();
 
@@ -1073,7 +1073,7 @@ void AVLTreesTests::testInOrderForwardIterators()
     QVERIFY(!itAux.getKey().has_value() && itAux.getValue() == "NullVal");
 }
 
-QTEST_APPLESS_MAIN(AVLTreesTests)
+QTEST_APPLESS_MAIN(IntKeyAVLTreesTests)
 
-#include "tst_avltreestests.moc"
+#include "tst_intkeyavltreestests.moc"
 // clang-format on

@@ -12,12 +12,12 @@ using IntStrRedBlackTree = RedBlackTree<int, std::string>;
 using IntStrAVLTree = AVLTree<int, std::string>;
 using upIntStrBinarySearchTree = std::unique_ptr<IntStrBinarySearchTree>;
 
-class MixedTreeTypesTests : public QObject
+class IntKeyMixedTreeTypesTests : public QObject
 {
     Q_OBJECT
 
 public:
-    MixedTreeTypesTests();
+    IntKeyMixedTreeTypesTests();
 
 private slots:
     void init();
@@ -39,24 +39,24 @@ private:
     upIntStrBinarySearchTree mpAuxSearchTree;
 };
 
-MixedTreeTypesTests::MixedTreeTypesTests()
+IntKeyMixedTreeTypesTests::IntKeyMixedTreeTypesTests()
     : mpSearchTree{nullptr}
     , mpAuxSearchTree{nullptr}
 {
 }
 
-void MixedTreeTypesTests::init()
+void IntKeyMixedTreeTypesTests::init()
 {
     QVERIFY(!mpSearchTree && !mpAuxSearchTree);
 }
 
-void MixedTreeTypesTests::cleanup()
+void IntKeyMixedTreeTypesTests::cleanup()
 {
     mpSearchTree.reset();
     mpAuxSearchTree.reset();
 }
 
-void MixedTreeTypesTests::testMergeDifferentSearchTrees()
+void IntKeyMixedTreeTypesTests::testMergeDifferentSearchTrees()
 {
     /* create all trees to be used in the merge operations */
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
@@ -207,7 +207,7 @@ void MixedTreeTypesTests::testMergeDifferentSearchTrees()
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(true), mpAuxSearchTree->getSize(), "-1:c3:ROOT/-12:n14:-1/8:b2:-1/-16:m13:-12/-5:a1_1:-12/2:d4:8/16:i9_1:8/-23:k11:-16L/-9:h8:-5/-2:e5:-5/0:g7_1:2/7:f6:2/14:j10:16/17:l12:16", 14));
 }
 
-void MixedTreeTypesTests::testFailToMergeWhenNullValuesAreDifferent()
+void IntKeyMixedTreeTypesTests::testFailToMergeWhenNullValuesAreDifferent()
 {
     /* (attempt to) merge RED-BLACK tree into SIMPLE tree */
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(scCustomNullValue);
@@ -305,7 +305,7 @@ void MixedTreeTypesTests::testFailToMergeWhenNullValuesAreDifferent()
             scDefaultNullValue == mpAuxSearchTree->getNullValue());
 }
 
-void MixedTreeTypesTests::testDifferentTreeTypesEquivalence()
+void IntKeyMixedTreeTypesTests::testDifferentTreeTypesEquivalence()
 {
     // Simple BST vs. Red-Black tree
     mpSearchTree = std::make_unique<IntStrRedBlackTree>(scCustomNullValue);
@@ -512,7 +512,7 @@ void MixedTreeTypesTests::testDifferentTreeTypesEquivalence()
     QVERIFY(*mpSearchTree != *mpAuxSearchTree);
 }
 
-void MixedTreeTypesTests::testCopyAssignmentOfMixedTreeTypes()
+void IntKeyMixedTreeTypesTests::testCopyAssignmentOfMixedTreeTypes()
 {
     // AVL tree assigned to Red-Black tree (and vice-versa)
     mpSearchTree = std::make_unique<IntStrRedBlackTree>(scCustomNullValue);
@@ -617,7 +617,7 @@ void MixedTreeTypesTests::testCopyAssignmentOfMixedTreeTypes()
    The destination tree should be the same as when copy assigning while the source tree should become empty
    No in-order simulation by using default values (see copy assignment test) is required any longer
 */
-void MixedTreeTypesTests::testMoveAssignmentOfMixedTreeTypes()
+void IntKeyMixedTreeTypesTests::testMoveAssignmentOfMixedTreeTypes()
 {
     // AVL tree assigned to Red-Black tree (and vice-versa)
     mpSearchTree = std::make_unique<IntStrRedBlackTree>(scCustomNullValue);
@@ -703,7 +703,7 @@ void MixedTreeTypesTests::testMoveAssignmentOfMixedTreeTypes()
     QVERIFY(scDefaultNullValue == mpAuxSearchTree->getNullValue());
 }
 
-void MixedTreeTypesTests::_buildPrimaryTestSearchTree()
+void IntKeyMixedTreeTypesTests::_buildPrimaryTestSearchTree()
 {
     (void)mpSearchTree->addOrUpdateNode(-5, "a1_1");
     (void)mpSearchTree->addOrUpdateNode(2, "d4");
@@ -715,7 +715,7 @@ void MixedTreeTypesTests::_buildPrimaryTestSearchTree()
     (void)mpSearchTree->addOrUpdateNode(0, "g7_1");
 }
 
-void MixedTreeTypesTests::_buildSecondaryTestSearchTree()
+void IntKeyMixedTreeTypesTests::_buildSecondaryTestSearchTree()
 {
     (void)mpAuxSearchTree->addOrUpdateNode(8, "b2");
     (void)mpAuxSearchTree->addOrUpdateNode(-1, "c3");
@@ -728,7 +728,7 @@ void MixedTreeTypesTests::_buildSecondaryTestSearchTree()
     (void)mpAuxSearchTree->addOrUpdateNode(-16, "m13");
 }
 
-void MixedTreeTypesTests::_buildPrimaryTestSearchTreeInDifferentOrder()
+void IntKeyMixedTreeTypesTests::_buildPrimaryTestSearchTreeInDifferentOrder()
 {
     (void)mpAuxSearchTree->addOrUpdateNode(2, "d4");
     (void)mpAuxSearchTree->addOrUpdateNode(-12, "n14");
@@ -740,7 +740,7 @@ void MixedTreeTypesTests::_buildPrimaryTestSearchTreeInDifferentOrder()
     (void)mpAuxSearchTree->addOrUpdateNode(0, "g7_1");
 }
 
-void MixedTreeTypesTests::_buildSecondaryTestSearchTreeInDifferentOrder()
+void IntKeyMixedTreeTypesTests::_buildSecondaryTestSearchTreeInDifferentOrder()
 {
     (void)mpSearchTree->addOrUpdateNode(-1, "c3");
     (void)mpSearchTree->addOrUpdateNode(-5, "a1_2");
@@ -753,7 +753,7 @@ void MixedTreeTypesTests::_buildSecondaryTestSearchTreeInDifferentOrder()
     (void)mpSearchTree->addOrUpdateNode(14, "j10");
 }
 
-QTEST_APPLESS_MAIN(MixedTreeTypesTests)
+QTEST_APPLESS_MAIN(IntKeyMixedTreeTypesTests)
 
-#include "tst_mixedtreetypestests.moc"
+#include "tst_intkeymixedtreetypestests.moc"
 // clang-format on

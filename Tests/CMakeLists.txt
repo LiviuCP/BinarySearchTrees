@@ -14,4 +14,5 @@ SET(TEST_UTILITIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Utilities)
 include_directories(${TEST_UTILITIES_DIR})
 
 add_subdirectory(IntKeyBSTTests)
+add_subdirectory(StringifiedIntKeyBSTTests)
 add_subdirectory(UtilitiesTests)

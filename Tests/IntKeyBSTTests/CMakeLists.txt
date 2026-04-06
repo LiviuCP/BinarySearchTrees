@@ -1,28 +1,28 @@
-add_executable(SimpleBSTTests tst_simplebsttests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
-add_test(NAME SimpleBSTTests COMMAND SimpleBSTTests)
+add_executable(IntKeySimpleBSTTests tst_intkeysimplebsttests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
+add_test(NAME IntKeySimpleBSTTests COMMAND IntKeySimpleBSTTests)
 
-add_executable(RedBlackTreesTests tst_redblacktreestests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
-add_test(NAME RedBlackTreesTests COMMAND RedBlackTreesTests)
+add_executable(IntKeyRedBlackTreesTests tst_intkeyredblacktreestests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
+add_test(NAME IntKeyRedBlackTreesTests COMMAND IntKeyRedBlackTreesTests)
 
-add_executable(AVLTreesTests tst_avltreestests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
-add_test(NAME AVLTreesTests COMMAND AVLTreesTests)
+add_executable(IntKeyAVLTreesTests tst_intkeyavltreestests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
+add_test(NAME IntKeyAVLTreesTests COMMAND IntKeyAVLTreesTests)
 
-add_executable(MixedTreeTypesTests tst_mixedtreetypestests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
-add_test(NAME MixedTreeTypesTests COMMAND MixedTreeTypesTests)
+add_executable(IntKeyMixedTreeTypesTests tst_intkeymixedtreetypestests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
+add_test(NAME IntKeyMixedTreeTypesTests COMMAND IntKeyMixedTreeTypesTests)
 
-target_compile_definitions(SimpleBSTTests PRIVATE PRINT_TREE)
-target_compile_definitions(RedBlackTreesTests PRIVATE PRINT_TREE)
-target_compile_definitions(AVLTreesTests PRIVATE PRINT_TREE)
-target_compile_definitions(MixedTreeTypesTests PRIVATE PRINT_TREE)
+target_compile_definitions(IntKeySimpleBSTTests PRIVATE PRINT_TREE)
+target_compile_definitions(IntKeyRedBlackTreesTests PRIVATE PRINT_TREE)
+target_compile_definitions(IntKeyAVLTreesTests PRIVATE PRINT_TREE)
+target_compile_definitions(IntKeyMixedTreeTypesTests PRIVATE PRINT_TREE)
 
-target_link_libraries(SimpleBSTTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
-target_link_libraries(SimpleBSTTests PRIVATE BSTLib)
+target_link_libraries(IntKeySimpleBSTTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
+target_link_libraries(IntKeySimpleBSTTests PRIVATE BSTLib)
 
-target_link_libraries(RedBlackTreesTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
-target_link_libraries(RedBlackTreesTests PRIVATE BSTLib)
+target_link_libraries(IntKeyRedBlackTreesTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
+target_link_libraries(IntKeyRedBlackTreesTests PRIVATE BSTLib)
 
-target_link_libraries(AVLTreesTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
-target_link_libraries(AVLTreesTests PRIVATE BSTLib)
+target_link_libraries(IntKeyAVLTreesTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
+target_link_libraries(IntKeyAVLTreesTests PRIVATE BSTLib)
 
-target_link_libraries(MixedTreeTypesTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
-target_link_libraries(MixedTreeTypesTests PRIVATE BSTLib)
+target_link_libraries(IntKeyMixedTreeTypesTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
+target_link_libraries(IntKeyMixedTreeTypesTests PRIVATE BSTLib)
