@@ -194,6 +194,10 @@ void StrIntKeyAVLTreesTests::testAddNodes()
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(scCustomNullValue);
 
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
+
+    // small test including the "extreme" key values: N_ and N
+    mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E_", "H", "A_", "B", "B_", "G", "Z", "I_", "AF", "AD", "N_", "AG", "AF_", "AB_", "N", "AE_"}, scDefaultValue);
+    QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AF_:I_/E_:I_/B:G/AD:G/N_:AF_/AB_:AF_/B_:E_R/Z:BL/H:AD/AG:AD/AE_:AB_L/AF:AG/N:AG", 16));
 }
 
 void StrIntKeyAVLTreesTests::testRemoveNodes()

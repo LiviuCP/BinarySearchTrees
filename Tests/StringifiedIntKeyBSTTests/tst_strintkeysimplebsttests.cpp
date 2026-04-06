@@ -196,6 +196,10 @@ void StrIntKeySimpleBSTTests::testAddNodes()
     mpSearchTree = std::make_unique<StrIntStrBinarySearchTree>(scCustomNullValue);
 
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
+
+    // small test including the "extreme" key values: N_ and N
+    mpSearchTree = std::make_unique<StrIntStrBinarySearchTree>(std::vector<StringifiedInteger>{"E_", "H", "A_", "B", "B_", "G", "Z", "I_", "AF", "AD", "N_", "AG", "AF_", "AB_", "N", "AE_"}, scDefaultValue);
+    QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "E_:ROOT/I_:E_/H:E_/N_:I_L/A_:H/AF:H/AF_:N_R/B_:A_/B:A_/AD:AF/AG:AF/AB_:AF_R/Z:B/G:B/N:AGR/AE_:AB_L", 16));
 }
 
 void StrIntKeySimpleBSTTests::testRemoveNodes()

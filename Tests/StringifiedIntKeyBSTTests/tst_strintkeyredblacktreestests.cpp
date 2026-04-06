@@ -195,6 +195,10 @@ void StrIntKeyRedBlackTreesTests::testAddNodes()
     mpSearchTree = std::make_unique<StrIntStrRedBlackTree>(scCustomNullValue);
 
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
+
+    // small test including the "extreme" key values: N_ and N
+    mpSearchTree = std::make_unique<StrIntStrRedBlackTree>(std::vector<StringifiedInteger>{"E_", "H", "A_", "B", "B_", "G", "Z", "I_", "AF", "AD", "N_", "AG", "AF_", "AB_", "N", "AE_"}, scDefaultValue);
+    QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT:BK/E_:A_:BK/G:A_:BK/AF_:E_:RD/B_:E_:BK/B:G:BK/AD:G:RD/N_:AF_:BK/AB_:AF_:BK/Z:BL:RD/H:AD:BK/AG:AD:BK/AE_:AB_:RD/I_:AB_:RD/AF:AG:RD/N:AG:RD", 16));
 }
 
 void StrIntKeyRedBlackTreesTests::testRemoveNodes()
