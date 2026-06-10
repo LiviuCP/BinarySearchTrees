@@ -20,8 +20,6 @@ could also have for example 0, 1 or 2 red children)
 #pragma once
 
 #include <cassert>
-#include <iostream>
-#include <string>
 #include <vector>
 
 #include "binarysearchtree.h"

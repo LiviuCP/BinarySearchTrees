@@ -4,11 +4,12 @@
 #include <iostream>
 #include <memory>
 #include <optional>
-#include <sstream>
 #include <string>
 #include <vector>
 
 #ifdef PRINT_TREE
+#include <sstream>
+
 template <typename T>
 concept OutStreamable = requires(std::ostream ostr, T data) {
     {
