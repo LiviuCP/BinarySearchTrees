@@ -59,7 +59,7 @@ public:
 #endif
 
 protected:
-    class Node
+    class Node : public std::enable_shared_from_this<Node>
     {
     public:
         using spNode = std::shared_ptr<Node>;
@@ -85,11 +85,7 @@ protected:
         void copyInOrderSuccessorKeyAndValue();
         spNode getInOrderSuccessor() const;
 
-        /* Should always be used after the current node is set as left/right child of the parent
-           Due to weak pointer constraints it is no longer possible to have the parent set by the
-           setLeftChild()/setRightChild() methods
-        */
-        void setParent(spNode parent);
+        void decoupleFromParent();
 
         spNode getParent() const;
         spNode getSibling() const;
@@ -479,11 +475,6 @@ typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_doAddOrUpdateNo
                 currentNode->setValue(value);
             }
 
-            if (addedNode)
-            {
-                addedNode->setParent(currentNode);
-            }
-
             break;
         }
     }
@@ -505,8 +496,6 @@ template <BSTKey K, BSTValue V>
 typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_removeSingleChildedOrLeafNode(spNode nodeToRemove)
 {
     spNode replacingNode{nullptr};
-    spNode nodeToRemoveParent{nullptr};
-    bool rootNodeRemoved{false};
 
     if (nodeToRemove)
     {
@@ -518,49 +507,39 @@ typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_removeSingleChi
         // determine replacing node (null if leaf node is removed)
         replacingNode = leftChild ? leftChild : rightChild ? rightChild : nullptr;
 
-        // parent of removed node to be stored in advance in order to make re-parenting of the replacing node possible
-        // (it gets decoupled from the node to remove when setting new child)
-        nodeToRemoveParent = nodeToRemove->getParent();
-
         if (nodeToRemove->isLeftChild())
         {
-            nodeToRemoveParent->setLeftChild(replacingNode);
+            nodeToRemove->getParent()->setLeftChild(replacingNode);
         }
         else if (nodeToRemove->isRightChild())
         {
-            nodeToRemoveParent->setRightChild(replacingNode);
+            nodeToRemove->getParent()->setRightChild(replacingNode);
         }
         else
         {
+            if (replacingNode)
+            {
+                if (replacingNode->isLeftChild())
+                {
+                    nodeToRemove->setLeftChild(nullptr);
+                }
+                else
+                {
+                    nodeToRemove->setRightChild(nullptr);
+                }
+
+                replacingNode->decoupleFromParent();
+            }
+
             m_Root = replacingNode;
-            rootNodeRemoved = true;
         }
 
-        nodeToRemove->setParent(nullptr); // decouple removed node from parent
+        nodeToRemove->decoupleFromParent(); // decouple removed node from parent
         --m_Size;
     }
     else
     {
         assert(false && "Attempt to remove a null node!");
-    }
-
-    if (replacingNode)
-    {
-        if (rootNodeRemoved)
-        {
-            if (replacingNode->isLeftChild())
-            {
-                nodeToRemove->setLeftChild(nullptr);
-            }
-            else
-            {
-                nodeToRemove->setRightChild(nullptr);
-            }
-        }
-        else
-        {
-            replacingNode->setParent(nodeToRemoveParent);
-        }
     }
 
     return replacingNode;
@@ -646,15 +625,9 @@ template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::_rotateNodeLeft(spN
 
             // current node becomes left child of its actual right child
             rightChild->setLeftChild(node);
-            node->setParent(rightChild);
 
             // left child of actual right child becomes right child of current node
             node->setRightChild(rightLeftChild);
-
-            if (rightLeftChild)
-            {
-                rightLeftChild->setParent(node);
-            }
 
             // parent of current node (if any) becomes parent of actual right child (the new child remains same type of
             // child for parent as before)
@@ -663,17 +636,15 @@ template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::_rotateNodeLeft(spN
                 if (parent->getLeftChild() == node)
                 {
                     parent->setLeftChild(rightChild);
-                    rightChild->setParent(parent);
                 }
                 else
                 {
                     parent->setRightChild(rightChild);
-                    rightChild->setParent(parent);
                 }
             }
             else
             {
-                rightChild->setParent(nullptr);
+                rightChild->decoupleFromParent();
             }
 
             if (m_Root == node)
@@ -698,15 +669,9 @@ template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::_rotateNodeRight(sp
 
             // current node becomes right child of its actual left child
             leftChild->setRightChild(node);
-            node->setParent(leftChild);
 
             // right child of actual left child becomes left child of current node
             node->setLeftChild(leftRightChild);
-
-            if (leftRightChild)
-            {
-                leftRightChild->setParent(node);
-            }
 
             // parent of current node (if any) becomes parent of actual left child (the new child remains same type of
             // child for parent as before)
@@ -715,17 +680,15 @@ template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::_rotateNodeRight(sp
                 if (parent->getLeftChild() == node)
                 {
                     parent->setLeftChild(leftChild);
-                    leftChild->setParent(parent);
                 }
                 else
                 {
                     parent->setRightChild(leftChild);
-                    leftChild->setParent(parent);
                 }
             }
             else
             {
-                leftChild->setParent(nullptr);
+                leftChild->decoupleFromParent();
             }
 
             if (m_Root == node)
@@ -891,6 +854,11 @@ template <BSTKey K, BSTValue V> bool BinarySearchTree<K, V>::Node::isRightChild(
 template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::Node::setLeftChild(spNode leftChild)
 {
     m_LeftChild = leftChild;
+
+    if (m_LeftChild)
+    {
+        m_LeftChild->m_Parent = this->shared_from_this();
+    }
 }
 
 template <BSTKey K, BSTValue V>
@@ -904,6 +872,11 @@ typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getL
 template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::Node::setRightChild(spNode rightChild)
 {
     m_RightChild = rightChild;
+
+    if (m_RightChild)
+    {
+        m_RightChild->m_Parent = this->shared_from_this();
+    }
 }
 
 template <BSTKey K, BSTValue V>
@@ -942,9 +915,9 @@ typename BinarySearchTree<K, V>::Node::spNode BinarySearchTree<K, V>::Node::getI
     return inOrderSuccessor;
 }
 
-template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::Node::setParent(spNode parent)
+template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::Node::decoupleFromParent()
 {
-    m_Parent = parent;
+    m_Parent = spNode{nullptr};
 }
 
 template <BSTKey K, BSTValue V>
