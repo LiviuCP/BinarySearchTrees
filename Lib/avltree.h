@@ -41,10 +41,11 @@ private:
     // design decision: any assignment operator to work only between trees of same type
     using BinarySearchTree<K, V>::operator=;
 
-    typename BinarySearchTree<K, V>::spNode _doAddOrUpdateNode(const K& key, const V& value) override;
     typename BinarySearchTree<K, V>::spNode _removeSingleChildedOrLeafNode(
         typename BinarySearchTree<K, V>::spNode nodeToRemove) override;
-    typename BinarySearchTree<K, V>::spNode _createNewNode(const K& key, const V& value) override;
+    typename BinarySearchTree<K, V>::spNode _createNode(const K& key, const V& value) override;
+    void _insertNode(typename BinarySearchTree<K, V>::spNode nodeToInsert,
+                     const typename BinarySearchTree<K, V>::InsertionPoint& insertionPoint) override;
 
     // update all ancestors of a specific node up to the root
     void _updateAncestorHeights(spAVLNode node);
@@ -114,48 +115,6 @@ template <typename K, typename V> AVLTree<K, V>& AVLTree<K, V>::operator=(AVLTre
     }
 
     return *this;
-}
-
-/* Steps:
-   - do a bottom-up search of the first unbalanced ancestor
-   - balance the tree formed by this ancestor and the child and grandchild located in the search path
-*/
-template <typename K, typename V>
-typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_doAddOrUpdateNode(const K& key, const V& value)
-{
-    spAVLNode const addedNode{dynamic_pointer_cast<AVLNode>(BinarySearchTree<K, V>::_doAddOrUpdateNode(key, value))};
-
-    if (addedNode)
-    {
-        addedNode->updateHeight(); // should not be required (node added as leaf with correct subtree height setup from
-                                   // constructor) - just a precautionary measure (probably should be removed)
-        AVLTree::_updateAncestorHeights(addedNode);
-
-        spAVLNode child{addedNode};
-        spAVLNode parent{dynamic_pointer_cast<AVLNode>(addedNode->getParent())};
-        spAVLNode grandparent{dynamic_pointer_cast<AVLNode>(addedNode->getGrandparent())};
-
-        // find the first unbalanced ancestor (start with grandparent of added child as the child is leaf and the parent
-        // also cannot be unbalanced after the node has been added)
-        while (grandparent)
-        {
-            if (!grandparent->isBalanced())
-            {
-                break;
-            }
-
-            child = parent;
-            parent = grandparent;
-            grandparent = dynamic_pointer_cast<AVLNode>(grandparent->getParent());
-        }
-
-        if (grandparent)
-        {
-            (void)AVLTree::_balanceSubtree(grandparent, parent, child);
-        }
-    }
-
-    return addedNode;
 }
 
 /* Steps involved:
@@ -228,9 +187,53 @@ typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_removeSingleChildedOrLea
 }
 
 template <typename K, typename V>
-typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_createNewNode(const K& key, const V& value)
+typename BinarySearchTree<K, V>::spNode AVLTree<K, V>::_createNode(const K& key, const V& value)
 {
     return std::make_shared<AVLNode>(key, value);
+}
+
+/* Steps:
+   - insert the node as per "simple BST" standard; then:
+   - do a bottom-up search of the first unbalanced ancestor
+   - balance the tree formed by this ancestor and the child and grandchild located in the search path
+*/
+template <typename K, typename V>
+void AVLTree<K, V>::_insertNode(typename BinarySearchTree<K, V>::spNode nodeToInsert,
+                                const typename BinarySearchTree<K, V>::InsertionPoint& insertionPoint)
+{
+    spAVLNode const avlNodeToInsert{dynamic_pointer_cast<AVLNode>(nodeToInsert)};
+
+    if (avlNodeToInsert)
+    {
+        BinarySearchTree<K, V>::_insertNode(avlNodeToInsert, insertionPoint);
+        avlNodeToInsert
+            ->updateHeight(); // should not be required (node added as leaf with correct subtree height setup from
+                              // constructor) - just a precautionary measure (probably should be removed)
+        AVLTree::_updateAncestorHeights(avlNodeToInsert);
+
+        spAVLNode child{avlNodeToInsert};
+        spAVLNode parent{dynamic_pointer_cast<AVLNode>(avlNodeToInsert->getParent())};
+        spAVLNode grandparent{dynamic_pointer_cast<AVLNode>(avlNodeToInsert->getGrandparent())};
+
+        // find the first unbalanced ancestor (start with grandparent of added child as the child is leaf and the parent
+        // also cannot be unbalanced after the node has been added)
+        while (grandparent)
+        {
+            if (!grandparent->isBalanced())
+            {
+                break;
+            }
+
+            child = parent;
+            parent = grandparent;
+            grandparent = dynamic_pointer_cast<AVLNode>(grandparent->getParent());
+        }
+
+        if (grandparent)
+        {
+            (void)AVLTree::_balanceSubtree(grandparent, parent, child);
+        }
+    }
 }
 
 template <typename K, typename V> void AVLTree<K, V>::_updateAncestorHeights(spAVLNode node)

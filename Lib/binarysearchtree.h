@@ -105,16 +105,26 @@ protected:
     using spNode = typename Node::spNode;
     using wpNode = typename Node::wpNode;
 
+    enum class InsertionSide
+    {
+        LEFT,
+        RIGHT,
+        ROOT
+    };
+
+    using InsertionPoint = std::optional<std::pair<spNode, InsertionSide>>;
+
     void _createTreeStructure(const std::vector<K>& inputKeys, const V& defaultValue, const V& nullValue);
     void _copyTreeNodes(const BinarySearchTree& sourceTree);
     void _moveTreeNodes(BinarySearchTree& sourceTree);
     void _moveAssignTree(BinarySearchTree& sourceTree);
     void _setNullValue(const V& nullValue);
 
-    virtual spNode _doAddOrUpdateNode(const K& key, const V& value);
+    spNode _doInsertOrUpdateNode(const K& key, const V& value);
     virtual spNode _removeSingleChildedOrLeafNode(spNode nodeToRemove);
 
-    virtual spNode _createNewNode(const K& key, const V& value);
+    virtual spNode _createNode(const K& key, const V& value);
+    virtual void _insertNode(spNode nodeToInsert, const InsertionPoint& insertionPoint);
 
     spNode _findNode(const K& key) const;
     void _convertTreeToArray(std::vector<spNode>& nodes) const;
@@ -129,6 +139,10 @@ protected:
     spNode _getRoot() const; // used by derived classes only
 
 private:
+    // tries to update the node value; if the node doesn't exist it returns an insertion point for a new node with the
+    // given key; the new node will subsequently be created by using this point info
+    InsertionPoint _tryUpdateNode(const K& key, const V& value) const;
+
     spNode m_Root;
     V m_NullValue; // value that each key that is NOT contained within tree corresponds to
     size_t m_Size; // used for easy retrieval of the number of nodes (to avoid tree traversal)
@@ -210,7 +224,7 @@ template <BSTKey K, BSTValue V> bool BinarySearchTree<K, V>::addOrUpdateNode(con
 
     if (value != m_NullValue)
     {
-        spNode const addedNode{_doAddOrUpdateNode(key, value)};
+        spNode const addedNode{_doInsertOrUpdateNode(key, value)};
         newNodeAdded = addedNode != nullptr;
     }
 
@@ -377,7 +391,7 @@ void BinarySearchTree<K, V>::_createTreeStructure(const std::vector<K>& inputKey
     {
         for (const auto& key : inputKeys)
         {
-            spNode const addedNode{_doAddOrUpdateNode(key, defaultValue)};
+            (void)_doInsertOrUpdateNode(key, defaultValue);
         }
     }
     else
@@ -395,7 +409,7 @@ template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::_copyTreeNodes(cons
 
         for (const auto& node : sourceTreeArray)
         {
-            spNode const addedNode{_doAddOrUpdateNode(node->getKey(), node->getValue())};
+            (void)_doInsertOrUpdateNode(node->getKey(), node->getValue());
         }
     }
     else
@@ -440,56 +454,29 @@ template <BSTKey K, BSTValue V> void BinarySearchTree<K, V>::_setNullValue(const
 }
 
 template <BSTKey K, BSTValue V>
-typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_doAddOrUpdateNode(const K& key, const V& value)
+typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_doInsertOrUpdateNode(const K& key, const V& value)
 {
-    spNode addedNode{nullptr};
+    spNode nodeToInsert{nullptr};
 
-    if (m_Root)
+    // if the node doesn't exist (and therefore cannot be updated) an "insertion point" is created
+    // a new node can then be created and inserted using the insertion point information
+    // a non-existent insertion point (std::nullopt) means the node value update was successful
+    const InsertionPoint newNodeInsertionPoint{_tryUpdateNode(key, value)};
+
+    if (newNodeInsertionPoint)
     {
-        for (spNode currentNode{m_Root};;)
-        {
-            if (const K c_CurrentNodeKey{currentNode->getKey()}; key < c_CurrentNodeKey)
-            {
-                if (spNode const leftChild{currentNode->getLeftChild()}; leftChild)
-                {
-                    currentNode = leftChild;
-                    continue;
-                }
+        nodeToInsert = _createNode(key, value);
+        assert(nodeToInsert);
 
-                addedNode = _createNewNode(key, value);
-                currentNode->setLeftChild(addedNode);
-            }
-            else if (key > c_CurrentNodeKey)
-            {
-                if (spNode const rightChild{currentNode->getRightChild()}; rightChild)
-                {
-                    currentNode = rightChild;
-                    continue;
-                }
-
-                addedNode = _createNewNode(key, value);
-                currentNode->setRightChild(addedNode);
-            }
-            else
-            {
-                currentNode->setValue(value);
-            }
-
-            break;
-        }
-    }
-    else
-    {
-        m_Root = _createNewNode(key, value);
-        addedNode = m_Root;
+        _insertNode(nodeToInsert, newNodeInsertionPoint);
     }
 
-    if (addedNode)
+    if (nodeToInsert)
     {
         ++m_Size;
     }
 
-    return addedNode;
+    return nodeToInsert;
 }
 
 template <BSTKey K, BSTValue V>
@@ -546,9 +533,46 @@ typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_removeSingleChi
 }
 
 template <BSTKey K, BSTValue V>
-typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_createNewNode(const K& key, const V& value)
+typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_createNode(const K& key, const V& value)
 {
     return std::make_shared<Node>(key, value);
+}
+
+template <BSTKey K, BSTValue V>
+void BinarySearchTree<K, V>::_insertNode(spNode nodeToInsert, const InsertionPoint& insertionPoint)
+{
+    if (nodeToInsert && insertionPoint)
+    {
+        auto& [parent, insertionSide]{*insertionPoint};
+
+        switch (insertionSide)
+        {
+        case InsertionSide::LEFT: {
+            assert(parent);
+            if (parent)
+            {
+                parent->setLeftChild(nodeToInsert);
+            }
+            break;
+        }
+        case InsertionSide::RIGHT: {
+            assert(parent);
+            if (parent)
+            {
+                parent->setRightChild(nodeToInsert);
+            }
+            break;
+        }
+        case InsertionSide::ROOT: {
+            assert(!parent);
+            m_Root = nodeToInsert;
+            break;
+        }
+        default:
+            assert(false);
+            break;
+        }
+    }
 }
 
 template <BSTKey K, BSTValue V>
@@ -771,6 +795,52 @@ std::string BinarySearchTree<K, V>::_getNodeAsString(spNode node, bool isValueRe
 template <BSTKey K, BSTValue V> typename BinarySearchTree<K, V>::spNode BinarySearchTree<K, V>::_getRoot() const
 {
     return m_Root;
+}
+
+template <BSTKey K, BSTValue V>
+typename BinarySearchTree<K, V>::InsertionPoint BinarySearchTree<K, V>::_tryUpdateNode(const K& key,
+                                                                                       const V& value) const
+{
+    InsertionPoint insertionPoint;
+
+    if (m_Root)
+    {
+        for (spNode currentNode{m_Root};;)
+        {
+            if (const K c_CurrentNodeKey{currentNode->getKey()}; key < c_CurrentNodeKey)
+            {
+                if (spNode const leftChild{currentNode->getLeftChild()}; leftChild)
+                {
+                    currentNode = leftChild;
+                    continue;
+                }
+
+                insertionPoint = {currentNode, InsertionSide::LEFT};
+            }
+            else if (key > c_CurrentNodeKey)
+            {
+                if (spNode const rightChild{currentNode->getRightChild()}; rightChild)
+                {
+                    currentNode = rightChild;
+                    continue;
+                }
+
+                insertionPoint = {currentNode, InsertionSide::RIGHT};
+            }
+            else
+            {
+                currentNode->setValue(value);
+            }
+
+            break;
+        }
+    }
+    else
+    {
+        insertionPoint = {nullptr, InsertionSide::ROOT};
+    }
+
+    return insertionPoint;
 }
 
 template <BSTKey K, BSTValue V> typename BinarySearchTree<K, V>::InOrderForwardIterator BinarySearchTree<K, V>::begin()
