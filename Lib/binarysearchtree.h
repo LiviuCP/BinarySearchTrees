@@ -37,10 +37,10 @@ public:
     BinarySearchTree(const BinarySearchTree& sourceTree);
     BinarySearchTree(BinarySearchTree&& sourceTree);
 
-    bool addOrUpdateNode(const K& key, const V& value); // in actual implementation(s) true is returned if new node is
-                                                        // added (number of nodes increases)
-    bool removeNode(const K& key); // in actual implementation(s) true is returned if the node with the given key exists
-                                   // within tree structure (and thus is removed)
+    bool tryInsertNode(const K& key, const V& value); // in actual implementation(s) true is returned if new node is
+                                                      // inserted (number of nodes increases)
+    bool tryRemoveNode(const K& key); // in actual implementation(s) true is returned if the node with the given key
+                                      // exists within tree structure (and thus is removed)
 
     bool mergeTree(BinarySearchTree& sourceTree);
     void clear();
@@ -218,7 +218,7 @@ template <BSTKey K, BSTValue V> BinarySearchTree<K, V>::BinarySearchTree(BinaryS
     _moveAssignTree(sourceTree);
 }
 
-template <BSTKey K, BSTValue V> bool BinarySearchTree<K, V>::addOrUpdateNode(const K& key, const V& value)
+template <BSTKey K, BSTValue V> bool BinarySearchTree<K, V>::tryInsertNode(const K& key, const V& value)
 {
     bool newNodeAdded{false};
 
@@ -231,7 +231,7 @@ template <BSTKey K, BSTValue V> bool BinarySearchTree<K, V>::addOrUpdateNode(con
     return newNodeAdded;
 }
 
-template <BSTKey K, BSTValue V> bool BinarySearchTree<K, V>::removeNode(const K& key)
+template <BSTKey K, BSTValue V> bool BinarySearchTree<K, V>::tryRemoveNode(const K& key)
 {
     bool removed{false};
     spNode nodeToRemove{_findNode(key)};

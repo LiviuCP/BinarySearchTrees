@@ -53,95 +53,95 @@ void StrIntKeyAVLTreesTests::cleanup()
 
 void StrIntKeyAVLTreesTests::testAddNodes()
 {
-    bool newNodeAdded{false};
+    bool nodeInserted{false};
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>();
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), scEmptyTreeString, 0));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("E_", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("E_", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "E_:ROOT", 1));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("H", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("H", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "E_:ROOT/H:E_R", 2));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("A_", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("A_", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/H:A_", 3));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("B", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("B", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/H:A_/B:HL", 4));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("B_", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("B_", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/H:A_/B_:E_R/B:HL", 5));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("G", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("G", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/B_:E_R/B:G/H:G", 6));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("Z", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("Z", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/B_:E_R/B:G/H:G/Z:BL", 7));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("I_", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("I_", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/I_:E_/B_:E_/B:G/H:G/Z:BL", 8));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AF", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AF", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/I_:E_/B_:E_/B:G/H:G/Z:BL/AF:HR", 9));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AD", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AD", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/I_:E_/B_:E_/B:G/AD:G/Z:BL/H:AD/AF:AD", 10));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("BC_", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("BC_", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/I_:E_/B_:E_/B:G/AD:G/BC_:I_L/Z:BL/H:AD/AF:AD", 11));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AG", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AG", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/I_:E_/B_:E_/B:G/AD:G/BC_:I_L/Z:BL/H:AD/AF:AD/AG:AFR", 12));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AF_", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AF_", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/AF_:E_/B_:E_/B:G/AD:G/BC_:AF_/I_:AF_/Z:BL/H:AD/AF:AD/AG:AFR", 13));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AB_", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AB_", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AF_:I_/E_:I_/B:G/AD:G/BC_:AF_/AB_:AF_/B_:E_R/Z:BL/H:AD/AF:AD/AG:AFR", 14));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AI", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AI", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(),"A_:ROOT/I_:A_/G:A_/AF_:I_/E_:I_/B:G/AD:G/BC_:AF_/AB_:AF_/B_:E_R/Z:BL/H:AD/AG:AD/AF:AG/AI:AG", 15));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AE_", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AE_", scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AF_:I_/E_:I_/B:G/AD:G/BC_:AF_/AB_:AF_/B_:E_R/Z:BL/H:AD/AG:AD/AE_:AB_L/AF:AG/AI:AG", 16));
 
-    // adding nodes to custom null value tree (compare with default null value tree)
+    // inserting nodes to custom null value tree (compare with default null value tree)
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E_", "H", "A_", "B", "B_", "G", "Z", "I_", "AF", "AD", "BC_", "AG", "AF_", "AB_", "AI", "AE_"}, scDefaultValue, scCustomNullValue);
 
     QVERIFY(*mpAuxSearchTree == *mpSearchTree);
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("BE", scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("BE", scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             *mpAuxSearchTree == *mpSearchTree);
 
-    newNodeAdded = mpAuxSearchTree->addOrUpdateNode("BE_", scCustomNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpAuxSearchTree->tryInsertNode("BE_", scCustomNullValue);
+    QVERIFY(!nodeInserted &&
             *mpAuxSearchTree == *mpSearchTree);
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("BE", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("BE", scDefaultValue);
+    QVERIFY(nodeInserted &&
             *mpAuxSearchTree != *mpSearchTree);
 
-    newNodeAdded = mpAuxSearchTree->addOrUpdateNode("BE", scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpAuxSearchTree->tryInsertNode("BE", scDefaultValue);
+    QVERIFY(nodeInserted &&
             *mpAuxSearchTree == *mpSearchTree);
 
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AF_:I_/E_:I_/B:G/AG:G/BC_:AF_/AB_:AF_/B_:E_R/Z:BL/AD:AG/AI:AG/AE_:AB_L/H:AD/AF:AD/BE:AIR", 17));
@@ -173,7 +173,7 @@ void StrIntKeyAVLTreesTests::testAddNodes()
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E_", "B", "C_", "D", "Z", "A"}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E_", "C_", "B", "D", "Z", "A"}, scDefaultValue, scCustomNullValue);
 
-    QVERIFY(*mpSearchTree == *mpAuxSearchTree); // in this particular case due to AVL tree construction rules the trees become equal when third element is being added (unlike the basic BST)
+    QVERIFY(*mpSearchTree == *mpAuxSearchTree); // in this particular case due to AVL tree construction rules the trees become equal when third element is being inserted (unlike the basic BST)
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E_", "B", "C_", "D", "Z", "A"}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E_", "B", "C_", "D", "A", "Z"}, scDefaultValue, scCustomNullValue);
@@ -202,323 +202,323 @@ void StrIntKeyAVLTreesTests::testAddNodes()
 
 void StrIntKeyAVLTreesTests::testRemoveNodes()
 {
-    bool nodeDeleted{false};
+    bool nodeRemoved{false};
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E_", "H", "A_", "B", "B_", "G", "Z", "I_", "AF", "AD", "BC_", "AG", "AF_", "AB_", "AI", "AE_"}, scDefaultValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(*mpSearchTree);
 
-    nodeDeleted = mpSearchTree->removeNode("AF_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("AF_");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AE_:I_/E_:I_/B:G/AD:G/BC_:AE_/AB_:AE_/B_:E_R/Z:BL/H:AD/AG:AD/AF:AG/AI:AG", 15));
 
-    nodeDeleted = mpSearchTree->removeNode("H");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("H");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AE_:I_/E_:I_/B:G/AF:G/BC_:AE_/AB_:AE_/B_:E_R/Z:BL/AD:AF/AG:AF/AI:AGR", 14));
 
-    nodeDeleted = mpSearchTree->removeNode("Z");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("Z");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/AF:A_/AE_:I_/E_:I_/G:AF/AG:AF/BC_:AE_/AB_:AE_/B_:E_R/B:G/AD:G/AI:AGR", 13));
 
-    nodeDeleted = mpSearchTree->removeNode("BC_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("BC_");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/AF:A_/AE_:I_/E_:I_/G:AF/AG:AF/AB_:AE_R/B_:E_R/B:G/AD:G/AI:AGR", 12));
 
-    nodeDeleted = mpSearchTree->removeNode("AI");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("AI");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/AF:A_/AE_:I_/E_:I_/G:AF/AG:AF/AB_:AE_R/B_:E_R/B:G/AD:G", 11));
 
-    nodeDeleted = mpSearchTree->removeNode("AG");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("AG");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AE_:I_/E_:I_/B:G/AF:G/AB_:AE_R/B_:E_R/AD:AFL", 10));
 
-    nodeDeleted = mpSearchTree->removeNode("E_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("E_");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AE_:I_/B_:I_/B:G/AF:G/AB_:AE_R/AD:AFL", 9));
 
-    nodeDeleted = mpSearchTree->removeNode("I_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("I_");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AB_:A_/G:A_/AE_:AB_/B_:AB_/B:G/AF:G/AD:AFL", 8));
 
-    nodeDeleted = mpSearchTree->removeNode("AE_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("AE_");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AB_:A_/G:A_/B_:AB_R/B:G/AF:G/AD:AFL", 7));
 
-    nodeDeleted = mpSearchTree->removeNode("AD");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("AD");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AB_:A_/G:A_/B_:AB_R/B:G/AF:G", 6));
 
-    nodeDeleted = mpSearchTree->removeNode("A_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("A_");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B:ROOT/AB_:B/G:B/B_:AB_R/AF:GR", 5));
 
-    nodeDeleted = mpSearchTree->removeNode("B_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("B_");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B:ROOT/AB_:B/G:B/AF:GR", 4));
 
-    nodeDeleted = mpSearchTree->removeNode("AB_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("AB_");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "G:ROOT/B:G/AF:G", 3));
 
-    nodeDeleted = mpSearchTree->removeNode("AF"); // root and two children, erase right child
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("AF"); // root and two children, erase right child
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "G:ROOT/B:GL", 2));
 
-    nodeDeleted = mpSearchTree->removeNode("B"); // root and left child, erase left child
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("B"); // root and left child, erase left child
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "G:ROOT", 1));
 
-    nodeDeleted = mpSearchTree->removeNode("G");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("G");
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), scEmptyTreeString, 0));
 
-    nodeDeleted = mpSearchTree->removeNode("G");
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("G");
+    QVERIFY(!nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), scEmptyTreeString, 0));
 
-    nodeDeleted = mpSearchTree->removeNode("BE");
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("BE");
+    QVERIFY(!nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), scEmptyTreeString, 0));
 
-    // we will stop checking the nodeDeleted variable (obvious enough)
-    (void)mpAuxSearchTree->removeNode("AE_");
+    // we will stop checking the nodeRemoved variable (obvious enough)
+    (void)mpAuxSearchTree->tryRemoveNode("AE_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AF_:I_/E_:I_/B:G/AD:G/BC_:AF_/AB_:AF_/B_:E_R/Z:BL/H:AD/AG:AD/AF:AG/AI:AG", 15));
 
-    (void)mpAuxSearchTree->removeNode("AI");
+    (void)mpAuxSearchTree->tryRemoveNode("AI");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AF_:I_/E_:I_/B:G/AD:G/BC_:AF_/AB_:AF_/B_:E_R/Z:BL/H:AD/AG:AD/AF:AGL", 14));
 
-    (void)mpAuxSearchTree->removeNode("AB_");
+    (void)mpAuxSearchTree->tryRemoveNode("AB_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/AF_:I_/E_:I_/B:G/AD:G/BC_:AF_L/B_:E_R/Z:BL/H:AD/AG:AD/AF:AGL", 13));
 
-    (void)mpAuxSearchTree->removeNode("AF_");
+    (void)mpAuxSearchTree->tryRemoveNode("AF_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/BC_:I_/E_:I_/B:G/AD:G/B_:E_R/Z:BL/H:AD/AG:AD/AF:AGL", 12));
 
-    (void)mpAuxSearchTree->removeNode("AG");
+    (void)mpAuxSearchTree->tryRemoveNode("AG");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/I_:A_/G:A_/BC_:I_/E_:I_/B:G/AD:G/B_:E_R/Z:BL/H:AD/AF:AD", 11));
 
-    (void)mpAuxSearchTree->removeNode("BC_");
+    (void)mpAuxSearchTree->tryRemoveNode("BC_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/I_:E_/B_:E_/B:G/AD:G/Z:BL/H:AD/AF:AD", 10));
 
-    (void)mpAuxSearchTree->removeNode("AD");
+    (void)mpAuxSearchTree->tryRemoveNode("AD");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/I_:E_/B_:E_/B:G/AF:G/Z:BL/H:AFL", 9));
 
-    (void)mpAuxSearchTree->removeNode("AF");
+    (void)mpAuxSearchTree->tryRemoveNode("AF");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/I_:E_/B_:E_/B:G/H:G/Z:BL", 8));
 
-    (void)mpAuxSearchTree->removeNode("I_");
+    (void)mpAuxSearchTree->tryRemoveNode("I_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/B_:E_R/B:G/H:G/Z:BL", 7));
 
-    (void)mpAuxSearchTree->removeNode("Z");
+    (void)mpAuxSearchTree->tryRemoveNode("Z");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/E_:A_/G:A_/B_:E_R/B:G/H:G", 6));
 
-    (void)mpAuxSearchTree->removeNode("G");
+    (void)mpAuxSearchTree->tryRemoveNode("G");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/E_:A_/H:A_/B_:E_R/B:HL", 5));
 
-    (void)mpAuxSearchTree->removeNode("B_");
+    (void)mpAuxSearchTree->tryRemoveNode("B_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/E_:A_/H:A_/B:HL", 4));
 
-    (void)mpAuxSearchTree->removeNode("B");
+    (void)mpAuxSearchTree->tryRemoveNode("B");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "A_:ROOT/E_:A_/H:A_", 3));
 
-    (void)mpAuxSearchTree->removeNode("A_"); // root and two children, erase root
+    (void)mpAuxSearchTree->tryRemoveNode("A_"); // root and two children, erase root
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "H:ROOT/E_:HL", 2));
 
-    (void)mpAuxSearchTree->removeNode("H"); // root and left child, erase root
+    (void)mpAuxSearchTree->tryRemoveNode("H"); // root and left child, erase root
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "E_:ROOT", 1));
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E_", "H", "A_", "B", "B_", "G", "Z", "I_", "AF", "AD", "BC_", "AG", "AF_", "AB_", "AI", "AE_"}, scDefaultValue, scCustomNullValue);
 
-    (void)mpSearchTree->removeNode("E_");
+    (void)mpSearchTree->tryRemoveNode("E_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AB_:A_/G:A_/AF_:AB_/I_:AB_/B:G/AD:G/BC_:AF_/AE_:AF_/B_:I_R/Z:BL/H:AD/AG:AD/AF:AG/AI:AG", 15));
 
-    (void)mpSearchTree->removeNode("H");
+    (void)mpSearchTree->tryRemoveNode("H");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AB_:A_/G:A_/AF_:AB_/I_:AB_/B:G/AF:G/BC_:AF_/AE_:AF_/B_:I_R/Z:BL/AD:AF/AG:AF/AI:AGR", 14));
 
-    (void)mpSearchTree->removeNode("A_");
+    (void)mpSearchTree->tryRemoveNode("A_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "Z:ROOT/AB_:Z/AF:Z/AF_:AB_/I_:AB_/G:AF/AG:AF/BC_:AF_/AE_:AF_/B_:I_R/B:G/AD:G/AI:AGR", 13));
 
-    (void)mpSearchTree->removeNode("B");
+    (void)mpSearchTree->tryRemoveNode("B");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "Z:ROOT/AB_:Z/AF:Z/AF_:AB_/I_:AB_/G:AF/AG:AF/BC_:AF_/AE_:AF_/B_:I_R/AD:GR/AI:AGR", 12));
 
-    (void)mpSearchTree->removeNode("B_");
+    (void)mpSearchTree->tryRemoveNode("B_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "Z:ROOT/AB_:Z/AF:Z/AF_:AB_/I_:AB_/G:AF/AG:AF/BC_:AF_/AE_:AF_/AD:GR/AI:AGR", 11));
 
-    (void)mpSearchTree->removeNode("G");
+    (void)mpSearchTree->tryRemoveNode("G");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "Z:ROOT/AB_:Z/AF:Z/AF_:AB_/I_:AB_/AD:AF/AG:AF/BC_:AF_/AE_:AF_/AI:AGR", 10));
 
-    (void)mpSearchTree->removeNode("Z");
+    (void)mpSearchTree->tryRemoveNode("Z");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AD:ROOT/AB_:AD/AG:AD/AF_:AB_/I_:AB_/AF:AG/AI:AG/BC_:AF_/AE_:AF_", 9));
 
-    (void)mpSearchTree->removeNode("I_");
+    (void)mpSearchTree->tryRemoveNode("I_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AD:ROOT/AF_:AD/AG:AD/BC_:AF_/AB_:AF_/AF:AG/AI:AG/AE_:AB_L", 8));
 
-    (void)mpSearchTree->removeNode("AF");
+    (void)mpSearchTree->tryRemoveNode("AF");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AD:ROOT/AF_:AD/AG:AD/BC_:AF_/AB_:AF_/AI:AGR/AE_:AB_L", 7));
 
-    (void)mpSearchTree->removeNode("AD");
+    (void)mpSearchTree->tryRemoveNode("AD");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AB_:ROOT/AF_:AB_/AG:AB_/BC_:AF_/AE_:AF_/AI:AGR", 6));
 
-    (void)mpSearchTree->removeNode("BC_");
+    (void)mpSearchTree->tryRemoveNode("BC_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AB_:ROOT/AF_:AB_/AG:AB_/AE_:AF_R/AI:AGR", 5));
 
-    (void)mpSearchTree->removeNode("AG");
+    (void)mpSearchTree->tryRemoveNode("AG");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AB_:ROOT/AF_:AB_/AI:AB_/AE_:AF_R", 4));
 
-    (void)mpSearchTree->removeNode("AF_");
+    (void)mpSearchTree->tryRemoveNode("AF_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AB_:ROOT/AE_:AB_/AI:AB_", 3));
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"BC_", "AF_", "AE_", "AB_", "I_", "E_", "B_", "A_", "Z", "B", "G", "H", "AD", "AF", "AG", "AI"}, scDefaultValue);
 
-    (void)mpSearchTree->removeNode("BC_");
+    (void)mpSearchTree->tryRemoveNode("BC_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AB_:A_/H:A_/AF_:AB_/E_:AB_/B:H/AF:H/AE_:AF_R/I_:E_/B_:E_/Z:B/G:B/AD:AF/AG:AF/AI:AGR", 15));
 
-    (void)mpSearchTree->removeNode("AF_");
+    (void)mpSearchTree->tryRemoveNode("AF_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AB_:A_/H:A_/AE_:AB_/E_:AB_/B:H/AF:H/I_:E_/B_:E_/Z:B/G:B/AD:AF/AG:AF/AI:AGR", 14));
 
-    (void)mpSearchTree->removeNode("AE_");
+    (void)mpSearchTree->tryRemoveNode("AE_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/I_:A_/H:A_/AB_:I_/E_:I_/B:H/AF:H/B_:E_R/Z:B/G:B/AD:AF/AG:AF/AI:AGR", 13));
 
-    (void)mpSearchTree->removeNode("AB_");
+    (void)mpSearchTree->tryRemoveNode("AB_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "H:ROOT/A_:H/AF:H/E_:A_/B:A_/AD:AF/AG:AF/I_:E_/B_:E_/Z:B/G:B/AI:AGR", 12));
 
-    (void)mpSearchTree->removeNode("I_");
+    (void)mpSearchTree->tryRemoveNode("I_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "H:ROOT/A_:H/AF:H/E_:A_/B:A_/AD:AF/AG:AF/B_:E_R/Z:B/G:B/AI:AGR", 11));
 
-    (void)mpSearchTree->removeNode("E_");
+    (void)mpSearchTree->tryRemoveNode("E_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "H:ROOT/A_:H/AF:H/B_:A_/B:A_/AD:AF/AG:AF/Z:B/G:B/AI:AGR", 10));
 
-    (void)mpSearchTree->removeNode("B_");
+    (void)mpSearchTree->tryRemoveNode("B_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "H:ROOT/Z:H/AF:H/A_:Z/B:Z/AD:AF/AG:AF/G:BR/AI:AGR", 9));
 
-    (void)mpSearchTree->removeNode("A_");
+    (void)mpSearchTree->tryRemoveNode("A_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "H:ROOT/B:H/AF:H/Z:B/G:B/AD:AF/AG:AF/AI:AGR", 8));
 
-    (void)mpSearchTree->removeNode("Z");
+    (void)mpSearchTree->tryRemoveNode("Z");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "H:ROOT/B:H/AF:H/G:BR/AD:AF/AG:AF/AI:AGR", 7));
 
-    (void)mpSearchTree->removeNode("B");
+    (void)mpSearchTree->tryRemoveNode("B");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AF:ROOT/H:AF/AG:AF/G:H/AD:H/AI:AGR", 6));
 
-    (void)mpSearchTree->removeNode("G");
+    (void)mpSearchTree->tryRemoveNode("G");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AF:ROOT/H:AF/AG:AF/AD:HR/AI:AGR", 5));
 
-    (void)mpSearchTree->removeNode("H");
+    (void)mpSearchTree->tryRemoveNode("H");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AF:ROOT/AD:AF/AG:AF/AI:AGR", 4));
 
-    (void)mpSearchTree->removeNode("AD");
+    (void)mpSearchTree->tryRemoveNode("AD");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AG:ROOT/AF:AG/AI:AG", 3));
 
-    (void)mpSearchTree->removeNode("AF"); // root and two children, erase left child
+    (void)mpSearchTree->tryRemoveNode("AF"); // root and two children, erase left child
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AG:ROOT/AI:AGR", 2));
 
-    (void)mpSearchTree->removeNode("AG"); // root and right child, erase root
+    (void)mpSearchTree->tryRemoveNode("AG"); // root and right child, erase root
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "AI:ROOT", 1));
 
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"AI", "AG", "AF", "AD", "H", "G", "B", "Z", "A_", "B_", "E_", "I_", "AB_", "AE_", "AF_", "BC_"}, scDefaultValue, scCustomNullValue);
 
-    (void)mpAuxSearchTree->removeNode("AI");
+    (void)mpAuxSearchTree->tryRemoveNode("AI");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "Z:ROOT/I_:Z/AD:Z/AE_:I_/B_:I_/G:AD/AG:AD/AF_:AE_/AB_:AE_/E_:B_/A_:B_/B:G/H:G/AF:AGL/BC_:AF_L", 15));
 
-    (void)mpAuxSearchTree->removeNode("AG");
+    (void)mpAuxSearchTree->tryRemoveNode("AG");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "Z:ROOT/I_:Z/AD:Z/AE_:I_/B_:I_/G:AD/AF:AD/AF_:AE_/AB_:AE_/E_:B_/A_:B_/B:G/H:G/BC_:AF_L", 14));
 
-    (void)mpAuxSearchTree->removeNode("AF");
+    (void)mpAuxSearchTree->tryRemoveNode("AF");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "Z:ROOT/I_:Z/G:Z/AE_:I_/B_:I_/B:G/AD:G/AF_:AE_/AB_:AE_/E_:B_/A_:B_/H:ADL/BC_:AF_L", 13));
 
-    (void)mpAuxSearchTree->removeNode("AD");
+    (void)mpAuxSearchTree->tryRemoveNode("AD");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "I_:ROOT/AE_:I_/Z:I_/AF_:AE_/AB_:AE_/B_:Z/G:Z/BC_:AF_L/E_:B_/A_:B_/B:G/H:G", 12));
 
-    (void)mpAuxSearchTree->removeNode("H");
+    (void)mpAuxSearchTree->tryRemoveNode("H");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "I_:ROOT/AE_:I_/Z:I_/AF_:AE_/AB_:AE_/B_:Z/G:Z/BC_:AF_L/E_:B_/A_:B_/B:GL", 11));
 
-    (void)mpAuxSearchTree->removeNode("G");
+    (void)mpAuxSearchTree->tryRemoveNode("G");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "I_:ROOT/AE_:I_/Z:I_/AF_:AE_/AB_:AE_/B_:Z/B:Z/BC_:AF_L/E_:B_/A_:B_", 10));
 
-    (void)mpAuxSearchTree->removeNode("B");
+    (void)mpAuxSearchTree->tryRemoveNode("B");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "I_:ROOT/AE_:I_/B_:I_/AF_:AE_/AB_:AE_/E_:B_/Z:B_/BC_:AF_L/A_:ZL", 9));
 
-    (void)mpAuxSearchTree->removeNode("Z");
+    (void)mpAuxSearchTree->tryRemoveNode("Z");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "I_:ROOT/AE_:I_/B_:I_/AF_:AE_/AB_:AE_/E_:B_/A_:B_/BC_:AF_L", 8));
 
-    (void)mpAuxSearchTree->removeNode("A_");
+    (void)mpAuxSearchTree->tryRemoveNode("A_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "I_:ROOT/AE_:I_/B_:I_/AF_:AE_/AB_:AE_/E_:B_L/BC_:AF_L", 7));
 
-    (void)mpAuxSearchTree->removeNode("B_");
+    (void)mpAuxSearchTree->tryRemoveNode("B_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "AE_:ROOT/AF_:AE_/I_:AE_/BC_:AF_L/AB_:I_/E_:I_", 6));
 
-    (void)mpAuxSearchTree->removeNode("E_");
+    (void)mpAuxSearchTree->tryRemoveNode("E_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "AE_:ROOT/AF_:AE_/I_:AE_/BC_:AF_L/AB_:I_L", 5));
 
-    (void)mpAuxSearchTree->removeNode("I_");
+    (void)mpAuxSearchTree->tryRemoveNode("I_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "AE_:ROOT/AF_:AE_/AB_:AE_/BC_:AF_L", 4));
 
-    (void)mpAuxSearchTree->removeNode("AB_");
+    (void)mpAuxSearchTree->tryRemoveNode("AB_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "AF_:ROOT/BC_:AF_/AE_:AF_", 3));
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"BC_", "AI", "AF_", "AG", "AE_", "AF", "AB_", "AD", "I_", "H", "E_", "G", "B_", "B", "A_", "Z"}, scDefaultValue, scCustomNullValue);
 
-    (void)mpSearchTree->removeNode("AD");
+    (void)mpSearchTree->tryRemoveNode("AD");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "I_:ROOT/AE_:I_/B:I_/AF_:AE_/AB_:AE_/B_:B/AF:B/BC_:AF_L/E_:B_/A_:B_/G:AF/AG:AF/Z:A_R/H:GR/AI:AGR", 15));
 
-    (void)mpSearchTree->removeNode("I_");
+    (void)mpSearchTree->tryRemoveNode("I_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "E_:ROOT/AE_:E_/B:E_/AF_:AE_/AB_:AE_/A_:B/AF:B/BC_:AF_L/B_:A_/Z:A_/G:AF/AG:AF/H:GR/AI:AGR", 14));
 
-    (void)mpSearchTree->removeNode("H");
+    (void)mpSearchTree->tryRemoveNode("H");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "E_:ROOT/AE_:E_/B:E_/AF_:AE_/AB_:AE_/A_:B/AF:B/BC_:AF_L/B_:A_/Z:A_/G:AF/AG:AF/AI:AGR", 13));
 
-    (void)mpSearchTree->removeNode("AB_");
+    (void)mpSearchTree->tryRemoveNode("AB_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B:ROOT/E_:B/AF:B/AF_:E_/A_:E_/G:AF/AG:AF/BC_:AF_/AE_:AF_/B_:A_/Z:A_/AI:AGR", 12));
 
-    (void)mpSearchTree->removeNode("AF");
+    (void)mpSearchTree->tryRemoveNode("AF");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B:ROOT/E_:B/AG:B/AF_:E_/A_:E_/G:AG/AI:AG/BC_:AF_/AE_:AF_/B_:A_/Z:A_", 11));
 
-    (void)mpSearchTree->removeNode("E_");
+    (void)mpSearchTree->tryRemoveNode("E_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B:ROOT/B_:B/AG:B/AF_:B_/A_:B_/G:AG/AI:AG/BC_:AF_/AE_:AF_/Z:A_R", 10));
 
-    (void)mpSearchTree->removeNode("G");
+    (void)mpSearchTree->tryRemoveNode("G");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B:ROOT/B_:B/AG:B/AF_:B_/A_:B_/AI:AGR/BC_:AF_/AE_:AF_/Z:A_R", 9));
 
-    (void)mpSearchTree->removeNode("AE_");
+    (void)mpSearchTree->tryRemoveNode("AE_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B:ROOT/B_:B/AG:B/AF_:B_/A_:B_/AI:AGR/BC_:AF_L/Z:A_R", 8));
 
-    (void)mpSearchTree->removeNode("AG");
+    (void)mpSearchTree->tryRemoveNode("AG");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B_:ROOT/AF_:B_/B:B_/BC_:AF_L/A_:B/AI:B/Z:A_R", 7));
 
-    (void)mpSearchTree->removeNode("B_");
+    (void)mpSearchTree->tryRemoveNode("B_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AF_:A_/B:A_/BC_:AF_L/Z:B/AI:B", 6));
 
-    (void)mpSearchTree->removeNode("B");
+    (void)mpSearchTree->tryRemoveNode("B");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/AF_:A_/AI:A_/BC_:AF_L/Z:AIL", 5));
 
-    (void)mpSearchTree->removeNode("AF_");
+    (void)mpSearchTree->tryRemoveNode("AF_");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/BC_:A_/AI:A_/Z:AIL", 4));
 
-    (void)mpSearchTree->removeNode("AI");
+    (void)mpSearchTree->tryRemoveNode("AI");
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "A_:ROOT/BC_:A_/Z:A_", 3));
 
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"C_", "E_", "B"}, scDefaultValue);
 
-    (void)mpAuxSearchTree->removeNode("E_");
+    (void)mpAuxSearchTree->tryRemoveNode("E_");
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "C_:ROOT/B:C_R", 2));
 
-    (void)mpAuxSearchTree->removeNode("B"); // root and right child, erase right child
+    (void)mpAuxSearchTree->tryRemoveNode("B"); // root and right child, erase right child
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "C_:ROOT", 1));
 
-    // deleting null node from custom null value tree
+    // removing null node from custom null value tree
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"A_", "C", "B", "D", "B_"}, scDefaultValue, scCustomNullValue);
 
-    nodeDeleted = mpSearchTree->removeNode("E_");
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("E_");
+    QVERIFY(!nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "B:ROOT/A_:B/C:B/B_:A_L/D:CR", 5));
 
-    // deleting same node from custom and default null value trees of equal structure, keys and values
+    // removing same node from custom and default null value trees of equal structure, keys and values
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"A_", "C", "B", "D", "B_"}, scDefaultValue);
 
-    nodeDeleted = mpSearchTree->removeNode("C");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("C");
+    QVERIFY(nodeRemoved &&
             *mpSearchTree != *mpAuxSearchTree);
 
-    nodeDeleted = mpAuxSearchTree->removeNode("C");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpAuxSearchTree->tryRemoveNode("C");
+    QVERIFY(nodeRemoved &&
             *mpSearchTree == *mpAuxSearchTree);
 
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "B:ROOT/A_:B/D:B/B_:A_L", 4));
@@ -534,20 +534,20 @@ void StrIntKeyAVLTreesTests::testUpdateNodeValue()
 
     QVERIFY(scDefaultNullValue == mpSearchTree->getNullValue());
 
-    (void)mpSearchTree->addOrUpdateNode("E_", "a1");
-    (void)mpSearchTree->addOrUpdateNode("H", "b2");
-    (void)mpSearchTree->addOrUpdateNode("A_", "c3");
-    (void)mpSearchTree->addOrUpdateNode("B", "d4");
-    (void)mpSearchTree->addOrUpdateNode("B_", "e5");
-    (void)mpSearchTree->addOrUpdateNode("G", "f6");
-    (void)mpSearchTree->addOrUpdateNode("Z", "g7");
-    (void)mpSearchTree->addOrUpdateNode("I_", "h8");
-    (void)mpSearchTree->addOrUpdateNode("AF", "i9");
-    (void)mpSearchTree->addOrUpdateNode("AD", "j10");
-    (void)mpSearchTree->addOrUpdateNode("BC_", "k11");
-    (void)mpSearchTree->addOrUpdateNode("AG", "l12");
-    (void)mpSearchTree->addOrUpdateNode("AF_", "m13");
-    (void)mpSearchTree->addOrUpdateNode("AB_", "n14");
+    (void)mpSearchTree->tryInsertNode("E_", "a1");
+    (void)mpSearchTree->tryInsertNode("H", "b2");
+    (void)mpSearchTree->tryInsertNode("A_", "c3");
+    (void)mpSearchTree->tryInsertNode("B", "d4");
+    (void)mpSearchTree->tryInsertNode("B_", "e5");
+    (void)mpSearchTree->tryInsertNode("G", "f6");
+    (void)mpSearchTree->tryInsertNode("Z", "g7");
+    (void)mpSearchTree->tryInsertNode("I_", "h8");
+    (void)mpSearchTree->tryInsertNode("AF", "i9");
+    (void)mpSearchTree->tryInsertNode("AD", "j10");
+    (void)mpSearchTree->tryInsertNode("BC_", "k11");
+    (void)mpSearchTree->tryInsertNode("AG", "l12");
+    (void)mpSearchTree->tryInsertNode("AF_", "m13");
+    (void)mpSearchTree->tryInsertNode("AB_", "n14");
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "A_:c3:ROOT/I_:h8:A_/G:f6:A_/AF_:m13:I_/E_:a1:I_/B:d4:G/AD:j10:G/BC_:k11:AF_/AB_:n14:AF_/B_:e5:E_R/Z:g7:BL/H:b2:AD/AF:i9:AD/AG:l12:AFR", 14));
 
@@ -557,58 +557,58 @@ void StrIntKeyAVLTreesTests::testUpdateNodeValue()
 
     QVERIFY(scDefaultNullValue == mpSearchTree->getNodeValue("BE"));
 
-    // update by adding/modifying node
-    bool newNodeAdded{false};
+    // update by inserting/modifying node
+    bool nodeInserted{false};
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("B", "d4_1");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("B", "d4_1");
+    QVERIFY(!nodeInserted &&
             "d4_1" == mpSearchTree->getNodeValue("B"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("I_", "b2");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("I_", "b2");
+    QVERIFY(!nodeInserted &&
             "b2" == mpSearchTree->getNodeValue("I_"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AD", "j10");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AD", "j10");
+    QVERIFY(!nodeInserted &&
             "j10" == mpSearchTree->getNodeValue("AD"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AG", "L12");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AG", "L12");
+    QVERIFY(!nodeInserted &&
             "L12" == mpSearchTree->getNodeValue("AG"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AB_", scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("AB_", scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             "n14" == mpSearchTree->getNodeValue("AB_"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("BE", scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("BE", scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             scDefaultNullValue == mpSearchTree->getNodeValue("BE"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("BE", "o15");
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("BE", "o15");
+    QVERIFY(nodeInserted &&
             "o15" == mpSearchTree->getNodeValue("BE"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("BE", scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("BE", scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             "o15" == mpSearchTree->getNodeValue("BE"));
 
-    // update by deleting node
-    bool nodeDeleted{false};
+    // update by removing node
+    bool nodeRemoved{false};
 
-    nodeDeleted = mpSearchTree->removeNode("G");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("G");
+    QVERIFY(nodeRemoved &&
             scDefaultNullValue == mpSearchTree->getNodeValue("G"));
 
-    nodeDeleted = mpSearchTree->removeNode("BH_");
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("BH_");
+    QVERIFY(!nodeRemoved &&
             scDefaultNullValue == mpSearchTree->getNodeValue("BH_"));
 
-    // delete and re-add node with different value
-    nodeDeleted = mpSearchTree->removeNode("AF");
-    newNodeAdded = mpSearchTree->addOrUpdateNode("AF", "i9_new");
+    // remove and re-insert node with different value
+    nodeRemoved = mpSearchTree->tryRemoveNode("AF");
+    nodeInserted = mpSearchTree->tryInsertNode("AF", "i9_new");
 
-    QVERIFY(nodeDeleted &&
-            newNodeAdded &&
+    QVERIFY(nodeRemoved &&
+            nodeInserted &&
             "i9_new" == mpSearchTree->getNodeValue("AF"));
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "A_:c3:ROOT/I_:b2:A_/H:b2:A_/AF_:m13:I_/E_:a1:I_/B:d4_1:H/AG:L12:H/BC_:k11:AF_/AB_:n14:AF_/B_:e5:E_R/Z:g7:BL/AD:j10:AG/BE:o15:AG/AF:i9_new:ADR", 14));
@@ -633,60 +633,60 @@ void StrIntKeyAVLTreesTests::testUpdateNodeValue()
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(scCustomNullValue);
 
-    (void)mpSearchTree->addOrUpdateNode("E_", "a1");
-    (void)mpSearchTree->addOrUpdateNode("H", "b2");
-    (void)mpSearchTree->addOrUpdateNode("A_", scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode("B", "d4");
-    (void)mpSearchTree->addOrUpdateNode("B_", "e5");
-    (void)mpSearchTree->addOrUpdateNode("G", "f6");
-    (void)mpSearchTree->addOrUpdateNode("H_", scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode("Z", "g7");
-    (void)mpSearchTree->addOrUpdateNode("I_", "h8");
+    (void)mpSearchTree->tryInsertNode("E_", "a1");
+    (void)mpSearchTree->tryInsertNode("H", "b2");
+    (void)mpSearchTree->tryInsertNode("A_", scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode("B", "d4");
+    (void)mpSearchTree->tryInsertNode("B_", "e5");
+    (void)mpSearchTree->tryInsertNode("G", "f6");
+    (void)mpSearchTree->tryInsertNode("H_", scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode("Z", "g7");
+    (void)mpSearchTree->tryInsertNode("I_", "h8");
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "A_::ROOT/E_:a1:A_/G:f6:A_/H_::E_/B_:e5:E_/B:d4:G/H:b2:G/I_:h8:H_L/Z:g7:BL", 9));
     QVERIFY(scCustomNullValue == mpSearchTree->getNullValue());
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("B", "d4_1");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("B", "d4_1");
+    QVERIFY(!nodeInserted &&
             "d4_1" == mpSearchTree->getNodeValue("B"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("A_", "c3");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("A_", "c3");
+    QVERIFY(!nodeInserted &&
             "c3" == mpSearchTree->getNodeValue("A_"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("G", scCustomNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("G", scCustomNullValue);
+    QVERIFY(!nodeInserted &&
             "f6" == mpSearchTree->getNodeValue("G"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("B_", scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("B_", scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             scDefaultNullValue == mpSearchTree->getNodeValue("B_"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("BE", scCustomNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("BE", scCustomNullValue);
+    QVERIFY(!nodeInserted &&
             scCustomNullValue == mpSearchTree->getNodeValue("BE"));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("G_", "i9");
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("G_", "i9");
+    QVERIFY(nodeInserted &&
             "i9" == mpSearchTree->getNodeValue("G_"));
 
-    nodeDeleted = mpSearchTree->removeNode("BE_");
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("BE_");
+    QVERIFY(!nodeRemoved &&
             scCustomNullValue == mpSearchTree->getNodeValue("BE_"));
 
-    nodeDeleted = mpSearchTree->removeNode("H_");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("H_");
+    QVERIFY(nodeRemoved &&
             scCustomNullValue == mpSearchTree->getNodeValue("H_"));
 
-    nodeDeleted = mpSearchTree->removeNode("B");
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode("B");
+    QVERIFY(nodeRemoved &&
             scCustomNullValue == mpSearchTree->getNodeValue("B"));
 
-    nodeDeleted = mpSearchTree->removeNode("A_");
-    newNodeAdded = mpSearchTree->addOrUpdateNode("A_", scDefaultNullValue);
+    nodeRemoved = mpSearchTree->tryRemoveNode("A_");
+    nodeInserted = mpSearchTree->tryInsertNode("A_", scDefaultNullValue);
 
-    QVERIFY(nodeDeleted &&
-            newNodeAdded &&
+    QVERIFY(nodeRemoved &&
+            nodeInserted &&
             scDefaultNullValue == mpSearchTree->getNodeValue("A_"));
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "Z:g7:ROOT/E_:a1:Z/G:f6:Z/G_:i9:E_/B_::E_/H:b2:GR/I_:h8:G_L/A_::B_R", 8));
@@ -696,8 +696,8 @@ void StrIntKeyAVLTreesTests::testUpdateNodeValue()
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
     QVERIFY(scCustomNullValue == mpAuxSearchTree->getNullValue());
 
-    newNodeAdded = mpAuxSearchTree->addOrUpdateNode("AG", "df");
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpAuxSearchTree->tryInsertNode("AG", "df");
+    QVERIFY(nodeInserted &&
             *mpSearchTree != *mpAuxSearchTree);
 
     // test value update and copy assignment between default and custom null value trees
@@ -705,12 +705,12 @@ void StrIntKeyAVLTreesTests::testUpdateNodeValue()
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"AF", "I_", "AD", "G", "BC_", "AG", "AF_", "AB_"}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"B_", "E", "D", "Z", "A_"}, scDefaultValue);
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode("G", scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode("G", scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             scDefaultNullValue == mpSearchTree->getNodeValue("G"));
 
-    newNodeAdded = mpAuxSearchTree->addOrUpdateNode("D", scCustomNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpAuxSearchTree->tryInsertNode("D", scCustomNullValue);
+    QVERIFY(!nodeInserted &&
             scCustomNullValue == mpAuxSearchTree->getNodeValue("D"));
 
     *mpAuxSearchTree = *mpSearchTree;
@@ -725,11 +725,11 @@ void StrIntKeyAVLTreesTests::testMoveSemantics()
 {
     mpSearchTree = std::make_unique<StrIntStrAVLTree>();
 
-    (void)mpSearchTree->addOrUpdateNode("E_", "a1");
-    (void)mpSearchTree->addOrUpdateNode("H", "b2");
-    (void)mpSearchTree->addOrUpdateNode("A_", "c3");
-    (void)mpSearchTree->addOrUpdateNode("B", "d4");
-    (void)mpSearchTree->addOrUpdateNode("B_", "e5");
+    (void)mpSearchTree->tryInsertNode("E_", "a1");
+    (void)mpSearchTree->tryInsertNode("H", "b2");
+    (void)mpSearchTree->tryInsertNode("A_", "c3");
+    (void)mpSearchTree->tryInsertNode("B", "d4");
+    (void)mpSearchTree->tryInsertNode("B_", "e5");
 
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::move(*mpSearchTree));
 
@@ -739,10 +739,10 @@ void StrIntKeyAVLTreesTests::testMoveSemantics()
     QVERIFY(scDefaultNullValue == mpSearchTree->getNullValue() &&
             scDefaultNullValue == mpAuxSearchTree->getNullValue());
 
-    mpSearchTree->addOrUpdateNode("AG", "f6");
-    mpSearchTree->addOrUpdateNode("Z", "g7");
-    mpSearchTree->addOrUpdateNode("B_", "e5_1");
-    mpSearchTree->addOrUpdateNode("C", "h8");
+    mpSearchTree->tryInsertNode("AG", "f6");
+    mpSearchTree->tryInsertNode("Z", "g7");
+    mpSearchTree->tryInsertNode("B_", "e5_1");
+    mpSearchTree->tryInsertNode("C", "h8");
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "Z:g7:ROOT/B_:e5_1:Z/AG:f6:Z/C:h8:AGL", 4));
 
@@ -766,8 +766,8 @@ void StrIntKeyAVLTreesTests::testMoveSemantics()
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"B_", "E", "D", "Z", "A_"}, scDefaultValue, scCustomNullValue);
 
-    (void)mpSearchTree->addOrUpdateNode("E", scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode("D", "newval");
+    (void)mpSearchTree->tryInsertNode("E", scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode("D", "newval");
 
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::move(*mpSearchTree));
 
@@ -781,8 +781,8 @@ void StrIntKeyAVLTreesTests::testMoveSemantics()
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"AF", "I_", "AD", "G", "BC_", "AG", "AF_", "AB_"}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"B_", "E", "D", "Z", "A_"}, scDefaultValue);
 
-    (void)mpSearchTree->addOrUpdateNode("G", scDefaultNullValue);
-    (void)mpAuxSearchTree->addOrUpdateNode("D", scCustomNullValue);
+    (void)mpSearchTree->tryInsertNode("G", scDefaultNullValue);
+    (void)mpAuxSearchTree->tryInsertNode("D", scCustomNullValue);
 
     *mpSearchTree = std::move(*mpAuxSearchTree);
 
@@ -796,26 +796,26 @@ void StrIntKeyAVLTreesTests::testMergeTrees()
 {
     mpSearchTree = std::make_unique<StrIntStrAVLTree>();
 
-    (void)mpSearchTree->addOrUpdateNode("E_", "a1_1");
-    (void)mpSearchTree->addOrUpdateNode("B", "d4");
-    (void)mpSearchTree->addOrUpdateNode("G", "f6");
-    (void)mpSearchTree->addOrUpdateNode("BC_", "k11");
-    (void)mpSearchTree->addOrUpdateNode("AG", "l12");
-    (void)mpSearchTree->addOrUpdateNode("AB_", "n14");
-    (void)mpSearchTree->addOrUpdateNode("AF", "i9_1");
-    (void)mpSearchTree->addOrUpdateNode("Z", "g7_1");
+    (void)mpSearchTree->tryInsertNode("E_", "a1_1");
+    (void)mpSearchTree->tryInsertNode("B", "d4");
+    (void)mpSearchTree->tryInsertNode("G", "f6");
+    (void)mpSearchTree->tryInsertNode("BC_", "k11");
+    (void)mpSearchTree->tryInsertNode("AG", "l12");
+    (void)mpSearchTree->tryInsertNode("AB_", "n14");
+    (void)mpSearchTree->tryInsertNode("AF", "i9_1");
+    (void)mpSearchTree->tryInsertNode("Z", "g7_1");
 
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>();
 
-    (void)mpAuxSearchTree->addOrUpdateNode("H", "b2");
-    (void)mpAuxSearchTree->addOrUpdateNode("A_", "c3");
-    (void)mpAuxSearchTree->addOrUpdateNode("B_", "e5");
-    (void)mpAuxSearchTree->addOrUpdateNode("Z", "g7_2");
-    (void)mpAuxSearchTree->addOrUpdateNode("E_", "a1_2");
-    (void)mpAuxSearchTree->addOrUpdateNode("AF", "i9_2");
-    (void)mpAuxSearchTree->addOrUpdateNode("I_", "h8");
-    (void)mpAuxSearchTree->addOrUpdateNode("AD", "j10");
-    (void)mpAuxSearchTree->addOrUpdateNode("AF_", "m13");
+    (void)mpAuxSearchTree->tryInsertNode("H", "b2");
+    (void)mpAuxSearchTree->tryInsertNode("A_", "c3");
+    (void)mpAuxSearchTree->tryInsertNode("B_", "e5");
+    (void)mpAuxSearchTree->tryInsertNode("Z", "g7_2");
+    (void)mpAuxSearchTree->tryInsertNode("E_", "a1_2");
+    (void)mpAuxSearchTree->tryInsertNode("AF", "i9_2");
+    (void)mpAuxSearchTree->tryInsertNode("I_", "h8");
+    (void)mpAuxSearchTree->tryInsertNode("AD", "j10");
+    (void)mpAuxSearchTree->tryInsertNode("AF_", "m13");
 
     const StrIntStrAVLTree searchTreeCopy{*mpSearchTree};
     const StrIntStrAVLTree searchTreeAuxCopy{*mpAuxSearchTree};
@@ -886,21 +886,21 @@ void StrIntKeyAVLTreesTests::testMergeTrees()
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(scCustomNullValue);
 
-    (void)mpSearchTree->addOrUpdateNode("E_", "a1");
-    (void)mpSearchTree->addOrUpdateNode("H", "b2");
-    (void)mpSearchTree->addOrUpdateNode("A_", "c3");
-    (void)mpSearchTree->addOrUpdateNode("B", "d4");
-    (void)mpSearchTree->addOrUpdateNode("B_", scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode("H_", "e5");
-    (void)mpSearchTree->addOrUpdateNode("G", scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode("Z", "g7");
-    (void)mpSearchTree->addOrUpdateNode("I_", "h8");
-    (void)mpSearchTree->addOrUpdateNode("G_", "i9");
-    (void)mpSearchTree->removeNode("H_");
-    (void)mpSearchTree->removeNode("B");
+    (void)mpSearchTree->tryInsertNode("E_", "a1");
+    (void)mpSearchTree->tryInsertNode("H", "b2");
+    (void)mpSearchTree->tryInsertNode("A_", "c3");
+    (void)mpSearchTree->tryInsertNode("B", "d4");
+    (void)mpSearchTree->tryInsertNode("B_", scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode("H_", "e5");
+    (void)mpSearchTree->tryInsertNode("G", scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode("Z", "g7");
+    (void)mpSearchTree->tryInsertNode("I_", "h8");
+    (void)mpSearchTree->tryInsertNode("G_", "i9");
+    (void)mpSearchTree->tryRemoveNode("H_");
+    (void)mpSearchTree->tryRemoveNode("B");
 
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"AF", "I_", "AD", "G", "BC_", "AG", "AF_", "AB_"}, scDefaultValue, scCustomNullValue);
-    (void)mpAuxSearchTree->addOrUpdateNode("I_", scDefaultNullValue);
+    (void)mpAuxSearchTree->tryInsertNode("I_", scDefaultNullValue);
 
     merged = mpSearchTree->mergeTree(*mpAuxSearchTree);
 
@@ -914,8 +914,8 @@ void StrIntKeyAVLTreesTests::testMergeTrees()
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E", "AZ", "B_", "I", "D", "B", "G", "H_"}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"AF", "I_", "AD", "G", "BC_", "AG", "AF_", "AB_", "A"}, scDefaultValue, scDefaultNullValue);
-    mpSearchTree->addOrUpdateNode("I", "abc");
-    mpAuxSearchTree->addOrUpdateNode("G", "xyz");
+    mpSearchTree->tryInsertNode("I", "abc");
+    mpAuxSearchTree->tryInsertNode("G", "xyz");
 
     merged = mpSearchTree->mergeTree(*mpAuxSearchTree);
 
@@ -957,8 +957,8 @@ void StrIntKeyAVLTreesTests::testMergeTrees()
 
     mpSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"E", "AZ", "B_", "I", "D", "B", "G", "H_"}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"AF", "I_", "AD", "G", "BC_", "AG", "AF_", "AB_", "A"}, scDefaultValue, scCustomNullValue + "1");
-    mpSearchTree->addOrUpdateNode("I", "abc");
-    mpAuxSearchTree->addOrUpdateNode("G", "xyz");
+    mpSearchTree->tryInsertNode("I", "abc");
+    mpAuxSearchTree->tryInsertNode("G", "xyz");
 
     merged = mpSearchTree->mergeTree(*mpAuxSearchTree);
 
@@ -1001,22 +1001,22 @@ void StrIntKeyAVLTreesTests::testInOrderForwardIterators()
 {
     mpSearchTree = std::make_unique<StrIntStrAVLTree>();
 
-    (void)mpSearchTree->addOrUpdateNode("E_", "b");
-    (void)mpSearchTree->addOrUpdateNode("H", "z");
-    (void)mpSearchTree->addOrUpdateNode("A_", "_ca");
-    (void)mpSearchTree->addOrUpdateNode("B", "q1");
-    (void)mpSearchTree->addOrUpdateNode("B_", "55");
-    (void)mpSearchTree->addOrUpdateNode("G", "a");
-    (void)mpSearchTree->addOrUpdateNode("Z", "fq");
-    (void)mpSearchTree->addOrUpdateNode("I_", scDefaultValue);
-    (void)mpSearchTree->addOrUpdateNode("AF", "cCc");
-    (void)mpSearchTree->addOrUpdateNode("AD", "abab");
-    (void)mpSearchTree->addOrUpdateNode("BC_", "-c");
-    (void)mpSearchTree->addOrUpdateNode("AG", "b");
-    (void)mpSearchTree->addOrUpdateNode("AF_", "qa");
-    (void)mpSearchTree->addOrUpdateNode("AB_", "dev");
-    (void)mpSearchTree->addOrUpdateNode("AI", "_ca");
-    (void)mpSearchTree->addOrUpdateNode("AE_", scDefaultValue);
+    (void)mpSearchTree->tryInsertNode("E_", "b");
+    (void)mpSearchTree->tryInsertNode("H", "z");
+    (void)mpSearchTree->tryInsertNode("A_", "_ca");
+    (void)mpSearchTree->tryInsertNode("B", "q1");
+    (void)mpSearchTree->tryInsertNode("B_", "55");
+    (void)mpSearchTree->tryInsertNode("G", "a");
+    (void)mpSearchTree->tryInsertNode("Z", "fq");
+    (void)mpSearchTree->tryInsertNode("I_", scDefaultValue);
+    (void)mpSearchTree->tryInsertNode("AF", "cCc");
+    (void)mpSearchTree->tryInsertNode("AD", "abab");
+    (void)mpSearchTree->tryInsertNode("BC_", "-c");
+    (void)mpSearchTree->tryInsertNode("AG", "b");
+    (void)mpSearchTree->tryInsertNode("AF_", "qa");
+    (void)mpSearchTree->tryInsertNode("AB_", "dev");
+    (void)mpSearchTree->tryInsertNode("AI", "_ca");
+    (void)mpSearchTree->tryInsertNode("AE_", scDefaultValue);
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(),
                                      "A_:_ca:ROOT/I_:DF:A_/G:a:A_/AF_:qa:I_/E_:b:I_/B:q1:G/AD:abab:G/BC_:-c:AF_/AB_:dev:AF_/"
@@ -1047,7 +1047,7 @@ void StrIntKeyAVLTreesTests::testInOrderForwardIterators()
 
     QVERIFY(std::equal(traversedElements.cbegin(), traversedElements.cend(), c_TraversedElementsRef.cbegin()));
 
-    (void)mpSearchTree->addOrUpdateNode("AD", "BaBa");
+    (void)mpSearchTree->tryInsertNode("AD", "BaBa");
     it = mpSearchTree->find("AD");
 
     QVERIFY(it.getValue() == "BaBa");
@@ -1065,7 +1065,7 @@ void StrIntKeyAVLTreesTests::testInOrderForwardIterators()
     QVERIFY(!it.getKey().has_value() && it.getValue().empty());
 
     QVERIFY(mpSearchTree->find("B") != mpSearchTree->end());
-    (void)mpSearchTree->removeNode("B");
+    (void)mpSearchTree->tryRemoveNode("B");
     QVERIFY(mpSearchTree->find("B") == mpSearchTree->end());
 
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>("NullVal");

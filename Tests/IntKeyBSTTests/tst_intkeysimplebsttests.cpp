@@ -54,95 +54,95 @@ void IntKeySimpleBSTTests::cleanup()
 
 void IntKeySimpleBSTTests::testAddNodes()
 {
-    bool newNodeAdded{false};
+    bool nodeInserted{false};
     
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), scEmptyTreeString, 0));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-5, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-5, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT", 1));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(8, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(8, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/8:-5R", 2));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-1, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-1, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/8:-5R/-1:8L", 3));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(2, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(2, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/8:-5R/-1:8L/2:-1R", 4));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-2, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-2, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/8:-5R/-1:8L/-2:-1/2:-1", 5));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(7, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(7, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/8:-5R/-1:8L/-2:-1/2:-1/7:2R", 6));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(0, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(0, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/8:-5R/-1:8L/-2:-1/2:-1/0:2/7:2", 7));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-9, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-9, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-1:8L/-2:-1/2:-1/0:2/7:2", 8));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(16, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(16, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-1:8/16:8/-2:-1/2:-1/0:2/7:2", 9));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(14, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(14, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-1:8/16:8/-2:-1/2:-1/14:16L/0:2/7:2", 10));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-23, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-23, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-23:-9L/-1:8/16:8/-2:-1/2:-1/14:16L/0:2/7:2", 11));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(17, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(17, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-23:-9L/-1:8/16:8/-2:-1/2:-1/14:16/17:16/0:2/7:2", 12));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-16, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-16, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-23:-9L/-1:8/16:8/-16:-23R/-2:-1/2:-1/14:16/17:16/0:2/7:2", 13));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-12, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-12, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-23:-9L/-1:8/16:8/-16:-23R/-2:-1/2:-1/14:16/17:16/-12:-16R/0:2/7:2", 14));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(19, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(19, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-23:-9L/-1:8/16:8/-16:-23R/-2:-1/2:-1/14:16/17:16/-12:-16R/0:2/7:2/19:17R", 15));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-15, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-15, scDefaultValue);
+    QVERIFY(nodeInserted &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-23:-9L/-1:8/16:8/-16:-23R/-2:-1/2:-1/14:16/17:16/-12:-16R/0:2/7:2/19:17R/-15:-12L", 16));
 
-    // adding nodes to custom null value tree (compare with default null value tree)
+    // inserting nodes to custom null value tree (compare with default null value tree)
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{-5, 8, -1, 2, -2, 7, 0, -9, 16, 14, -23, 17, -16, -12, 19, -15}, scDefaultValue, scCustomNullValue);
 
     QVERIFY(*mpAuxSearchTree == *mpSearchTree);
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(25, scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(25, scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             *mpAuxSearchTree == *mpSearchTree);
 
-    newNodeAdded = mpAuxSearchTree->addOrUpdateNode(-25, scCustomNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpAuxSearchTree->tryInsertNode(-25, scCustomNullValue);
+    QVERIFY(!nodeInserted &&
             *mpAuxSearchTree == *mpSearchTree);
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(25, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(25, scDefaultValue);
+    QVERIFY(nodeInserted &&
             *mpAuxSearchTree != *mpSearchTree);
 
-    newNodeAdded = mpAuxSearchTree->addOrUpdateNode(25, scDefaultValue);
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpAuxSearchTree->tryInsertNode(25, scDefaultValue);
+    QVERIFY(nodeInserted &&
             *mpAuxSearchTree == *mpSearchTree);
 
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-23:-9L/-1:8/16:8/-16:-23R/-2:-1/2:-1/14:16/17:16/-12:-16R/0:2/7:2/19:17R/-15:-12L/25:19R", 17));
@@ -198,125 +198,125 @@ void IntKeySimpleBSTTests::testAddNodes()
 }
 void IntKeySimpleBSTTests::testRemoveNodes()
 {
-    bool nodeDeleted{false};
+    bool nodeRemoved{false};
     
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{-5, 8, -1, 2, -2, 7, 0, -9, 16, 14, -23, 17, -16, -12}, scDefaultValue);
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(*mpSearchTree);
 
-    nodeDeleted = mpSearchTree->removeNode(-16);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-16);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/8:-5/-23:-9L/-1:8/16:8/-12:-23R/-2:-1/2:-1/14:16/17:16/0:2/7:2", 13));
 
-    nodeDeleted = mpSearchTree->removeNode(8);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(8);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/14:-5/-23:-9L/-1:14/16:14/-12:-23R/-2:-1/2:-1/17:16R/0:2/7:2", 12));
 
-    nodeDeleted = mpSearchTree->removeNode(0);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(0);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/14:-5/-23:-9L/-1:14/16:14/-12:-23R/-2:-1/2:-1/17:16R/7:2R", 11));
 
-    nodeDeleted = mpSearchTree->removeNode(-23);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-23);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/14:-5/-12:-9L/-1:14/16:14/-2:-1/2:-1/17:16R/7:2R", 10));
 
-    nodeDeleted = mpSearchTree->removeNode(17);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(17);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-5:ROOT/-9:-5/14:-5/-12:-9L/-1:14/16:14/-2:-1/2:-1/7:2R", 9));
 
-    nodeDeleted = mpSearchTree->removeNode(-5);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-5);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-2:ROOT/-9:-2/14:-2/-12:-9L/-1:14/16:14/2:-1R/7:2R", 8));
 
-    nodeDeleted = mpSearchTree->removeNode(-9);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-9);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-2:ROOT/-12:-2/14:-2/-1:14/16:14/2:-1R/7:2R", 7));
 
-    nodeDeleted = mpSearchTree->removeNode(14);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(14);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-2:ROOT/-12:-2/16:-2/-1:16L/2:-1R/7:2R", 6));
 
-    nodeDeleted = mpSearchTree->removeNode(-1);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-1);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-2:ROOT/-12:-2/16:-2/2:16L/7:2R", 5));
 
-    nodeDeleted = mpSearchTree->removeNode(-2);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-2);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "2:ROOT/-12:2/16:2/7:16L", 4));
 
-    nodeDeleted = mpSearchTree->removeNode(-12);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-12);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "2:ROOT/16:2R/7:16L", 3));
 
-    nodeDeleted = mpSearchTree->removeNode(16);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(16);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "2:ROOT/7:2R", 2));
 
-    nodeDeleted = mpSearchTree->removeNode(2);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(2);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "7:ROOT", 1));
 
-    nodeDeleted = mpSearchTree->removeNode(7);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(7);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), scEmptyTreeString, 0));
 
-    nodeDeleted = mpSearchTree->removeNode(7);
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(7);
+    QVERIFY(!nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), scEmptyTreeString, 0));
 
-    nodeDeleted = mpSearchTree->removeNode(25);
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(25);
+    QVERIFY(!nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), scEmptyTreeString, 0));
 
     // some additional (corner) cases
-    nodeDeleted = mpAuxSearchTree->removeNode(-9);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpAuxSearchTree->tryRemoveNode(-9);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "-5:ROOT/-23:-5/8:-5/-16:-23R/-1:8/16:8/-12:-16R/-2:-1/2:-1/14:16/17:16/0:2/7:2", 13));
 
-    nodeDeleted = mpAuxSearchTree->removeNode(-1);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpAuxSearchTree->tryRemoveNode(-1);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "-5:ROOT/-23:-5/8:-5/-16:-23R/0:8/16:8/-12:-16R/-2:0/2:0/14:16/17:16/7:2R", 12));
 
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{2, -12}, scDefaultValue);
 
-    nodeDeleted = mpSearchTree->removeNode(2);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(2);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-12:ROOT", 1));
 
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{2, -12, 7}, scDefaultValue);
     *mpAuxSearchTree = *mpSearchTree;
 
-    nodeDeleted = mpSearchTree->removeNode(-12);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-12);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "2:ROOT/7:2R", 2));
 
-    nodeDeleted = mpSearchTree->removeNode(7);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(7);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "2:ROOT", 1));
 
-    nodeDeleted = mpAuxSearchTree->removeNode(7);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpAuxSearchTree->tryRemoveNode(7);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "2:ROOT/-12:2L", 2));
 
-    nodeDeleted = mpAuxSearchTree->removeNode(-12);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpAuxSearchTree->tryRemoveNode(-12);
+    QVERIFY(nodeRemoved &&
             areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "2:ROOT", 1));
 
-    // deleting null node from custom null value tree
+    // removing null node from custom null value tree
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{-1, 3, 2, 4, -2}, scDefaultValue, scCustomNullValue);
 
-    nodeDeleted = mpSearchTree->removeNode(-5);
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-5);
+    QVERIFY(!nodeRemoved &&
             areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(), mpSearchTree->getSize(), "-1:ROOT/-2:-1/3:-1/2:3/4:3", 5));
 
-    // deleting same node from custom and default null value trees of equal structure, keys and values
+    // removing same node from custom and default null value trees of equal structure, keys and values
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{-1, 3, 2, 4, -2}, scDefaultValue);
 
-    nodeDeleted = mpSearchTree->removeNode(3);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(3);
+    QVERIFY(nodeRemoved &&
             *mpSearchTree != *mpAuxSearchTree);
 
-    nodeDeleted = mpAuxSearchTree->removeNode(3);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpAuxSearchTree->tryRemoveNode(3);
+    QVERIFY(nodeRemoved &&
             *mpSearchTree == *mpAuxSearchTree);
 
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(), mpAuxSearchTree->getSize(), "-1:ROOT/-2:-1/4:-1/2:4L", 4));
@@ -332,20 +332,20 @@ void IntKeySimpleBSTTests::testUpdateNodeValue()
 
     QVERIFY(scDefaultNullValue == mpSearchTree->getNullValue());
 
-    (void)mpSearchTree->addOrUpdateNode(-5, "a1");
-    (void)mpSearchTree->addOrUpdateNode(8, "b2");
-    (void)mpSearchTree->addOrUpdateNode(-1, "c3");
-    (void)mpSearchTree->addOrUpdateNode(2, "d4");
-    (void)mpSearchTree->addOrUpdateNode(-2, "e5");
-    (void)mpSearchTree->addOrUpdateNode(7, "f6");
-    (void)mpSearchTree->addOrUpdateNode(0, "g7");
-    (void)mpSearchTree->addOrUpdateNode(-9, "h8");
-    (void)mpSearchTree->addOrUpdateNode(16, "i9");
-    (void)mpSearchTree->addOrUpdateNode(14, "j10");
-    (void)mpSearchTree->addOrUpdateNode(-23, "k11");
-    (void)mpSearchTree->addOrUpdateNode(17, "l12");
-    (void)mpSearchTree->addOrUpdateNode(-16, "m13");
-    (void)mpSearchTree->addOrUpdateNode(-12, "n14");
+    (void)mpSearchTree->tryInsertNode(-5, "a1");
+    (void)mpSearchTree->tryInsertNode(8, "b2");
+    (void)mpSearchTree->tryInsertNode(-1, "c3");
+    (void)mpSearchTree->tryInsertNode(2, "d4");
+    (void)mpSearchTree->tryInsertNode(-2, "e5");
+    (void)mpSearchTree->tryInsertNode(7, "f6");
+    (void)mpSearchTree->tryInsertNode(0, "g7");
+    (void)mpSearchTree->tryInsertNode(-9, "h8");
+    (void)mpSearchTree->tryInsertNode(16, "i9");
+    (void)mpSearchTree->tryInsertNode(14, "j10");
+    (void)mpSearchTree->tryInsertNode(-23, "k11");
+    (void)mpSearchTree->tryInsertNode(17, "l12");
+    (void)mpSearchTree->tryInsertNode(-16, "m13");
+    (void)mpSearchTree->tryInsertNode(-12, "n14");
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "-5:a1:ROOT/-9:h8:-5/8:b2:-5/-23:k11:-9L/-1:c3:8/16:i9:8/-16:m13:-23R/-2:e5:-1/2:d4:-1/14:j10:16/17:l12:16/-12:n14:-16R/0:g7:2/7:f6:2", 14));
 
@@ -355,58 +355,58 @@ void IntKeySimpleBSTTests::testUpdateNodeValue()
 
     QVERIFY(scDefaultNullValue == mpSearchTree->getNodeValue(25));
 
-    // update by adding/modifying node
-    bool newNodeAdded{false};
+    // update by inserting/modifying node
+    bool nodeInserted{false};
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(2, "d4_1");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(2, "d4_1");
+    QVERIFY(!nodeInserted &&
             "d4_1" == mpSearchTree->getNodeValue(2));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-9, "b2");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-9, "b2");
+    QVERIFY(!nodeInserted &&
             "b2" == mpSearchTree->getNodeValue(-9));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(14, "j10");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(14, "j10");
+    QVERIFY(!nodeInserted &&
             "j10" == mpSearchTree->getNodeValue(14));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(17, "L12");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(17, "L12");
+    QVERIFY(!nodeInserted &&
             "L12" == mpSearchTree->getNodeValue(17));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-12, scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-12, scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             "n14" == mpSearchTree->getNodeValue(-12));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(25, scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(25, scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             scDefaultNullValue == mpSearchTree->getNodeValue(25));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(25, "o15");
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(25, "o15");
+    QVERIFY(nodeInserted &&
             "o15" == mpSearchTree->getNodeValue(25));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(25, scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(25, scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             "o15" == mpSearchTree->getNodeValue(25));
 
-    // update by deleting node
-    bool nodeDeleted{false};
+    // update by removing node
+    bool nodeRemoved{false};
 
-    nodeDeleted = mpSearchTree->removeNode(7);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(7);
+    QVERIFY(nodeRemoved &&
             scDefaultNullValue == mpSearchTree->getNodeValue(7));
 
-    nodeDeleted = mpSearchTree->removeNode(-28);
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-28);
+    QVERIFY(!nodeRemoved &&
             scDefaultNullValue == mpSearchTree->getNodeValue(-28));
 
-    // delete and re-add node with different value
-    nodeDeleted = mpSearchTree->removeNode(16);
-    newNodeAdded = mpSearchTree->addOrUpdateNode(16, "i9_new");
+    // remove and re-insert node with different value
+    nodeRemoved = mpSearchTree->tryRemoveNode(16);
+    nodeInserted = mpSearchTree->tryInsertNode(16, "i9_new");
 
-    QVERIFY(nodeDeleted &&
-            newNodeAdded &&
+    QVERIFY(nodeRemoved &&
+            nodeInserted &&
             "i9_new" == mpSearchTree->getNodeValue(16));
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "-5:a1:ROOT/-9:b2:-5/8:b2:-5/-23:k11:-9L/-1:c3:8/17:L12:8/-16:m13:-23R/-2:e5:-1/2:d4_1:-1/14:j10:17/25:o15:17/-12:n14:-16R/0:g7:2L/16:i9_new:14R", 14));
@@ -431,60 +431,60 @@ void IntKeySimpleBSTTests::testUpdateNodeValue()
     
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(scCustomNullValue);
 
-    (void)mpSearchTree->addOrUpdateNode(-5, "a1");
-    (void)mpSearchTree->addOrUpdateNode(8, "b2");
-    (void)mpSearchTree->addOrUpdateNode(-1, scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode(2, "d4");
-    (void)mpSearchTree->addOrUpdateNode(-2, "e5");
-    (void)mpSearchTree->addOrUpdateNode(7, "f6");
-    (void)mpSearchTree->addOrUpdateNode(-8, scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode(0, "g7");
-    (void)mpSearchTree->addOrUpdateNode(-9, "h8");
+    (void)mpSearchTree->tryInsertNode(-5, "a1");
+    (void)mpSearchTree->tryInsertNode(8, "b2");
+    (void)mpSearchTree->tryInsertNode(-1, scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode(2, "d4");
+    (void)mpSearchTree->tryInsertNode(-2, "e5");
+    (void)mpSearchTree->tryInsertNode(7, "f6");
+    (void)mpSearchTree->tryInsertNode(-8, scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode(0, "g7");
+    (void)mpSearchTree->tryInsertNode(-9, "h8");
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "-5:a1:ROOT/-8::-5/8:b2:-5/-9:h8:-8L/-1::8L/-2:e5:-1/2:d4:-1/0:g7:2/7:f6:2", 9));
     QVERIFY(scCustomNullValue == mpSearchTree->getNullValue());
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(2, "d4_1");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(2, "d4_1");
+    QVERIFY(!nodeInserted &&
             "d4_1" == mpSearchTree->getNodeValue(2));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-1, "c3");
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-1, "c3");
+    QVERIFY(!nodeInserted &&
             "c3" == mpSearchTree->getNodeValue(-1));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(7, scCustomNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(7, scCustomNullValue);
+    QVERIFY(!nodeInserted &&
             "f6" == mpSearchTree->getNodeValue(7));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-2, scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-2, scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             scDefaultNullValue == mpSearchTree->getNodeValue(-2));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(25, scCustomNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(25, scCustomNullValue);
+    QVERIFY(!nodeInserted &&
             scCustomNullValue == mpSearchTree->getNodeValue(25));
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-7, "i9");
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(-7, "i9");
+    QVERIFY(nodeInserted &&
             "i9" == mpSearchTree->getNodeValue(-7));
 
-    nodeDeleted = mpSearchTree->removeNode(-25);
-    QVERIFY(!nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-25);
+    QVERIFY(!nodeRemoved &&
             scCustomNullValue == mpSearchTree->getNodeValue(-25));
 
-    nodeDeleted = mpSearchTree->removeNode(-8);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(-8);
+    QVERIFY(nodeRemoved &&
             scCustomNullValue == mpSearchTree->getNodeValue(-8));
 
-    nodeDeleted = mpSearchTree->removeNode(2);
-    QVERIFY(nodeDeleted &&
+    nodeRemoved = mpSearchTree->tryRemoveNode(2);
+    QVERIFY(nodeRemoved &&
             scCustomNullValue == mpSearchTree->getNodeValue(2));
 
-    nodeDeleted = mpSearchTree->removeNode(-1);
-    newNodeAdded = mpSearchTree->addOrUpdateNode(-1, scDefaultNullValue);
+    nodeRemoved = mpSearchTree->tryRemoveNode(-1);
+    nodeInserted = mpSearchTree->tryInsertNode(-1, scDefaultNullValue);
 
-    QVERIFY(nodeDeleted &&
-            newNodeAdded &&
+    QVERIFY(nodeRemoved &&
+            nodeInserted &&
             scDefaultNullValue == mpSearchTree->getNodeValue(-1));
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "-5:a1:ROOT/-7:i9:-5/8:b2:-5/-9:h8:-7L/0:g7:8L/-2::0/7:f6:0/-1::-2R", 8));
@@ -494,8 +494,8 @@ void IntKeySimpleBSTTests::testUpdateNodeValue()
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
     QVERIFY(scCustomNullValue == mpAuxSearchTree->getNullValue());
 
-    newNodeAdded = mpAuxSearchTree->addOrUpdateNode(17, "df");
-    QVERIFY(newNodeAdded &&
+    nodeInserted = mpAuxSearchTree->tryInsertNode(17, "df");
+    QVERIFY(nodeInserted &&
             *mpSearchTree != *mpAuxSearchTree);
 
     // test value update and copy assignment between default and custom null value trees
@@ -503,12 +503,12 @@ void IntKeySimpleBSTTests::testUpdateNodeValue()
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{16, -9, 14, 7, -23, 17, -16, -12}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{-2, 5, 4, 0, -1}, scDefaultValue);
 
-    newNodeAdded = mpSearchTree->addOrUpdateNode(7, scDefaultNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpSearchTree->tryInsertNode(7, scDefaultNullValue);
+    QVERIFY(!nodeInserted &&
             scDefaultNullValue == mpSearchTree->getNodeValue(7));
 
-    newNodeAdded = mpAuxSearchTree->addOrUpdateNode(4, scCustomNullValue);
-    QVERIFY(!newNodeAdded &&
+    nodeInserted = mpAuxSearchTree->tryInsertNode(4, scCustomNullValue);
+    QVERIFY(!nodeInserted &&
             scCustomNullValue == mpAuxSearchTree->getNodeValue(4));
 
     *mpAuxSearchTree = *mpSearchTree;
@@ -523,11 +523,11 @@ void IntKeySimpleBSTTests::testMoveSemantics()
 {
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
-    (void)mpSearchTree->addOrUpdateNode(-5, "a1");
-    (void)mpSearchTree->addOrUpdateNode(8, "b2");
-    (void)mpSearchTree->addOrUpdateNode(-1, "c3");
-    (void)mpSearchTree->addOrUpdateNode(2, "d4");
-    (void)mpSearchTree->addOrUpdateNode(-2, "e5");
+    (void)mpSearchTree->tryInsertNode(-5, "a1");
+    (void)mpSearchTree->tryInsertNode(8, "b2");
+    (void)mpSearchTree->tryInsertNode(-1, "c3");
+    (void)mpSearchTree->tryInsertNode(2, "d4");
+    (void)mpSearchTree->tryInsertNode(-2, "e5");
     
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::move(*mpSearchTree));
 
@@ -537,10 +537,10 @@ void IntKeySimpleBSTTests::testMoveSemantics()
     QVERIFY(scDefaultNullValue == mpSearchTree->getNullValue() &&
             scDefaultNullValue == mpAuxSearchTree->getNullValue());
 
-    mpSearchTree->addOrUpdateNode(17, "f6");
-    mpSearchTree->addOrUpdateNode(0, "g7");
-    mpSearchTree->addOrUpdateNode(-2, "e5_1");
-    mpSearchTree->addOrUpdateNode(3, "h8");
+    mpSearchTree->tryInsertNode(17, "f6");
+    mpSearchTree->tryInsertNode(0, "g7");
+    mpSearchTree->tryInsertNode(-2, "e5_1");
+    mpSearchTree->tryInsertNode(3, "h8");
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "17:f6:ROOT/0:g7:17L/-2:e5_1:0/3:h8:0", 4));
 
@@ -564,8 +564,8 @@ void IntKeySimpleBSTTests::testMoveSemantics()
     
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{-2, 5, 4, 0, -1}, scDefaultValue, scCustomNullValue);
 
-    (void)mpSearchTree->addOrUpdateNode(5, scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode(4, "newval");
+    (void)mpSearchTree->tryInsertNode(5, scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode(4, "newval");
     
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::move(*mpSearchTree));
 
@@ -579,8 +579,8 @@ void IntKeySimpleBSTTests::testMoveSemantics()
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{16, -9, 14, 7, -23, 17, -16, -12}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{-2, 5, 4, 0, -1}, scDefaultValue);
 
-    (void)mpSearchTree->addOrUpdateNode(7, scDefaultNullValue);
-    (void)mpAuxSearchTree->addOrUpdateNode(4, scCustomNullValue);
+    (void)mpSearchTree->tryInsertNode(7, scDefaultNullValue);
+    (void)mpAuxSearchTree->tryInsertNode(4, scCustomNullValue);
 
     *mpSearchTree = std::move(*mpAuxSearchTree);
 
@@ -594,26 +594,26 @@ void IntKeySimpleBSTTests::testMergeTrees()
 {
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
-    (void)mpSearchTree->addOrUpdateNode(-5, "a1_1");
-    (void)mpSearchTree->addOrUpdateNode(2, "d4");
-    (void)mpSearchTree->addOrUpdateNode(7, "f6");
-    (void)mpSearchTree->addOrUpdateNode(-23, "k11");
-    (void)mpSearchTree->addOrUpdateNode(17, "l12");
-    (void)mpSearchTree->addOrUpdateNode(-12, "n14");
-    (void)mpSearchTree->addOrUpdateNode(16, "i9_1");
-    (void)mpSearchTree->addOrUpdateNode(0, "g7_1");
+    (void)mpSearchTree->tryInsertNode(-5, "a1_1");
+    (void)mpSearchTree->tryInsertNode(2, "d4");
+    (void)mpSearchTree->tryInsertNode(7, "f6");
+    (void)mpSearchTree->tryInsertNode(-23, "k11");
+    (void)mpSearchTree->tryInsertNode(17, "l12");
+    (void)mpSearchTree->tryInsertNode(-12, "n14");
+    (void)mpSearchTree->tryInsertNode(16, "i9_1");
+    (void)mpSearchTree->tryInsertNode(0, "g7_1");
     
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
-    (void)mpAuxSearchTree->addOrUpdateNode(8, "b2");
-    (void)mpAuxSearchTree->addOrUpdateNode(-1, "c3");
-    (void)mpAuxSearchTree->addOrUpdateNode(-2, "e5");
-    (void)mpAuxSearchTree->addOrUpdateNode(0, "g7_2");
-    (void)mpAuxSearchTree->addOrUpdateNode(-5, "a1_2");
-    (void)mpAuxSearchTree->addOrUpdateNode(16, "i9_2");
-    (void)mpAuxSearchTree->addOrUpdateNode(-9, "h8");
-    (void)mpAuxSearchTree->addOrUpdateNode(14, "j10");
-    (void)mpAuxSearchTree->addOrUpdateNode(-16, "m13");
+    (void)mpAuxSearchTree->tryInsertNode(8, "b2");
+    (void)mpAuxSearchTree->tryInsertNode(-1, "c3");
+    (void)mpAuxSearchTree->tryInsertNode(-2, "e5");
+    (void)mpAuxSearchTree->tryInsertNode(0, "g7_2");
+    (void)mpAuxSearchTree->tryInsertNode(-5, "a1_2");
+    (void)mpAuxSearchTree->tryInsertNode(16, "i9_2");
+    (void)mpAuxSearchTree->tryInsertNode(-9, "h8");
+    (void)mpAuxSearchTree->tryInsertNode(14, "j10");
+    (void)mpAuxSearchTree->tryInsertNode(-16, "m13");
     
     const IntStrBinarySearchTree searchTreeCopy{*mpSearchTree};
     const IntStrBinarySearchTree searchTreeAuxCopy{*mpAuxSearchTree};
@@ -684,21 +684,21 @@ void IntKeySimpleBSTTests::testMergeTrees()
     
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(scCustomNullValue);
 
-    (void)mpSearchTree->addOrUpdateNode(-5, "a1");
-    (void)mpSearchTree->addOrUpdateNode(8, "b2");
-    (void)mpSearchTree->addOrUpdateNode(-1, "c3");
-    (void)mpSearchTree->addOrUpdateNode(2, "d4");
-    (void)mpSearchTree->addOrUpdateNode(-2, scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode(-8, "e5");
-    (void)mpSearchTree->addOrUpdateNode(7, scDefaultNullValue);
-    (void)mpSearchTree->addOrUpdateNode(0, "g7");
-    (void)mpSearchTree->addOrUpdateNode(-9, "h8");
-    (void)mpSearchTree->addOrUpdateNode(-7, "i9");
-    (void)mpSearchTree->removeNode(-8);
-    (void)mpSearchTree->removeNode(2);
+    (void)mpSearchTree->tryInsertNode(-5, "a1");
+    (void)mpSearchTree->tryInsertNode(8, "b2");
+    (void)mpSearchTree->tryInsertNode(-1, "c3");
+    (void)mpSearchTree->tryInsertNode(2, "d4");
+    (void)mpSearchTree->tryInsertNode(-2, scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode(-8, "e5");
+    (void)mpSearchTree->tryInsertNode(7, scDefaultNullValue);
+    (void)mpSearchTree->tryInsertNode(0, "g7");
+    (void)mpSearchTree->tryInsertNode(-9, "h8");
+    (void)mpSearchTree->tryInsertNode(-7, "i9");
+    (void)mpSearchTree->tryRemoveNode(-8);
+    (void)mpSearchTree->tryRemoveNode(2);
     
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{16, -9, 14, 7, -23, 17, -16, -12}, scDefaultValue, scCustomNullValue);
-    (void)mpAuxSearchTree->addOrUpdateNode(-9, scDefaultNullValue);
+    (void)mpAuxSearchTree->tryInsertNode(-9, scDefaultNullValue);
 
     merged = mpSearchTree->mergeTree(*mpAuxSearchTree);
 
@@ -712,8 +712,8 @@ void IntKeySimpleBSTTests::testMergeTrees()
     
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{5, 10, -2, 9, 4, 2, 7, -8}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{16, -9, 14, 7, -23, 17, -16, -12, 1}, scDefaultValue, scDefaultNullValue);
-    mpSearchTree->addOrUpdateNode(9, "abc");
-    mpAuxSearchTree->addOrUpdateNode(7, "xyz");
+    mpSearchTree->tryInsertNode(9, "abc");
+    mpAuxSearchTree->tryInsertNode(7, "xyz");
 
     merged = mpSearchTree->mergeTree(*mpAuxSearchTree);
 
@@ -755,8 +755,8 @@ void IntKeySimpleBSTTests::testMergeTrees()
     
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{5, 10, -2, 9, 4, 2, 7, -8}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>(std::vector<int>{16, -9, 14, 7, -23, 17, -16, -12, 1}, scDefaultValue, scCustomNullValue + "1");
-    mpSearchTree->addOrUpdateNode(9, "abc");
-    mpAuxSearchTree->addOrUpdateNode(7, "xyz");
+    mpSearchTree->tryInsertNode(9, "abc");
+    mpAuxSearchTree->tryInsertNode(7, "xyz");
 
     merged = mpSearchTree->mergeTree(*mpAuxSearchTree);
 
@@ -799,22 +799,22 @@ void IntKeySimpleBSTTests::testInOrderForwardIterators()
 {
     mpSearchTree = std::make_unique<IntStrBinarySearchTree>();
 
-    (void)mpSearchTree->addOrUpdateNode(-5, "b");
-    (void)mpSearchTree->addOrUpdateNode(8, "z");
-    (void)mpSearchTree->addOrUpdateNode(-1, "_ca");
-    (void)mpSearchTree->addOrUpdateNode(2, "q1");
-    (void)mpSearchTree->addOrUpdateNode(-2, "55");
-    (void)mpSearchTree->addOrUpdateNode(7, "a");
-    (void)mpSearchTree->addOrUpdateNode(0, "fq");
-    (void)mpSearchTree->addOrUpdateNode(-9, scDefaultValue);
-    (void)mpSearchTree->addOrUpdateNode(16, "cCc");
-    (void)mpSearchTree->addOrUpdateNode(14, "abab");
-    (void)mpSearchTree->addOrUpdateNode(-23, "-c");
-    (void)mpSearchTree->addOrUpdateNode(17, "b");
-    (void)mpSearchTree->addOrUpdateNode(-16, "qa");
-    (void)mpSearchTree->addOrUpdateNode(-12, "dev");
-    (void)mpSearchTree->addOrUpdateNode(19, "_ca");
-    (void)mpSearchTree->addOrUpdateNode(-15, scDefaultValue);
+    (void)mpSearchTree->tryInsertNode(-5, "b");
+    (void)mpSearchTree->tryInsertNode(8, "z");
+    (void)mpSearchTree->tryInsertNode(-1, "_ca");
+    (void)mpSearchTree->tryInsertNode(2, "q1");
+    (void)mpSearchTree->tryInsertNode(-2, "55");
+    (void)mpSearchTree->tryInsertNode(7, "a");
+    (void)mpSearchTree->tryInsertNode(0, "fq");
+    (void)mpSearchTree->tryInsertNode(-9, scDefaultValue);
+    (void)mpSearchTree->tryInsertNode(16, "cCc");
+    (void)mpSearchTree->tryInsertNode(14, "abab");
+    (void)mpSearchTree->tryInsertNode(-23, "-c");
+    (void)mpSearchTree->tryInsertNode(17, "b");
+    (void)mpSearchTree->tryInsertNode(-16, "qa");
+    (void)mpSearchTree->tryInsertNode(-12, "dev");
+    (void)mpSearchTree->tryInsertNode(19, "_ca");
+    (void)mpSearchTree->tryInsertNode(-15, scDefaultValue);
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true),
                                      mpSearchTree->getSize(),
@@ -845,7 +845,7 @@ void IntKeySimpleBSTTests::testInOrderForwardIterators()
 
     QVERIFY(std::equal(traversedElements.cbegin(), traversedElements.cend(), c_TraversedElementsRef.cbegin()));
 
-    (void)mpSearchTree->addOrUpdateNode(14, "BaBa");
+    (void)mpSearchTree->tryInsertNode(14, "BaBa");
     it = mpSearchTree->find(14);
 
     QVERIFY(it.getValue() == "BaBa");
@@ -863,7 +863,7 @@ void IntKeySimpleBSTTests::testInOrderForwardIterators()
     QVERIFY(!it.getKey().has_value() && it.getValue().empty());
 
     QVERIFY(mpSearchTree->find(2) != mpSearchTree->end());
-    (void)mpSearchTree->removeNode(2);
+    (void)mpSearchTree->tryRemoveNode(2);
     QVERIFY(mpSearchTree->find(2) == mpSearchTree->end());
     
     mpAuxSearchTree = std::make_unique<IntStrBinarySearchTree>("NullVal");

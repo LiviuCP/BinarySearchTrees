@@ -33,8 +33,8 @@ private slots:
 private:
     void _buildPrimaryTestSearchTree(); // create content for the primary test tree (referenced by mpSearchTree)
     void _buildSecondaryTestSearchTree(); // create content for the secondary test tree (referenced by mpAuxSearchTree)
-    void _buildPrimaryTestSearchTreeInDifferentOrder(); // same content, different node adding order to the tree created by _buildPrimaryTestSearchTree() method (referenced by mpAuxSearchTree)
-    void _buildSecondaryTestSearchTreeInDifferentOrder(); // same content, different node adding order to the tree created by _buildSecondaryTestSearchTree() method (referenced by mpSearchTree)
+    void _buildPrimaryTestSearchTreeInDifferentOrder(); // same content, different node inserting order to the tree created by _buildPrimaryTestSearchTree() method (referenced by mpAuxSearchTree)
+    void _buildSecondaryTestSearchTreeInDifferentOrder(); // same content, different node inserting order to the tree created by _buildSecondaryTestSearchTree() method (referenced by mpSearchTree)
     
     upStrIntStrBinarySearchTree mpSearchTree;
     upStrIntStrBinarySearchTree mpAuxSearchTree;
@@ -320,14 +320,14 @@ void StrIntKeyMixedTreeTypesTests::testDifferentTreeTypesEquivalence()
 
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
 
-    (void)mpSearchTree->addOrUpdateNode("AB_", "n14_1");
+    (void)mpSearchTree->tryInsertNode("AB_", "n14_1");
     QVERIFY(*mpSearchTree != *mpAuxSearchTree);
 
-    (void)mpAuxSearchTree->addOrUpdateNode("AB_", "n14_1");
+    (void)mpAuxSearchTree->tryInsertNode("AB_", "n14_1");
     QVERIFY(*dynamic_cast<StrIntStrRedBlackTree*>(mpSearchTree.get()) == *mpAuxSearchTree);
 
-    (void)mpSearchTree->addOrUpdateNode("A", "abcd");
-    (void)mpAuxSearchTree->addOrUpdateNode("A", "abcd");
+    (void)mpSearchTree->tryInsertNode("A", "abcd");
+    (void)mpAuxSearchTree->tryInsertNode("A", "abcd");
     QVERIFY(*dynamic_cast<StrIntStrRedBlackTree*>(mpSearchTree.get()) != *mpAuxSearchTree);
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "B:d4:ROOT:BK/AB_:n14_1:B:RD/AF:i9_1:B:BK/BC_:k11:AB_:BK/Z:g7_1:AB_:BK/G:f6:AF:RD/AG:l12:AF:RD/E_:a1_1:Z:RD/A:abcd:Z:RD", 9));
@@ -344,14 +344,14 @@ void StrIntKeyMixedTreeTypesTests::testDifferentTreeTypesEquivalence()
 
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
 
-    (void)mpSearchTree->removeNode("AD");
+    (void)mpSearchTree->tryRemoveNode("AD");
     QVERIFY(*mpSearchTree != *mpAuxSearchTree);
 
-    (void)mpAuxSearchTree->removeNode("AD");
+    (void)mpAuxSearchTree->tryRemoveNode("AD");
     QVERIFY(*mpSearchTree == *dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()));
 
-    (void)mpSearchTree->removeNode("B_");
-    (void)mpAuxSearchTree->removeNode("B_");
+    (void)mpSearchTree->tryRemoveNode("B_");
+    (void)mpAuxSearchTree->tryRemoveNode("B_");
     QVERIFY(*mpSearchTree != *dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()));
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "A_:c3:ROOT/E_:a1_2:A_/H:b2:A_/I_:h8:E_L/Z:g7_2:H/AF:i9_2:H/AF_:m13:I_L", 7));
@@ -373,15 +373,15 @@ void StrIntKeyMixedTreeTypesTests::testDifferentTreeTypesEquivalence()
     QVERIFY(*mpSearchTree == *mpAuxSearchTree);
     QVERIFY(*mpSearchTree == *dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()));
 
-    (void)mpSearchTree->addOrUpdateNode("AB_", "n14_1");
+    (void)mpSearchTree->tryInsertNode("AB_", "n14_1");
     QVERIFY(*mpSearchTree != *mpAuxSearchTree);
     QVERIFY(*mpSearchTree != *dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()));
 
-    (void)mpAuxSearchTree->addOrUpdateNode("AB_", "n14_1");
+    (void)mpAuxSearchTree->tryInsertNode("AB_", "n14_1");
     QVERIFY(*dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()) == *dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()));
     QVERIFY(*dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()) == *mpAuxSearchTree);
 
-    (void)mpAuxSearchTree->addOrUpdateNode("BE", "abcd");
+    (void)mpAuxSearchTree->tryInsertNode("BE", "abcd");
     QVERIFY(*dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()) != *dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()));
     QVERIFY(*dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()) != *mpAuxSearchTree);
 
@@ -402,15 +402,15 @@ void StrIntKeyMixedTreeTypesTests::testDifferentTreeTypesEquivalence()
     QVERIFY(*mpAuxSearchTree == *mpSearchTree);
     QVERIFY(*mpAuxSearchTree == *dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()));
 
-    (void)mpSearchTree->removeNode("B_");
+    (void)mpSearchTree->tryRemoveNode("B_");
     QVERIFY(*mpAuxSearchTree != *mpSearchTree);
     QVERIFY(*mpAuxSearchTree != *dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()));
 
-    (void)mpAuxSearchTree->removeNode("B_");
+    (void)mpAuxSearchTree->tryRemoveNode("B_");
     QVERIFY(*dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()) == *dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()));
     QVERIFY(*dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()) == *mpSearchTree);
 
-    (void)mpSearchTree->removeNode("AD");
+    (void)mpSearchTree->tryRemoveNode("AD");
     QVERIFY(*dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()) != *dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()));
     QVERIFY(*dynamic_cast<StrIntStrRedBlackTree*>(mpAuxSearchTree.get()) != *mpSearchTree);
 
@@ -430,14 +430,14 @@ void StrIntKeyMixedTreeTypesTests::testDifferentTreeTypesEquivalence()
 
     QVERIFY(*mpAuxSearchTree == *mpSearchTree);
 
-    (void)mpSearchTree->addOrUpdateNode("AB_", "n14_1");
+    (void)mpSearchTree->tryInsertNode("AB_", "n14_1");
     QVERIFY(*mpAuxSearchTree != *mpSearchTree);
 
-    (void)mpAuxSearchTree->addOrUpdateNode("AB_", "n14_1");
+    (void)mpAuxSearchTree->tryInsertNode("AB_", "n14_1");
     QVERIFY(*mpAuxSearchTree == *dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()));
 
-    (void)mpSearchTree->addOrUpdateNode("A", "abcd");
-    (void)mpAuxSearchTree->addOrUpdateNode("A", "abcd");
+    (void)mpSearchTree->tryInsertNode("A", "abcd");
+    (void)mpAuxSearchTree->tryInsertNode("A", "abcd");
     QVERIFY(*mpAuxSearchTree != *dynamic_cast<StrIntStrAVLTree*>(mpSearchTree.get()));
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "B:d4:ROOT/AB_:n14_1:B/AF:i9_1:B/BC_:k11:AB_/Z:g7_1:AB_/G:f6:AF/AG:l12:AF/E_:a1_1:Z/A:abcd:Z", 9));
@@ -454,14 +454,14 @@ void StrIntKeyMixedTreeTypesTests::testDifferentTreeTypesEquivalence()
 
     QVERIFY(*mpAuxSearchTree == *mpSearchTree);
 
-    (void)mpSearchTree->removeNode("AD");
+    (void)mpSearchTree->tryRemoveNode("AD");
     QVERIFY(*mpAuxSearchTree != *mpSearchTree);
 
-    (void)mpAuxSearchTree->removeNode("AD");
+    (void)mpAuxSearchTree->tryRemoveNode("AD");
     QVERIFY(*dynamic_cast<StrIntStrAVLTree*>(mpAuxSearchTree.get()) == *mpSearchTree);
 
-    (void)mpSearchTree->removeNode("B_");
-    (void)mpAuxSearchTree->removeNode("B_");
+    (void)mpSearchTree->tryRemoveNode("B_");
+    (void)mpAuxSearchTree->tryRemoveNode("B_");
     QVERIFY(*dynamic_cast<StrIntStrAVLTree*>(mpAuxSearchTree.get()) != *mpSearchTree);
 
     QVERIFY(areExpectedTreeValuesMet(mpSearchTree->getTreeAsString(true), mpSearchTree->getSize(), "A_:c3:ROOT/E_:a1_2:A_/H:b2:A_/I_:h8:E_L/Z:g7_2:H/AF:i9_2:H/AF_:m13:I_L", 7));
@@ -496,19 +496,19 @@ void StrIntKeyMixedTreeTypesTests::testDifferentTreeTypesEquivalence()
 
     mpSearchTree = std::make_unique<StrIntStrBinarySearchTree>(std::vector<StringifiedInteger>{"B", "A_", "C"}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"B", "A_", "C"}, scDefaultValue, scCustomNullValue);
-    mpSearchTree->addOrUpdateNode("B", "abcd");
+    mpSearchTree->tryInsertNode("B", "abcd");
 
     QVERIFY(*mpSearchTree != *mpAuxSearchTree);
 
     mpSearchTree = std::make_unique<StrIntStrBinarySearchTree>(std::vector<StringifiedInteger>{"B", "A_", "C", "D_"}, scDefaultValue);
     mpAuxSearchTree = std::make_unique<StrIntStrRedBlackTree>(std::vector<StringifiedInteger>{"B", "A_", "C", "D_"}, scDefaultValue);
-    mpAuxSearchTree->addOrUpdateNode("D_", "abcd");
+    mpAuxSearchTree->tryInsertNode("D_", "abcd");
 
     QVERIFY(*mpSearchTree != *mpAuxSearchTree);
 
     mpSearchTree = std::make_unique<StrIntStrRedBlackTree>(std::vector<StringifiedInteger>{"B", "A_", "C", "E"}, scDefaultValue, scCustomNullValue);
     mpAuxSearchTree = std::make_unique<StrIntStrAVLTree>(std::vector<StringifiedInteger>{"B", "A_", "C", "E"}, scDefaultValue, scCustomNullValue);
-    mpAuxSearchTree->addOrUpdateNode("E", "abcd");
+    mpAuxSearchTree->tryInsertNode("E", "abcd");
 
     QVERIFY(*mpSearchTree != *mpAuxSearchTree);
 }
@@ -528,7 +528,7 @@ void StrIntKeyMixedTreeTypesTests::testCopyAssignmentOfMixedTreeTypes()
     QVERIFY(scDefaultNullValue == mpSearchTree->getNullValue());
     QVERIFY(areExpectedTreeValuesMet(mpAuxSearchTree->getTreeAsString(true), mpAuxSearchTree->getSize(), "A_:c3:ROOT/E_:a1_2:A_/H:b2:A_/I_:h8:E_/B_:e5:E_/Z:g7_2:H/AF:i9_2:H/AF_:m13:I_L/AD:j10:AFL", 9));
 
-    /* simulate how the destination tree would be built by adding the keys of the source tree in (top-down/left-right) order
+    /* simulate how the destination tree would be built by inserting the keys of the source tree in (top-down/left-right) order
        (no need to take the values into consideration so default values are being used for simplicity)
     */
     QVERIFY("A_:ROOT:BK/E_:A_:RD/H:A_:RD/I_:E_:BK/B_:E_:BK/Z:H:BK/AF:H:BK/AF_:I_L:RD/AD:AFL:RD" ==
@@ -706,52 +706,52 @@ void StrIntKeyMixedTreeTypesTests::testMoveAssignmentOfMixedTreeTypes()
 
 void StrIntKeyMixedTreeTypesTests::_buildPrimaryTestSearchTree()
 {
-    (void)mpSearchTree->addOrUpdateNode("E_", "a1_1");
-    (void)mpSearchTree->addOrUpdateNode("B", "d4");
-    (void)mpSearchTree->addOrUpdateNode("G", "f6");
-    (void)mpSearchTree->addOrUpdateNode("BC_", "k11");
-    (void)mpSearchTree->addOrUpdateNode("AG", "l12");
-    (void)mpSearchTree->addOrUpdateNode("AB_", "n14");
-    (void)mpSearchTree->addOrUpdateNode("AF", "i9_1");
-    (void)mpSearchTree->addOrUpdateNode("Z", "g7_1");
+    (void)mpSearchTree->tryInsertNode("E_", "a1_1");
+    (void)mpSearchTree->tryInsertNode("B", "d4");
+    (void)mpSearchTree->tryInsertNode("G", "f6");
+    (void)mpSearchTree->tryInsertNode("BC_", "k11");
+    (void)mpSearchTree->tryInsertNode("AG", "l12");
+    (void)mpSearchTree->tryInsertNode("AB_", "n14");
+    (void)mpSearchTree->tryInsertNode("AF", "i9_1");
+    (void)mpSearchTree->tryInsertNode("Z", "g7_1");
 }
 
 void StrIntKeyMixedTreeTypesTests::_buildSecondaryTestSearchTree()
 {
-    (void)mpAuxSearchTree->addOrUpdateNode("H", "b2");
-    (void)mpAuxSearchTree->addOrUpdateNode("A_", "c3");
-    (void)mpAuxSearchTree->addOrUpdateNode("B_", "e5");
-    (void)mpAuxSearchTree->addOrUpdateNode("Z", "g7_2");
-    (void)mpAuxSearchTree->addOrUpdateNode("E_", "a1_2");
-    (void)mpAuxSearchTree->addOrUpdateNode("AF", "i9_2");
-    (void)mpAuxSearchTree->addOrUpdateNode("I_", "h8");
-    (void)mpAuxSearchTree->addOrUpdateNode("AD", "j10");
-    (void)mpAuxSearchTree->addOrUpdateNode("AF_", "m13");
+    (void)mpAuxSearchTree->tryInsertNode("H", "b2");
+    (void)mpAuxSearchTree->tryInsertNode("A_", "c3");
+    (void)mpAuxSearchTree->tryInsertNode("B_", "e5");
+    (void)mpAuxSearchTree->tryInsertNode("Z", "g7_2");
+    (void)mpAuxSearchTree->tryInsertNode("E_", "a1_2");
+    (void)mpAuxSearchTree->tryInsertNode("AF", "i9_2");
+    (void)mpAuxSearchTree->tryInsertNode("I_", "h8");
+    (void)mpAuxSearchTree->tryInsertNode("AD", "j10");
+    (void)mpAuxSearchTree->tryInsertNode("AF_", "m13");
 }
 
 void StrIntKeyMixedTreeTypesTests::_buildPrimaryTestSearchTreeInDifferentOrder()
 {
-    (void)mpAuxSearchTree->addOrUpdateNode("B", "d4");
-    (void)mpAuxSearchTree->addOrUpdateNode("AB_", "n14");
-    (void)mpAuxSearchTree->addOrUpdateNode("AF", "i9_1");
-    (void)mpAuxSearchTree->addOrUpdateNode("BC_", "k11");
-    (void)mpAuxSearchTree->addOrUpdateNode("E_", "a1_1");
-    (void)mpAuxSearchTree->addOrUpdateNode("G", "f6");
-    (void)mpAuxSearchTree->addOrUpdateNode("AG", "l12");
-    (void)mpAuxSearchTree->addOrUpdateNode("Z", "g7_1");
+    (void)mpAuxSearchTree->tryInsertNode("B", "d4");
+    (void)mpAuxSearchTree->tryInsertNode("AB_", "n14");
+    (void)mpAuxSearchTree->tryInsertNode("AF", "i9_1");
+    (void)mpAuxSearchTree->tryInsertNode("BC_", "k11");
+    (void)mpAuxSearchTree->tryInsertNode("E_", "a1_1");
+    (void)mpAuxSearchTree->tryInsertNode("G", "f6");
+    (void)mpAuxSearchTree->tryInsertNode("AG", "l12");
+    (void)mpAuxSearchTree->tryInsertNode("Z", "g7_1");
 }
 
 void StrIntKeyMixedTreeTypesTests::_buildSecondaryTestSearchTreeInDifferentOrder()
 {
-    (void)mpSearchTree->addOrUpdateNode("A_", "c3");
-    (void)mpSearchTree->addOrUpdateNode("E_", "a1_2");
-    (void)mpSearchTree->addOrUpdateNode("H", "b2");
-    (void)mpSearchTree->addOrUpdateNode("I_", "h8");
-    (void)mpSearchTree->addOrUpdateNode("B_", "e5");
-    (void)mpSearchTree->addOrUpdateNode("Z", "g7_2");
-    (void)mpSearchTree->addOrUpdateNode("AF", "i9_2");
-    (void)mpSearchTree->addOrUpdateNode("AF_", "m13");
-    (void)mpSearchTree->addOrUpdateNode("AD", "j10");
+    (void)mpSearchTree->tryInsertNode("A_", "c3");
+    (void)mpSearchTree->tryInsertNode("E_", "a1_2");
+    (void)mpSearchTree->tryInsertNode("H", "b2");
+    (void)mpSearchTree->tryInsertNode("I_", "h8");
+    (void)mpSearchTree->tryInsertNode("B_", "e5");
+    (void)mpSearchTree->tryInsertNode("Z", "g7_2");
+    (void)mpSearchTree->tryInsertNode("AF", "i9_2");
+    (void)mpSearchTree->tryInsertNode("AF_", "m13");
+    (void)mpSearchTree->tryInsertNode("AD", "j10");
 }
 
 QTEST_APPLESS_MAIN(StrIntKeyMixedTreeTypesTests)

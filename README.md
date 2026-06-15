@@ -40,7 +40,7 @@ If a key is not contained within binary search tree, when querying the correspon
 
 The value of the null value can be setup by user when constructing the tree. If the user prefers not to provide any specific value to be used as null value, then the default value of the key type will be used as null value (for example if the key is a std::string the null value is the empty string ""). For this reason it is mandatory to use key types that are default constructible (see previous section).
 
-The null value cannot be changed once the tree got initialized. Setting a null value within tree (see method addOrUpdateNode()) has no effect: no new node will be created, respectively the value of an existing node will not get updated.
+The null value cannot be changed once the tree got initialized. Setting a null value within tree (see method tryInsertNode()) has no effect: no new node will be created, respectively the value of an existing node will not get updated.
 
 6. Enabling the printing feature
 
