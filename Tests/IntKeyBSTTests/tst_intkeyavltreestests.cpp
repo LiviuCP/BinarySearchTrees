@@ -3,7 +3,8 @@
 #include <algorithm>
 
 #include "testutils.h"
-#include "avltree.h"
+
+import avltree;
 
 using namespace TestUtils;
 using IntStrAVLTree = AVLTree<int, std::string>;

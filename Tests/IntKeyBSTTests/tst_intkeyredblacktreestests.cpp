@@ -3,7 +3,8 @@
 #include <algorithm>
 
 #include "testutils.h"
-#include "redblacktree.h"
+
+import redblacktree;
 
 using namespace TestUtils;
 using IntStrRedBlackTree = RedBlackTree<int, std::string>;

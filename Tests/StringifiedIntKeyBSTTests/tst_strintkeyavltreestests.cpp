@@ -3,8 +3,9 @@
 #include <algorithm>
 
 #include "testutils.h"
-#include "avltree.h"
 #include "stringifiedinteger.h"
+
+import avltree;
 
 using namespace TestUtils;
 using StrIntStrAVLTree = AVLTree<StringifiedInteger, std::string>;

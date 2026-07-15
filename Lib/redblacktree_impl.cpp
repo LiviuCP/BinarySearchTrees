@@ -17,55 +17,18 @@ grandchildren: rule 4 violation)
 could also have for example 0, 1 or 2 red children)
 */
 
-#pragma once
+module;
 
 #include <cassert>
+#include <memory>
 #include <vector>
 
-#include "binarysearchtree.h"
-
-template <typename K, typename V> class RedBlackTree final : public BinarySearchTree<K, V>
-{
-public:
-    RedBlackTree(const V& nullValue = {});
-    RedBlackTree(const std::vector<K>& inputKeys, const V& defaultValue, const V& nullValue = {});
-    RedBlackTree(const RedBlackTree& sourceTree);
-    RedBlackTree(RedBlackTree&& sourceTree);
-
-    RedBlackTree& operator=(const RedBlackTree& sourceTree);
-    RedBlackTree& operator=(RedBlackTree&& sourceTree);
 #ifdef PRINT_TREE
-    void printTree() const override;
+#include <iostream>
 #endif
-private:
-    class RedBlackNode : public BinarySearchTree<K, V>::Node
-    {
-    public:
-        using spRBNode = std::shared_ptr<RedBlackNode>;
 
-        RedBlackNode(const K& key, const V& value);
-
-        void setBlack(bool isBlackRequired);
-        bool isBlack() const;
-
-    private:
-        bool m_IsBlack;
-    };
-
-    using spRBNode = typename RedBlackNode::spRBNode;
-
-    // design decision: any assignment operator to work only between trees of same type
-    using BinarySearchTree<K, V>::operator=;
-
-    typename BinarySearchTree<K, V>::spNode _removeSingleChildedOrLeafNode(
-        typename BinarySearchTree<K, V>::spNode nodeToRemove) override;
-    typename BinarySearchTree<K, V>::spNode _createNode(const K& key, const V& value) override;
-    void _insertNode(typename BinarySearchTree<K, V>::spNode nodeToInsert,
-                     const typename BinarySearchTree<K, V>::InsertionPoint& insertionPoint) override;
-#ifdef PRINT_TREE
-    std::string _getNodeAsString(typename BinarySearchTree<K, V>::spNode node, bool isValueRequired) const override;
-#endif
-};
+module redblacktree:redblacktree_impl;
+import :redblacktree_header;
 
 template <typename K, typename V>
 RedBlackTree<K, V>::RedBlackTree(const V& nullValue)

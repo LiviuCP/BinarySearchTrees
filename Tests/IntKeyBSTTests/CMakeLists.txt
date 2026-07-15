@@ -10,11 +10,6 @@ add_test(NAME IntKeyAVLTreesTests COMMAND IntKeyAVLTreesTests)
 add_executable(IntKeyMixedTreeTypesTests tst_intkeymixedtreetypestests.cpp ${TEST_UTILITIES_DIR}/testutils.cpp)
 add_test(NAME IntKeyMixedTreeTypesTests COMMAND IntKeyMixedTreeTypesTests)
 
-target_compile_definitions(IntKeySimpleBSTTests PRIVATE PRINT_TREE)
-target_compile_definitions(IntKeyRedBlackTreesTests PRIVATE PRINT_TREE)
-target_compile_definitions(IntKeyAVLTreesTests PRIVATE PRINT_TREE)
-target_compile_definitions(IntKeyMixedTreeTypesTests PRIVATE PRINT_TREE)
-
 target_link_libraries(IntKeySimpleBSTTests PRIVATE Qt${QT_VERSION_MAJOR}::Test)
 target_link_libraries(IntKeySimpleBSTTests PRIVATE BSTLib)
 

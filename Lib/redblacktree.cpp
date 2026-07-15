@@ -1,7 +1,4 @@
-// this (dummy) file is required for preventing any link errors on X-Code (OS-X). Don't fill anything in, don't use it!
+export module redblacktree;
 
-// used for suppressing warning message
-int dummyRBFunction()
-{
-    return 0;
-}
+export import :redblacktree_header;
+import :redblacktree_impl;

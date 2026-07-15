@@ -1,7 +1,4 @@
-// this (dummy) file is required for preventing any link errors on XCode (MacOS). Don't fill anything in, don't use it!
+export module binarysearchtree;
 
-// used for suppressing warning message
-int dummyBSTFunction()
-{
-    return 0;
-}
+export import :binarysearchtree_header;
+import :binarysearchtree_impl;

@@ -3,8 +3,9 @@
 #include <algorithm>
 
 #include "testutils.h"
-#include "redblacktree.h"
 #include "stringifiedinteger.h"
+
+import redblacktree;
 
 using namespace TestUtils;
 using StrIntStrRedBlackTree = RedBlackTree<StringifiedInteger, std::string>;

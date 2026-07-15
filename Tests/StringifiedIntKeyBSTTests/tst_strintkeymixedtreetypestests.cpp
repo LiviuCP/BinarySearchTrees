@@ -2,10 +2,11 @@
 #include <QTest>
 
 #include "testutils.h"
-#include "binarysearchtree.h"
-#include "redblacktree.h"
-#include "avltree.h"
 #include "stringifiedinteger.h"
+
+import binarysearchtree;
+import redblacktree;
+import avltree;
 
 using namespace TestUtils;
 using StrIntStrBinarySearchTree = BinarySearchTree<StringifiedInteger, std::string>;

@@ -3,7 +3,8 @@
 #include <algorithm>
 
 #include "testutils.h"
-#include "binarysearchtree.h"
+
+import binarysearchtree;
 
 using namespace TestUtils;
 using IntStrBinarySearchTree = BinarySearchTree<int, std::string>;

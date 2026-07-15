@@ -3,8 +3,9 @@
 #include <algorithm>
 
 #include "testutils.h"
-#include "binarysearchtree.h"
 #include "stringifiedinteger.h"
+
+import binarysearchtree;
 
 using namespace TestUtils;
 using StrIntStrBinarySearchTree = BinarySearchTree<StringifiedInteger, std::string>;
